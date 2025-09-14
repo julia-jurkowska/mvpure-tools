@@ -1,0 +1,699 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mvpure_py.localizer.localizer_utils &#8212; mvpure_py 1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=d6b6a36a"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/mvpure_py/localizer/localizer_utils';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">mvpure_py 1.0 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">mvpure_py.localizer.localizer_utils</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for mvpure_py.localizer.localizer_utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Functions used during sources localization. &quot;&quot;&quot;</span>
+
+<span class="c1"># Author: Julia Jurkowska</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">sqrtm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..viz</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_RN_eigenvalues</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">algebra</span>
+
+
+<div class="viewcode-block" id="suggest_n_sources_and_rank">
+<a class="viewcode-back" href="../../../mvpure_py.localizer.html#mvpure_py.localizer.localizer_utils.suggest_n_sources_and_rank">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">suggest_n_sources_and_rank</span><span class="p">(</span>
+    <span class="n">R</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">N</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">show_plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">subject</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">n_sources_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">rank_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Automatically propose number of sources to localize and rank based on Proposition 3 in [1]_.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like</span>
+<span class="sd">        Data covariance matrix</span>
+<span class="sd">    N : array-like</span>
+<span class="sd">        Noise covariance matrix</span>
+<span class="sd">    show_plot : bool</span>
+<span class="sd">        Whether to display a graph of the eigenvalues of the :math:`RN^{-1}` matrix.</span>
+<span class="sd">        Default to True.</span>
+<span class="sd">    subject : str</span>
+<span class="sd">        Subject name the analysis is performed for. Optional.</span>
+<span class="sd">    n_sources_threshold : float</span>
+<span class="sd">        Number of eigenvalues of the :math:`RN^{-1}` matrix below this threshold corresponds to the suggested</span>
+<span class="sd">        number of sources to localize.</span>
+<span class="sd">        Default to 1.0. For more details see Observation 1 in [1]_.</span>
+<span class="sd">    rank_threshold : float</span>
+<span class="sd">        Number of eigenvalues of the :math:`RN^{-1}` matrix below this threshold corresponds to the</span>
+<span class="sd">        suggested rank optimization parameter.</span>
+<span class="sd">        Default to 1.5. For more details see Proposition 3 in [1]_.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    n_sources : int</span>
+<span class="sd">        Suggested number of sources to localize.</span>
+<span class="sd">    rank : int</span>
+<span class="sd">        Suggested rank optimization parameter.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">show_plot</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">eigvals</span> <span class="o">=</span> <span class="n">plot_RN_eigenvalues</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span> <span class="n">return_eigvals</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">eigvals</span> <span class="o">=</span> <span class="n">algebra</span><span class="o">.</span><span class="n">get_pinv_RN_eigenvals</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+        
+    <span class="c1"># Suggesting number of sources</span>
+    <span class="n">n_sources_temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">eigvals</span> <span class="o">&gt;</span> <span class="n">n_sources_threshold</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">n_sources_temp</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;All eigenvalues of $</span><span class="se">\\</span><span class="s2">mathrm</span><span class="se">{{</span><span class="s2">RN</span><span class="se">}}</span><span class="s2">^</span><span class="se">{{</span><span class="s2">-1</span><span class="se">}}</span><span class="s2">$ are smaller than </span><span class="si">{</span><span class="n">n_sources_threshold</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">n_sources</span> <span class="o">=</span> <span class="n">n_sources_temp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+    
+    <span class="c1"># Suggesting rank</span>
+    <span class="n">rank_temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">eigvals</span> <span class="o">&gt;</span> <span class="n">rank_threshold</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">rank_temp</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;All eigenvalues of $</span><span class="se">\\</span><span class="s2">mathrm</span><span class="se">{{</span><span class="s2">RN</span><span class="se">}}</span><span class="s2">^</span><span class="se">{{</span><span class="s2">-1</span><span class="se">}}</span><span class="s2">$ are smaller than </span><span class="si">{</span><span class="n">rank_threshold</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rank</span> <span class="o">=</span> <span class="n">rank_temp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Suggested number of sources to localize: </span><span class="si">{</span><span class="n">n_sources</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Suggested rank is: </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_sources</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">rank</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_activity_index">
+<a class="viewcode-back" href="../../../mvpure_py.localizer.html#mvpure_py.localizer.localizer_utils.get_activity_index">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_activity_index</span><span class="p">(</span><span class="n">localizer_to_use</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                       <span class="n">H</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                       <span class="n">R</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                       <span class="n">N</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                       <span class="n">n_sources_to_localize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                       <span class="n">r</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate activity index specified in ``localizer_to_use``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    localizer_to_use: str</span>
+<span class="sd">        activity index to use.</span>
+<span class="sd">        Options: &quot;mai&quot;, &quot;mpz&quot;, &quot;mai_mvp&quot;, &quot;mpz_mvp&quot;.</span>
+<span class="sd">    H : array-like, shape (n_channels, n_sources)</span>
+<span class="sd">        leadfield matrix</span>
+<span class="sd">    R : array-like, shape (n_channels, n_channels)</span>
+<span class="sd">        data covariance matrix</span>
+<span class="sd">    N : array-like, shape (n_channels, n_channels)</span>
+<span class="sd">        noise covariance matrix</span>
+<span class="sd">    n_sources_to_localize: int</span>
+<span class="sd">        number of sources to localize</span>
+<span class="sd">    r : int</span>
+<span class="sd">        optimization parameter</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -----------</span>
+<span class="sd">    index_max: array-like, shape (n_sources_to_localize,)</span>
+<span class="sd">        indices of localized dipoles</span>
+<span class="sd">    act_index_values: array-like, shape (n_sources_to_localize,)</span>
+<span class="sd">        activity index value</span>
+<span class="sd">    r : int</span>
+<span class="sd">        optimization parameter used</span>
+<span class="sd">    H_res: array-like, shape (n_channels, n_sources_to_localize)</span>
+<span class="sd">        subset of leadfield matrix for localized dipoles</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># placeholder for localizer activity index</span>
+    <span class="n">index_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_sources_to_localize</span><span class="p">)</span>
+    <span class="n">act_index_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_sources_to_localize</span><span class="p">)</span>
+    <span class="c1"># leadfield of dipoles corresponding to max index</span>
+    <span class="n">H_res</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># iterate through number of sources to localize</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_sources_to_localize</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># placeholder for activity index for each source</span>
+        <span class="n">act</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="c1"># iterate through all sources</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">total</span><span class="o">=</span><span class="n">H</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="c1"># current dipole leadfield</span>
+            <span class="n">H_curr</span> <span class="o">=</span> <span class="n">H</span><span class="p">[:,</span> <span class="n">l</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">H_res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">H_res</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">H_res</span> <span class="o">=</span> <span class="n">H_res</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="c1"># if some source was selected in previous loop(s) [ n &gt; 1 ]</span>
+                <span class="c1"># stack current leadfield with selected dipole(s) leadfield(s)</span>
+                <span class="n">H_curr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">H_res</span><span class="p">,</span> <span class="n">H_curr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+
+            <span class="c1"># choose activity index</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="n">_choose_activity_index</span><span class="p">(</span><span class="n">localizer_to_use</span><span class="p">)</span>
+            <span class="n">S_curr</span> <span class="o">=</span> <span class="n">algebra</span><span class="o">.</span><span class="n">_get_S</span><span class="p">(</span><span class="n">H_curr</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
+
+            <span class="c1"># MAI family</span>
+            <span class="k">if</span> <span class="s2">&quot;mai&quot;</span> <span class="ow">in</span> <span class="n">localizer_to_use</span><span class="p">:</span>
+                <span class="n">G_curr</span> <span class="o">=</span> <span class="n">algebra</span><span class="o">.</span><span class="n">_get_G</span><span class="p">(</span><span class="n">H_curr</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+                <span class="n">act</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">G_curr</span><span class="p">,</span> <span class="n">S_curr</span><span class="p">,</span> <span class="n">current_iter</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">)</span>
+
+            <span class="c1"># MPZ family</span>
+            <span class="k">elif</span> <span class="s2">&quot;mpz&quot;</span> <span class="ow">in</span> <span class="n">localizer_to_use</span><span class="p">:</span>
+                <span class="n">T_curr</span> <span class="o">=</span> <span class="n">algebra</span><span class="o">.</span><span class="n">_get_T</span><span class="p">(</span><span class="n">H_curr</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">localizer_to_use</span> <span class="o">==</span> <span class="s2">&quot;mpz_mvp&quot;</span><span class="p">:</span>
+                    <span class="n">G_curr</span> <span class="o">=</span> <span class="n">algebra</span><span class="o">.</span><span class="n">_get_G</span><span class="p">(</span><span class="n">H_curr</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+                    <span class="n">Q_curr</span> <span class="o">=</span> <span class="n">algebra</span><span class="o">.</span><span class="n">_get_Q</span><span class="p">(</span><span class="n">S_curr</span><span class="p">,</span> <span class="n">G_curr</span><span class="p">)</span>
+                    <span class="n">act</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">S_curr</span><span class="p">,</span> <span class="n">T_curr</span><span class="p">,</span> <span class="n">Q_curr</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="n">current_iter</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">act</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">S_curr</span><span class="p">,</span> <span class="n">T_curr</span><span class="p">,</span> <span class="n">current_iter</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">)</span>
+
+        <span class="c1"># find for which dipole index is max</span>
+        <span class="n">index_max</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">act</span><span class="p">))</span>
+        <span class="n">act_index_values</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">act</span><span class="p">)</span>
+
+        <span class="c1"># create H_res with leadfields of selected dipoles</span>
+        <span class="k">if</span> <span class="n">H_res</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">H_res</span> <span class="o">=</span> <span class="n">H</span><span class="p">[:,</span> <span class="nb">int</span><span class="p">(</span><span class="n">index_max</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">])]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">H_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">H_res</span><span class="p">,</span> <span class="n">H</span><span class="p">[:,</span> <span class="nb">int</span><span class="p">(</span><span class="n">index_max</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">])]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+
+    <span class="k">if</span> <span class="n">H_res</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">H_res</span> <span class="o">=</span> <span class="n">H_res</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+    <span class="n">index_max</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">index_max</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Leadfield indices corresponding to localized sources: </span><span class="si">{</span><span class="n">index_max</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">index_max</span><span class="p">,</span> <span class="n">act_index_values</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">H_res</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_choose_activity_index</span><span class="p">(</span>
+        <span class="n">localizer_to_use</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Specify activity index to use.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    localizer_to_use: str</span>
+<span class="sd">        name of the localizer to use</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    -----------</span>
+<span class="sd">        func: function _get_xxx_xxx specific for given activity index</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">localizer_to_use</span> <span class="o">==</span> <span class="s2">&quot;mai&quot;</span><span class="p">:</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">_get_simple_mai</span>
+    <span class="k">elif</span> <span class="n">localizer_to_use</span> <span class="o">==</span> <span class="s2">&quot;mpz&quot;</span><span class="p">:</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">_get_simple_mpz</span>
+    <span class="k">elif</span> <span class="n">localizer_to_use</span> <span class="o">==</span> <span class="s2">&quot;mai_mvp&quot;</span><span class="p">:</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">_get_mai_mvp</span>
+    <span class="k">elif</span> <span class="n">localizer_to_use</span> <span class="o">==</span> <span class="s2">&quot;mpz_mvp&quot;</span><span class="p">:</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">_get_mpz_mvp</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only possible localizers to specify are: &#39;mai&#39;, &#39;mpz&#39;, &quot;</span>
+                         <span class="s2">&quot;&#39;mai_mvp&#39;, &#39;mpz_mvp&#39;&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">func</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_simple_mai</span><span class="p">(</span><span class="n">G</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">S</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">current_iter</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Using eq. 39 from [1]_.</span>
+
+<span class="sd">    MAI = tr{GS^(-1)} - l</span>
+<span class="sd">        where G = H.T @ N^(-1) @ H [eq. 8]</span>
+<span class="sd">              S = H.T @ R^(-1) @ H [eq. 5]</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    G : array-like, shape (n_sources, n_sources)</span>
+<span class="sd">        matrix defined in eq. 8, calculated in function _get_G()</span>
+<span class="sd">    S : array-like, shape (n_sources, n_sources)</span>
+<span class="sd">        matrix defined in eq. 5, calculated in function _get_S()</span>
+<span class="sd">    current_iter: int</span>
+<span class="sd">        Number of dipole being localized in current iteration.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mai: float</span>
+<span class="sd">        MAI activity index as defined in [2]_.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Piotrowski, T., Nikadon, J., &amp; Moiseev, A. (2021).</span>
+<span class="sd">           Localization of brain activity from EEG/MEG using MV-PURE framework.</span>
+<span class="sd">           *Biomedical Signal Processing and control, 64*, 102243.</span>
+<span class="sd">    .. [2] Moiseev, A., Gaspar, J. M., Schneider, J. A., &amp; Herdman, A. T. (2011).</span>
+<span class="sd">           Application of multi-source minimum variance beamformers for reconstruction of correlated neural activity.</span>
+<span class="sd">           *NeuroImage, 58*(2), 481-496.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="n">mai</span> <span class="o">=</span> <span class="n">G</span> <span class="o">/</span> <span class="n">S</span> <span class="o">-</span> <span class="n">current_iter</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Following implementation from source article we should useL</span>
+        <span class="n">mai</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">S</span><span class="p">)))</span> <span class="o">-</span> <span class="n">current_iter</span>
+    <span class="k">return</span> <span class="n">mai</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_simple_mpz</span><span class="p">(</span><span class="n">S</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">current_iter</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Using eq. 42 from [1]_.</span>
+<span class="sd">    MPZ = tr{S@T^(-1)} - l</span>
+<span class="sd">        where S = H.T @ R^(-1) @ H  [eq. 5]</span>
+<span class="sd">              T = H.T @ R^(-1) @ N @ R^(-1) @ H  [eq. 12]</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    S : array-like, shape (n_sources, n_sources)</span>
+<span class="sd">        matrix defined in eq. 5, calculated in function _get_S()</span>
+<span class="sd">    T : array-like, shape (n_sources, n_sources)</span>
+<span class="sd">        matrix defined in eq. 12, calculated in function _get_T()</span>
+<span class="sd">    current_iter: int</span>
+<span class="sd">        number of dipole being localized</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mpz: float</span>
+<span class="sd">        MPZ activity index as defined in [2]_.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Piotrowski, T., Nikadon, J., &amp; Moiseev, A. (2021).</span>
+<span class="sd">           Localization of brain activity from EEG/MEG using MV-PURE framework.</span>
+<span class="sd">           *Biomedical Signal Processing and control, 64*, 102243.</span>
+<span class="sd">    .. [2] Moiseev, A., Gaspar, J. M., Schneider, J. A., &amp; Herdman, A. T. (2011).</span>
+<span class="sd">           Application of multi-source minimum variance beamformers for reconstruction of correlated neural activity.</span>
+<span class="sd">           *NeuroImage, 58*(2), 481-496.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="n">mpz</span> <span class="o">=</span> <span class="n">S</span> <span class="o">/</span> <span class="n">T</span> <span class="o">-</span> <span class="n">current_iter</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Following implementation from source article we should useL</span>
+        <span class="n">mpz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">T</span><span class="p">)))</span> <span class="o">-</span> <span class="n">current_iter</span>
+
+    <span class="k">return</span> <span class="n">mpz</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_mai_mvp</span><span class="p">(</span><span class="n">G</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">S</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">current_iter</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    MAI_MVP = sum_to_l(eigenval(G @ S^(-1)) - l for 1 &lt;= l &lt;= r</span>
+<span class="sd">            = sum_to_r(eigenval(G @ S^(-1)) - r for l &gt; r</span>
+<span class="sd">        where G = H.T @ N^(-1) @ H  [eq. 8]</span>
+<span class="sd">              S = H.T @ R^(-1) @ H  [eq. 5]</span>
+<span class="sd">            and H - leadfield matrix, N - noise covariance, and R - data covariance.</span>
+<span class="sd">    Note: Using full-rank MAI_MVP localizer (r = n_sources_to_localize) replicates results for MAI (_get_simple_mai).</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : array-like</span>
+<span class="sd">        Matrix defined in eq. 8, computed in function _get_G()</span>
+<span class="sd">    S : array-like</span>
+<span class="sd">        Matrix defined in eq. 5, computed in function _get_S()</span>
+<span class="sd">    r : int</span>
+<span class="sd">        Optimization parameter</span>
+<span class="sd">    current_iter : int</span>
+<span class="sd">        Number of dipole being localized in current iteration.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mai_mvp : float</span>
+<span class="sd">        MAI_MVP activity index</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># same as mai_ext -- maybe just refer to _get_mai_extension?</span>
+    <span class="c1"># if current_iter [l] &lt;= r - use simple MAI from _get_simple_mai()</span>
+    <span class="k">if</span> <span class="n">current_iter</span> <span class="o">&lt;=</span> <span class="n">r</span><span class="p">:</span>
+        <span class="n">mai_mvp</span> <span class="o">=</span> <span class="n">_get_simple_mai</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">current_iter</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">s</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">S</span><span class="p">)))</span>
+        <span class="n">sorted_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">s</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">]</span>
+        <span class="n">mai_mvp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">s</span><span class="p">[:</span><span class="n">r</span><span class="p">])</span> <span class="o">-</span> <span class="n">r</span>
+    <span class="k">return</span> <span class="n">mai_mvp</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_mpz_mvp</span><span class="p">(</span><span class="n">S</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Q</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">current_iter</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    MPZ_MVP = trace{S@T^(-1)} - r             for r &lt;= l</span>
+<span class="sd">            = trace(S @ T^(-1) @ P_SQ_r) - r  for l &gt; r</span>
+<span class="sd">        where S = H.T @ R^(-1) @ H  [eq. 5]</span>
+<span class="sd">              T = H.T @ R^(-1) @ N @ R^(-1) @ H  [eq. 12]</span>
+<span class="sd">        and P_SQ_r is the oblique projection matrix onto the subspace of S @ Q,</span>
+<span class="sd">            H - leadfield matrix,</span>
+<span class="sd">            N - noise covariance, and R - data covariance.</span>
+
+<span class="sd">    Note: Using full-rank MPZ_MVP localizer (r = n_sources_to_localize) replicates results for MPZ (_get_simple_mpz).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    S : array-like</span>
+<span class="sd">        Matrix defined in eq. 5, calculated in function _get_S()</span>
+<span class="sd">    T : array-like</span>
+<span class="sd">        Matrix defined in eq. 12, calculated in function _get_T()</span>
+<span class="sd">    Q : array-like</span>
+<span class="sd">        Matrix Q calculated as Q = S^(-1) - G^(-1) in function _get_Q().</span>
+<span class="sd">    r : int</span>
+<span class="sd">        Optimization parameter</span>
+<span class="sd">    current_iter : int</span>
+<span class="sd">        Number of dipole being localized in current iteration.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mpz_mvp : float</span>
+<span class="sd">        MPZ_MVP activity index</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># if current_iter [l] &lt;= r - use simple MPZ from _get_simple_mpz()</span>
+    <span class="k">if</span> <span class="n">current_iter</span> <span class="o">&lt;=</span> <span class="n">r</span><span class="p">:</span>
+        <span class="n">mpz_mvp</span> <span class="o">=</span> <span class="n">_get_simple_mpz</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">current_iter</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">s</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">Q</span><span class="p">))</span>
+        <span class="n">sorted_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">s</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">u</span><span class="p">[:,</span> <span class="n">sorted_idx</span><span class="p">]</span>
+        <span class="n">proj_matrix</span> <span class="o">=</span> <span class="n">u</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">(</span>
+            <span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">r</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">r</span><span class="p">,</span> <span class="n">current_iter</span> <span class="o">-</span> <span class="n">r</span><span class="p">))],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">current_iter</span> <span class="o">-</span> <span class="n">r</span><span class="p">,</span> <span class="n">current_iter</span><span class="p">))]]</span>
+        <span class="p">)</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="n">mpz_mvp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">S</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">@</span> <span class="n">proj_matrix</span><span class="p">)</span> <span class="o">-</span> <span class="n">r</span>
+
+    <span class="k">return</span> <span class="n">mpz_mvp</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Julia Jurkowska et al..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

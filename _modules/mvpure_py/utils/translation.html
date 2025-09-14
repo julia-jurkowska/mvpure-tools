@@ -1,0 +1,667 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mvpure_py.utils.translation &#8212; mvpure_py 1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=d6b6a36a"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/mvpure_py/utils/translation';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">mvpure_py 1.0 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">mvpure_py.utils.translation</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for mvpure_py.utils.translation</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Operations on ``mne.Forward``, ``mne.SourceSpaces`` and mapping between vertices and leadfield indices.&quot;&quot;&quot;</span>
+<span class="c1"># Author: Julia Jurkowska</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">mne</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial</span><span class="w"> </span><span class="kn">import</span> <span class="n">cKDTree</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">mvpure_py</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">_check_hemi_param</span><span class="p">,</span>
+    <span class="n">_check_hemi_and_vertices_matching</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="transform_leadfield_indices_to_vertices">
+<a class="viewcode-back" href="../../../mvpure_py.utils.html#mvpure_py.utils.translation.transform_leadfield_indices_to_vertices">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">transform_leadfield_indices_to_vertices</span><span class="p">(</span><span class="n">lf_idx</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">SourceSpaces</span><span class="p">,</span> <span class="n">hemi</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;both&quot;</span><span class="p">,</span>
+                                            <span class="n">include_mapping</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform leadfield 1-axis indices into vertices number using ``mne.SourceSpaces``</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    lf_idx: iterable</span>
+<span class="sd">        iterable with leadfield indices</span>
+<span class="sd">    src: mne.SourceSpace</span>
+<span class="sd">        source space from forward with corresponding leadfield</span>
+<span class="sd">    hemi: str (Default to &quot;both&quot;)</span>
+<span class="sd">        vertices from which hemisphere should be returned.</span>
+<span class="sd">        Options are: &#39;lh&#39;, &#39;rh&#39; and &#39;both&#39;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -----------</span>
+<span class="sd">    vertices: list | tuple(list, list)</span>
+<span class="sd">        markings of vertices which correspond to leadfield matrices</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># get left and right indices of leadfield</span>
+    <span class="n">lh_vertno</span> <span class="o">=</span> <span class="n">src</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;vertno&#39;</span><span class="p">]</span>
+    <span class="n">rh_vertno</span> <span class="o">=</span> <span class="n">src</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;vertno&#39;</span><span class="p">]</span>
+    <span class="n">lh_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lh_vertno</span><span class="p">)</span>
+
+    <span class="n">lf_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lf_idx</span><span class="p">)</span>
+
+    <span class="c1"># boolean mask to separate left and right hemisphere dipoles</span>
+    <span class="n">is_lh</span> <span class="o">=</span> <span class="n">lf_idx</span> <span class="o">&lt;</span> <span class="n">lh_len</span>
+    <span class="n">is_rh</span> <span class="o">=</span> <span class="o">~</span><span class="n">is_lh</span>
+
+    <span class="c1"># map indices to vertex numbers</span>
+    <span class="n">lh_to_use</span> <span class="o">=</span> <span class="n">lf_idx</span><span class="p">[</span><span class="n">is_lh</span><span class="p">]</span>
+    <span class="n">lh_mapped</span> <span class="o">=</span> <span class="n">lh_vertno</span><span class="p">[</span><span class="n">lh_to_use</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">rh_to_use</span> <span class="o">=</span> <span class="n">lf_idx</span><span class="p">[</span><span class="n">is_rh</span><span class="p">]</span>
+    <span class="n">rh_mapped</span> <span class="o">=</span> <span class="n">rh_vertno</span><span class="p">[</span><span class="n">rh_to_use</span> <span class="o">-</span> <span class="n">lh_len</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+    <span class="c1"># return left vertno if left hemisphere chosen</span>
+    <span class="k">if</span> <span class="n">hemi</span> <span class="o">==</span> <span class="s2">&quot;lh&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">include_mapping</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lh_mapped</span><span class="p">,</span> <span class="n">lh_to_use</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lh_mapped</span>
+    <span class="c1"># return right vertno if right hemisphere chosen</span>
+    <span class="k">elif</span> <span class="n">hemi</span> <span class="o">==</span> <span class="s2">&quot;rh&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">include_mapping</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">rh_mapped</span><span class="p">,</span> <span class="n">rh_to_use</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">rh_mapped</span>
+    <span class="c1"># return tuple with left and right vertno if both hemispheres chosen</span>
+    <span class="k">elif</span> <span class="n">hemi</span> <span class="o">==</span> <span class="s2">&quot;both&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">include_mapping</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lh_mapped</span><span class="p">,</span> <span class="n">lh_to_use</span><span class="p">,</span> <span class="n">rh_mapped</span><span class="p">,</span> <span class="n">rh_to_use</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lh_mapped</span><span class="p">,</span> <span class="n">rh_mapped</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Possible options for &#39;hemi&#39; parameter are: &#39;lh&#39;, &#39;rh&#39;, &#39;both&#39;. &quot;</span>
+                         <span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="n">hemi</span><span class="si">}</span><span class="s2"> instead.&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="transform_vertices_to_leadfield_indices">
+<a class="viewcode-back" href="../../../mvpure_py.utils.html#mvpure_py.utils.translation.transform_vertices_to_leadfield_indices">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">transform_vertices_to_leadfield_indices</span><span class="p">(</span><span class="n">vertices</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">SourceSpaces</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform vertices numbers (from ``mne.SourceSpace``) to leadfield 1-axis indices.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    vertices: list</span>
+<span class="sd">        Markings of vertices which correspond to leadfield indices.</span>
+<span class="sd">    src: mne.SourceSpace</span>
+<span class="sd">        Source space from forward with corresponding leadfield.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -----------</span>
+<span class="sd">    lf_idx: list</span>
+<span class="sd">        iterable with leadfield indices</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># get all vertices markings</span>
+    <span class="n">all_vertno</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">src</span><span class="p">)):</span>
+        <span class="n">all_vertno</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">src</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;vertno&#39;</span><span class="p">])</span>
+    <span class="c1"># transform from vertices to leadfield indices</span>
+    <span class="n">lf_idx</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">all_vertno</span><span class="p">),</span> <span class="n">vertices</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="n">lf_idx</span></div>
+
+
+
+<div class="viewcode-block" id="subset_forward">
+<a class="viewcode-back" href="../../../mvpure_py.utils.html#mvpure_py.utils.translation.subset_forward">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">subset_forward</span><span class="p">(</span><span class="n">old_fwd</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">Forward</span><span class="p">,</span>
+                   <span class="n">localized</span><span class="p">,</span>
+                   <span class="n">vertices</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                   <span class="n">hemi</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;both&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mne</span><span class="o">.</span><span class="n">Forward</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Subset ``old_fwd`` (mne.Forward) for it to contain information only for certain vertices&#39; numbers.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    old_fwd: mne.Forward</span>
+<span class="sd">        ``mne.Forward`` to get subset from</span>
+<span class="sd">    hemi: str</span>
+<span class="sd">        hemisphere(s) containing the dipoles that are expected to be present in ``mne.Forward`` subset</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mne.Forward: subset of mne.Forward for given vertices</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">localized</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">new_fwd</span> <span class="o">=</span> <span class="n">_subset_forward_by_localized</span><span class="p">(</span><span class="n">old_fwd</span><span class="p">,</span> <span class="n">localized</span><span class="p">,</span> <span class="n">hemi</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">vertices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">new_fwd</span> <span class="o">=</span> <span class="n">_subset_forward_by_vertices</span><span class="p">(</span><span class="n">old_fwd</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">hemi</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_fwd</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_subset_forward_by_localized</span><span class="p">(</span><span class="n">old_fwd</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">Forward</span><span class="p">,</span> <span class="n">localized</span><span class="p">,</span> <span class="c1">#: mvpure_py.Localized,</span>
+                                 <span class="n">hemi</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;both&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mne</span><span class="o">.</span><span class="n">Forward</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Subset mne.Forward for it to contain information only for certain dipoles</span>
+<span class="sd">    that were previously localized via mvpure.localizer localizers</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    old_fwd: mne.Forward</span>
+<span class="sd">        mne.Forward to et subset from</span>
+<span class="sd">    localized: mvpure_py.Localized</span>
+<span class="sd">        instance with information about localized sources</span>
+<span class="sd">    hemi: str</span>
+<span class="sd">        hemisphere(s) containing the dipoles that are expected to be present in mne.Forward subset</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mne.Forward: subset of mne.Forward for given vertices</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># create a copy of old_fwd as a draft for new one</span>
+    <span class="n">new_fwd</span> <span class="o">=</span> <span class="n">old_fwd</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;nsource&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">localized</span><span class="p">[</span><span class="s1">&#39;nsource&#39;</span><span class="p">]</span>
+    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;sol&#39;</span><span class="p">][</span><span class="s1">&#39;ncol&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">localized</span><span class="p">[</span><span class="s1">&#39;nsource&#39;</span><span class="p">]</span>
+    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;sol&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">localized</span><span class="p">[</span><span class="s1">&#39;leadfield&#39;</span><span class="p">]</span>
+    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;source_rr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">old_fwd</span><span class="p">[</span><span class="s1">&#39;source_rr&#39;</span><span class="p">][</span><span class="nb">list</span><span class="p">(</span><span class="n">localized</span><span class="p">[</span><span class="s1">&#39;sources&#39;</span><span class="p">]),</span> <span class="p">:]</span>
+    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;source_nn&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">old_fwd</span><span class="p">[</span><span class="s1">&#39;source_nn&#39;</span><span class="p">][</span><span class="nb">list</span><span class="p">(</span><span class="n">localized</span><span class="p">[</span><span class="s1">&#39;sources&#39;</span><span class="p">]),</span> <span class="p">:]</span>
+
+    <span class="c1"># transform source ordinal number (leadfield index) to vertice number</span>
+    <span class="n">trans_sources</span> <span class="o">=</span> <span class="n">transform_leadfield_indices_to_vertices</span><span class="p">(</span><span class="n">localized</span><span class="p">[</span><span class="s1">&#39;sources&#39;</span><span class="p">],</span>
+                                                            <span class="n">old_fwd</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">],</span>
+                                                            <span class="n">hemi</span><span class="o">=</span><span class="n">hemi</span><span class="p">,</span>
+                                                            <span class="n">include_mapping</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_subset_src</span><span class="p">(</span><span class="n">old_fwd</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">],</span> <span class="n">trans_sources</span><span class="p">,</span> <span class="n">hemi</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">new_fwd</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_subset_forward_by_vertices</span><span class="p">(</span><span class="n">old_fwd</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">Forward</span><span class="p">,</span> <span class="n">vertices</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">hemi</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;both&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mne</span><span class="o">.</span><span class="n">Forward</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Subset mne.Forward for it to contain information only for certain dipoles</span>
+<span class="sd">    that were previously localized via mvpure.localizer localizators</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    old_fwd: mne.Forward</span>
+<span class="sd">        mne.Forward to et subset from</span>
+<span class="sd">    vertices: list[int]</span>
+<span class="sd">        list of vertices indices to include in mne.Forward subset</span>
+<span class="sd">    hemi: str</span>
+<span class="sd">        hemisphere(s) containing the dipoles that are expected to be present in mne.Forward subset</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mne.Forward: subset of mne.Forward for given vertices</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># create a copy of old_fwd as a draft for new one</span>
+    <span class="n">new_fwd</span> <span class="o">=</span> <span class="n">old_fwd</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;nsource&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;sol&#39;</span><span class="p">][</span><span class="s1">&#39;ncol&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+    <span class="n">lf_idx</span> <span class="o">=</span> <span class="n">transform_vertices_to_leadfield_indices</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">old_fwd</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">])</span>
+    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;sol&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">old_fwd</span><span class="p">[</span><span class="s1">&#39;leadfield&#39;</span><span class="p">][:,</span> <span class="n">lf_idx</span><span class="p">]</span>
+    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;source_rr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">old_fwd</span><span class="p">[</span><span class="s1">&#39;source_rr&#39;</span><span class="p">][</span><span class="n">lf_idx</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;source_nn&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">old_fwd</span><span class="p">[</span><span class="s1">&#39;source_nn&#39;</span><span class="p">][</span><span class="n">lf_idx</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_subset_src</span><span class="p">(</span><span class="n">old_fwd</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">],</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">hemi</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">new_fwd</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_subset_src</span><span class="p">(</span><span class="n">old_src</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">SourceSpaces</span><span class="p">,</span>
+                <span class="n">vertices</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
+                <span class="n">hemi</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mne</span><span class="o">.</span><span class="n">SourceSpaces</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Subset mne.SourceSpaces for it to contain information only for certain vertices&#39; numbers.</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    old_src: mne.SourceSpaces</span>
+<span class="sd">        source space to get subset from</span>
+<span class="sd">    vertices: list[int] | list[list[int]]</span>
+<span class="sd">        vertices to be included in subset of mne.SourceSpaces</span>
+<span class="sd">        If hemi == &#39;both&#39; ```vertices``` should be list containing two lists with integers.</span>
+<span class="sd">        If hemi == &#39;lh&#39; or hemi == &#39;rh&#39; ```vertices``` should be a list of integers.</span>
+<span class="sd">    hemi: str (Options: &#39;both&#39;, &#39;rh&#39;, &#39;lh&#39;)</span>
+<span class="sd">        hemispheres from which vertices are.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mne.SourceSpaces: subset of mne.SourceSpaces for given vertices</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># check correctness of &#39;hemi&#39; parameter an its consistence to &#39;vertices&#39; parameter</span>
+    <span class="n">_check_hemi_param</span><span class="p">(</span><span class="n">hemi</span><span class="p">)</span>
+    <span class="n">_check_hemi_and_vertices_matching</span><span class="p">(</span><span class="n">hemi</span><span class="p">,</span> <span class="n">vertices</span><span class="p">)</span>
+    <span class="c1"># create a copy of old_src as a draft for new one</span>
+    <span class="n">new_src</span> <span class="o">=</span> <span class="n">old_src</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="c1"># iterate through hemispheres</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">)):</span>
+        <span class="n">new_src</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;nuse&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+        <span class="n">new_src</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;inuse&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">old_src</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;inuse&#39;</span><span class="p">])),</span>
+                                               <span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">new_src</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;vertno&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">new_src</span>
+
+
+<div class="viewcode-block" id="map_vertices_to_fsaverage">
+<a class="viewcode-back" href="../../../mvpure_py.utils.html#mvpure_py.utils.translation.map_vertices_to_fsaverage">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">map_vertices_to_fsaverage</span><span class="p">(</span><span class="n">locs</span><span class="p">,</span>
+                              <span class="n">hemi</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+                              <span class="n">surf</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;white&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Map vertices from subject-specific surface to fsaverage coordinates for one or both hemispheres.</span>
+<span class="sd">    This function wraps `_map_vertices_to_fsaverage_for_hemi` and allows mapping vertices</span>
+<span class="sd">    for either a single hemisphere (&#39;lh&#39; or &#39;rh&#39;) or both hemispheres simultaneously.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    locs : mvpure_py.Localized</span>
+<span class="sd">        ``mvpure_py.Localized`` object to map vertices from.</span>
+<span class="sd">        After mapping, each vertex in the specified hemisphere(s) will have a new key</span>
+<span class="sd">        ``&quot;morphed_to_fs&quot;`` storing the corresponding fsaverage vertex index.</span>
+<span class="sd">    hemi : list[str] | str</span>
+<span class="sd">        Which hemisphere to map.</span>
+<span class="sd">    surf : str (Default: &#39;white&#39;)</span>
+<span class="sd">        Surface which coordinates use during mapping.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    -------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If ``hemi`` is not one of [&#39;lh&#39;, &#39;rh&#39;, &#39;both&#39;].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_check_hemi_param</span><span class="p">(</span><span class="n">hemi</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">hemi</span> <span class="o">==</span> <span class="s2">&quot;both&quot;</span><span class="p">:</span>
+        <span class="n">hemi</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;lh&quot;</span><span class="p">,</span> <span class="s2">&quot;rh&quot;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">hemi</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;lh&quot;</span><span class="p">,</span> <span class="s2">&quot;rh&quot;</span><span class="p">]:</span>
+        <span class="n">hemi</span> <span class="o">=</span> <span class="p">[</span><span class="n">hemi</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only possible options for &#39;hemi&#39; parameter are: [&#39;lh&#39;, &#39;rh&#39;, &#39;both&#39;].&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">hemi</span><span class="p">:</span>
+        <span class="n">_map_vertices_to_fsaverage_for_hemi</span><span class="p">(</span><span class="n">locs</span><span class="o">=</span><span class="n">locs</span><span class="p">,</span> <span class="n">hemi</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">surf</span><span class="o">=</span><span class="n">surf</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_map_vertices_to_fsaverage_for_hemi</span><span class="p">(</span><span class="n">locs</span><span class="p">,</span> <span class="n">hemi</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">surf</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Map vertices from a subject-specific brain surface to the fsaverage surface for a given hemisphere.</span>
+
+<span class="sd">    This function:</span>
+<span class="sd">    - takes vertices from mvpure_py.Localized object for a specific subject and hemisphere,</span>
+<span class="sd">    - converts their coordinates to MNI space,</span>
+<span class="sd">    - finds the closest corresponding vertices on the fsaverage surface.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    locs : mvpure_py.Localized</span>
+<span class="sd">        mvpure_py.Localized object containing vertex information and subject metadata.</span>
+<span class="sd">    hemi : str</span>
+<span class="sd">        Hemisphere to process. Needs to be &#39;lh&#39; or &#39;rh&#39;.</span>
+<span class="sd">    surf : str</span>
+<span class="sd">        Surface type to use for fsaverage mapping.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - The mapping is hemisphere-specific and assumes fsaverage has a standard FreeSurfer directory structure.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Read vertices from mvpure_py.Localized object (only for given hemi)</span>
+    <span class="n">vert</span> <span class="o">=</span> <span class="p">[</span><span class="n">vert</span> <span class="k">for</span> <span class="n">vert</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">locs</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="k">if</span> <span class="n">locs</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert</span><span class="p">][</span><span class="s1">&#39;hemi&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">hemi</span><span class="p">]</span>
+    <span class="c1"># If there are no vertices for given hemisphere - return None</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vert</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">hemis_int</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">hemi</span> <span class="o">==</span> <span class="s1">&#39;lh&#39;</span> <span class="k">else</span> <span class="mi">1</span>
+
+    <span class="c1"># Load the target fsaverage surface</span>
+    <span class="n">surf_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">locs</span><span class="p">[</span><span class="s1">&#39;subjects_dir&#39;</span><span class="p">],</span> <span class="s1">&#39;fsaverage&#39;</span><span class="p">,</span> <span class="s1">&#39;surf&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">hemi</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">surf</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">fs_vertices</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">read_surface</span><span class="p">(</span><span class="n">surf_path</span><span class="p">)</span>
+    <span class="n">fs_vertex_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">fs_vertices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># from 0 to (n_vertices - 1)</span>
+
+    <span class="c1"># Convert vertices from subject_from into MNI coordinates</span>
+    <span class="n">mni_coords</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">vertex_to_mni</span><span class="p">(</span><span class="n">vert</span><span class="p">,</span>
+                                   <span class="n">hemis</span><span class="o">=</span><span class="n">hemis_int</span><span class="p">,</span>
+                                   <span class="n">subject</span><span class="o">=</span><span class="n">locs</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">],</span>
+                                   <span class="n">subjects_dir</span><span class="o">=</span><span class="n">locs</span><span class="p">[</span><span class="s1">&#39;subjects_dir&#39;</span><span class="p">])</span>
+    <span class="c1"># Convert vertices from fsaverage into MNI coordinates</span>
+    <span class="n">fs_mni_coords</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">vertex_to_mni</span><span class="p">(</span><span class="n">fs_vertex_indices</span><span class="p">,</span>
+                                      <span class="n">hemis</span><span class="o">=</span><span class="n">hemis_int</span><span class="p">,</span>
+                                      <span class="n">subject</span><span class="o">=</span><span class="s2">&quot;fsaverage&quot;</span><span class="p">,</span>
+                                      <span class="n">subjects_dir</span><span class="o">=</span><span class="n">locs</span><span class="p">[</span><span class="s1">&#39;subjects_dir&#39;</span><span class="p">])</span>
+    <span class="c1"># Using KDTree to find the closest fsaverage vertex for each input MNI coordinates</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">cKDTree</span><span class="p">(</span><span class="n">fs_mni_coords</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">mni_coords</span><span class="p">)</span>
+    <span class="n">mapped_vertices</span> <span class="o">=</span> <span class="n">fs_vertex_indices</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+    <span class="c1"># Add to instance</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vert</span><span class="p">):</span>
+        <span class="n">locs</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="s2">&quot;morphed_to_fs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">mapped_vertices</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Julia Jurkowska et al..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

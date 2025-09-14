@@ -1,0 +1,29 @@
+mvpure\_py.localizer package
+============================
+
+Submodules
+----------
+
+mvpure\_py.localizer.localizer\_utils module
+--------------------------------------------
+
+.. automodule:: mvpure_py.localizer.localizer_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+mvpure\_py.localizer.mvpure\_localizer module
+---------------------------------------------
+
+.. automodule:: mvpure_py.localizer.mvpure_localizer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: mvpure_py.localizer
+   :members:
+   :undoc-members:
+   :show-inheritance:

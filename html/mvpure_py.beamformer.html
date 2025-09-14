@@ -1,0 +1,686 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>mvpure_py.beamformer package &#8212; mvpure_py 1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=d6b6a36a"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'mvpure_py.beamformer';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">mvpure_py 1.0 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">mvpure_py.beamformer package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mvpure_py.localizer.html">mvpure_py.localizer package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mvpure_py.utils.html">mvpure_py.utils package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mvpure_py.viz.html">mvpure_py.viz package</a></li>
+</ul>
+</div>
+</nav></div>
+        <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">mvpure_py.beamformer package</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="mvpure-py-beamformer-package">
+<h1>mvpure_py.beamformer package<a class="headerlink" href="#mvpure-py-beamformer-package" title="Link to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+</section>
+<section id="module-mvpure_py.beamformer.filters_utils">
+<span id="mvpure-py-beamformer-filters-utils-module"></span><h2>mvpure_py.beamformer.filters_utils module<a class="headerlink" href="#module-mvpure_py.beamformer.filters_utils" title="Link to this heading">#</a></h2>
+<p>Computing MVPURE beamformers (MVP_R, MVP_N) weights.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.beamformer.filters_utils.make_mvp_n">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.beamformer.filters_utils.</span></span><span class="sig-name descname"><span class="pre">make_mvp_n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Gk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bf_numer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bf_denom_inv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_orient</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/mvpure_py/beamformer/filters_utils.html#make_mvp_n"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.beamformer.filters_utils.make_mvp_n" title="Link to this definition">#</a></dt>
+<dd><p>Implements MVP_R filter defined in Eq. 44 of <a href="#id5"><span class="problematic" id="id1">[1]_</span></a>.</p>
+<div class="line-block">
+<div class="line">It is defined as: <span class="math notranslate nohighlight">\({W}^{(r)}_{MVP_N}=P^{(r)}_{G_0}{W}_{LCMV_N}\)</span>,</div>
+</div>
+<p>where <span class="math notranslate nohighlight">\(P^{(r)}_{G_0}\)</span> is the orthogonal projection matrix onto subspace spanned by
+eigenvectors corresponding to the <code class="docutils literal notranslate"><span class="pre">filter_rank</span></code> number of largest eigenvalues of <span class="math notranslate nohighlight">\(G_0\)</span>.
+<span class="math notranslate nohighlight">\(G_0\)</span> is defined as: <span class="math notranslate nohighlight">\({H}_0^t{N}^{-1}{H}_0\)</span> (eq. 23), where <span class="math notranslate nohighlight">\(H_0\)</span> is lead field matrix and <span class="math notranslate nohighlight">\(N\)</span> is
+noise covariance matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Gk</strong> (<em>ndarray</em><em>, </em><em>shape</em><em> (</em><em>n_sources</em><em>, </em><em>n_channels</em><em>, </em><em>1</em><em>)</em>) – Leadfield transposition.</p></li>
+<li><p><strong>bf_numer</strong> (<em>ndarray</em><em>, </em><em>shape</em><em> (</em><em>n_sources</em><em>, </em><em>1</em><em>, </em><em>n_channels</em><em>)</em>) – bf_numer obtained from <code class="docutils literal notranslate"><span class="pre">mne.beamformer._compute_beamformer._compute_bf_terms</span></code> function</p></li>
+<li><p><strong>bf_denom_inv</strong> (<em>ndarray</em><em>, </em><em>shape</em><em> (</em><em>n_sources</em><em>, </em><em>n_orient</em><em>, </em><em>n_orient</em><em>)</em>) – inversion of bf_denom obtained from <code class="docutils literal notranslate"><span class="pre">mne.beamformer._compute_beamformer._compute_bf_terms</span></code> function</p></li>
+<li><p><strong>filter_rank</strong> (<em>int</em>) – Defines number of eigenvectors corresponding to the largest eigenvalues of matrix S to take under consideration.</p></li>
+<li><p><strong>n_orient</strong> (<em>int</em>) – number of dipole orientations defined at each source point
+in case of using MVPURE should be equal to 1</p></li>
+<li><p><strong>N</strong> (<em>array-like</em>) – Noise covariance matrix</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>W</strong> – Beamformer weights for ‘MVP_N’.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray, shape (n_sources, n_channels)</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.beamformer.filters_utils.make_mvp_r">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.beamformer.filters_utils.</span></span><span class="sig-name descname"><span class="pre">make_mvp_r</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Gk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bf_numer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bf_denom_inv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_orient</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/mvpure_py/beamformer/filters_utils.html#make_mvp_r"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.beamformer.filters_utils.make_mvp_r" title="Link to this definition">#</a></dt>
+<dd><p>Implements MVP_R filter defined in Eq. 43 of <a href="#id6"><span class="problematic" id="id2">[1]_</span></a>.</p>
+<div class="line-block">
+<div class="line">It is defined as: <span class="math notranslate nohighlight">\({W}^{(r)}_{MVP_R}=P^{(r)}_{S_0}{W}_{LCMV_R}\)</span>,</div>
+</div>
+<p>where <span class="math notranslate nohighlight">\(P^{(r)}_{S_0}\)</span> is the orthogonal projection matrix onto subspace spanned by eigenvectors
+corresponding to the <code class="docutils literal notranslate"><span class="pre">filter_rank</span></code> number of largest eigenvalues of <span class="math notranslate nohighlight">\(S_0\)</span>.
+<span class="math notranslate nohighlight">\(S_0\)</span> is defined as: <span class="math notranslate nohighlight">\({H}_0^t{R}^{-1}{H}_0\)</span> (eq. 24), where <span class="math notranslate nohighlight">\(H_0\)</span> is the leadfield matrix
+and <span class="math notranslate nohighlight">\(R\)</span> is the data covariance matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Gk</strong> (<em>ndarray</em><em>, </em><em>shape</em><em> (</em><em>n_sources</em><em>, </em><em>n_channels</em><em>, </em><em>1</em><em>)</em>) – Leadfield transposition.</p></li>
+<li><p><strong>bf_numer</strong> (<em>ndarray</em><em>, </em><em>shape</em><em> (</em><em>n_sources</em><em>, </em><em>1</em><em>, </em><em>n_channels</em><em>)</em>) – bf_numer obtained from <code class="docutils literal notranslate"><span class="pre">mne.beamformer._compute_beamformer._compute_bf_terms</span></code> function</p></li>
+<li><p><strong>bf_denom_inv</strong> (<em>ndarray</em><em>, </em><em>shape</em><em> (</em><em>n_sources</em><em>, </em><em>n_orient</em><em>, </em><em>n_orient</em><em>)</em>) – inversion of bf_denom obtained from <code class="docutils literal notranslate"><span class="pre">mne.beamformer._compute_beamformer._compute_bf_terms</span></code> function</p></li>
+<li><p><strong>filter_rank</strong> (<em>int</em>) – Defines number of eigenvectors corresponding to the largest eigenvalues of matrix S to take under consideration.</p></li>
+<li><p><strong>n_orient</strong> (<em>int</em>) – number of dipole orientations defined at each source point
+in case of using MV-PURE should be equal to 1</p></li>
+<li><p><strong>R</strong> (<em>array-like</em>) – Data covariance matrix</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>W</strong> – Beamformer weights for ‘MVP_R’.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray, shape (n_sources, n_channels)</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+</dd></dl>
+
+</section>
+<section id="module-mvpure_py.beamformer.mvp_filter">
+<span id="mvpure-py-beamformer-mvp-filter-module"></span><h2>mvpure_py.beamformer.mvp_filter module<a class="headerlink" href="#module-mvpure_py.beamformer.mvp_filter" title="Link to this heading">#</a></h2>
+<p>Computing MVPURE beamformers.
+Based on mne.beamformer._lcmv.py (<a class="github reference external" href="https://github.com/mne-tools/mne-python/blob/main/mne/beamformer/_lcmv.py">mne-tools/mne-python</a>)</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.beamformer.mvp_filter.apply_filter">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.beamformer.mvp_filter.</span></span><span class="sig-name descname"><span class="pre">apply_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">evoked</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Evoked</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Beamformer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mvpure_py/beamformer/mvp_filter.html#apply_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.beamformer.mvp_filter.apply_filter" title="Link to this definition">#</a></dt>
+<dd><p>Apply MVPURE beamformer weights on evoked data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>evoked</strong> (<em>mne.Evoked</em>) – Evoked data to invert.</p></li>
+<li><p><strong>filters</strong> (<em>mne.beamformer.Beamformer</em>) – MVPURE spatial filter (beamformer weights) returned from <a class="reference internal" href="#mvpure_py.beamformer.mvp_filter.make_filter" title="mvpure_py.beamformer.mvp_filter.make_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_filter()</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>mne.SourceEstimate</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Source time courses</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.beamformer.mvp_filter.apply_filter_cov">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.beamformer.mvp_filter.</span></span><span class="sig-name descname"><span class="pre">apply_filter_cov</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_cov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Covariance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Beamformer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mvpure_py/beamformer/mvp_filter.html#apply_filter_cov"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.beamformer.mvp_filter.apply_filter_cov" title="Link to this definition">#</a></dt>
+<dd><p>Apply MVPURE beamformer weights to a data covariance matrix to estimate source power.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_cov</strong> (<em>mne.Covariance</em>) – Data covariance matrix.</p></li>
+<li><p><strong>filters</strong> (<em>mne.beamformer.Beamformer</em>) – MVPURE spatial filter (beamformer weights) returned from <a class="reference internal" href="#mvpure_py.beamformer.mvp_filter.make_filter" title="mvpure_py.beamformer.mvp_filter.make_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_filter()</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>mne.SourceEstimate</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Source power.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.beamformer.mvp_filter.apply_filter_epochs">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.beamformer.mvp_filter.</span></span><span class="sig-name descname"><span class="pre">apply_filter_epochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Epochs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Beamformer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_generator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mvpure_py/beamformer/mvp_filter.html#apply_filter_epochs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.beamformer.mvp_filter.apply_filter_epochs" title="Link to this definition">#</a></dt>
+<dd><p>Apply MVPURE beamformer weights on single trial data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>epochs</strong> (<em>mne.Epochs</em>) – Single trial epochs.</p></li>
+<li><p><strong>filters</strong> (<em>mne.beamformer.Beamformer</em>) – MVPURE spatial filter (beamformer weights) returned from <a class="reference internal" href="#mvpure_py.beamformer.mvp_filter.make_filter" title="mvpure_py.beamformer.mvp_filter.make_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_filter()</span></code></a>.</p></li>
+<li><p><strong>return_generator</strong> (<em>bool</em>) – Return a generator object instead of a list. This allows iterating over the stcs
+without having to keep them all in memory.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The source estimated for all epochs</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list | generator of mne.SourceEstimate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.beamformer.mvp_filter.apply_filter_raw">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.beamformer.mvp_filter.</span></span><span class="sig-name descname"><span class="pre">apply_filter_raw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Raw</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Beamformer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mvpure_py/beamformer/mvp_filter.html#apply_filter_raw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.beamformer.mvp_filter.apply_filter_raw" title="Link to this definition">#</a></dt>
+<dd><p>Apply MVPURE beamformer weights on raw data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>raw</strong> (<em>mne.io.Raw</em>) – Raw data.</p></li>
+<li><p><strong>filters</strong> (<em>mne.beamformer.Beamformer</em>) – MVPURE spatial filter (beamformer weights) returned from <a class="reference internal" href="#mvpure_py.beamformer.mvp_filter.make_filter" title="mvpure_py.beamformer.mvp_filter.make_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_filter()</span></code></a>.</p></li>
+<li><p><strong>start</strong> (<em>int</em>) – Index of first time sample.</p></li>
+<li><p><strong>stop</strong> (<em>int</em>) – Index of first time sample not to include</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>mne.SourceEstimate</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Source time courses.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.beamformer.mvp_filter.make_filter">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.beamformer.mvp_filter.</span></span><span class="sig-name descname"><span class="pre">make_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forward</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_cov</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_cov</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pick_ori</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'info'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_norm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'unit-noise-gain-invariant'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduce_rank</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inversion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'matrix'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mvpure_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mvpure_py/beamformer/mvp_filter.html#make_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.beamformer.mvp_filter.make_filter" title="Link to this definition">#</a></dt>
+<dd><p>Compute spatial filter from MVPURE package.
+Based on mne.beamformer.make_lcmv() function with additional parameter <code class="docutils literal notranslate"><span class="pre">mvpure_params</span></code> that specifies
+MVPURE-specific parameters:
+- ‘filter_type’ (with options MVP_R and MVP_N. If None, MVP_R will be used)
+- ‘filter_rank’ (as integer lower or equal to number of sources or ‘full’; if None ‘full’ will be used)</p>
+<dl class="simple">
+<dt>mvpure_params = {</dt><dd><p>‘filter_type’: str,
+‘filter_rank’: str | int</p>
+</dd>
+</dl>
+<p>}</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>info</strong> – Specifies the channels to include. Bad channels (in <code class="docutils literal notranslate"><span class="pre">info['bads']</span></code>)
+are not used.</p></li>
+<li><p><strong>forward</strong> (<em>mne.Forward</em>) – Forward operator.</p></li>
+<li><p><strong>data_cov</strong> (<em>mne.Covariance</em>) – Data covariance instance.</p></li>
+<li><p><strong>reg</strong> (<em>float</em>) – The regularization for the whitened data covariance.</p></li>
+<li><p><strong>noise_cov</strong> (<em>mne.Covariance</em>) – Noise covariance instance.</p></li>
+<li><p><strong>label</strong> (<em>mne.Label</em>) – Restricts the solution to a given label.</p></li>
+<li><p><strong>pick_ori</strong> – The source orientation to compute the beamformer in.</p></li>
+<li><p><strong>rank</strong> (<em>dict</em><em> | </em><em>None</em><em> | </em><em>'full'</em><em> | </em><em>'info'</em>) – See compute_rank.</p></li>
+<li><p><strong>weight_norm</strong> (<em>None</em><em> | </em><em>'unit-noise-gain'</em><em> | </em><em>'nai'</em>) – The weight normalization scheme to use.</p></li>
+<li><p><strong>reduce_rank</strong> (<em>bool</em>) – Whether to reduce the rank by one during computation of the filter.</p></li>
+<li><p><strong>depth</strong></p></li>
+<li><p><strong>inversion</strong> (<em>'matrix'</em><em> | </em><em>'single'</em>) – The inversion scheme to compute the weights.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em> | </em><em>str</em><em> | </em><em>int</em><em> | </em><em>None</em>) – Control verbostiy of the loggin output. If None, use the default verbostiy level.</p></li>
+<li><p><strong>mvpure_params</strong> (<em>dict</em>) – <p>Dictionary with MVPURE-py specific parameters.
+mvpure_params = {</p>
+<blockquote>
+<div><p>’filter_type’: str,
+‘filter_rank’: str | int</p>
+</div></blockquote>
+<p>}
+- ‘filter_type’ (with options MVP_R and MVP_N. If None, MVP_R will be used)
+- ‘filter_rank’ (as integer lower or equal to number of sources or ‘full’; if None ‘full’ will be used)</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary containing filter weights from MVPURE beamformer.
+Contains the same set of keys as mne.Beamformer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>mne.Beamformer</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-mvpure_py.beamformer.mvpure_utils">
+<span id="mvpure-py-beamformer-mvpure-utils-module"></span><h2>mvpure_py.beamformer.mvpure_utils module<a class="headerlink" href="#module-mvpure_py.beamformer.mvpure_utils" title="Link to this heading">#</a></h2>
+<p>Functions specific to MVPURE beamformers.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.beamformer.mvpure_utils.get_G_proj_matrix">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.beamformer.mvpure_utils.</span></span><span class="sig-name descname"><span class="pre">get_G_proj_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/mvpure_py/beamformer/mvpure_utils.html#get_G_proj_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.beamformer.mvpure_utils.get_G_proj_matrix" title="Link to this definition">#</a></dt>
+<dd><p>Compute the orthogonal projection matrix onto subspace spanned by eigenvectors corresponding to the
+<code class="docutils literal notranslate"><span class="pre">filter_rank</span></code> number of largest eigenvalues of <span class="math notranslate nohighlight">\(G\)</span>.</p>
+<div class="line-block">
+<div class="line"><span class="math notranslate nohighlight">\(G\)</span> is defined as <span class="math notranslate nohighlight">\({H}^t{N}^{-1}{H}\)</span> (eq. 20 in <a href="#id7"><span class="problematic" id="id3">[1]_</span></a>), where <span class="math notranslate nohighlight">\(H\)</span> is the leadfield matrix</div>
+</div>
+<p>and <span class="math notranslate nohighlight">\(N\)</span> is the noise covariance matrix.</p>
+<div class="line-block">
+<div class="line">Given projection matrix is used during computing <strong>MVP_N</strong> filter (<code class="docutils literal notranslate"><span class="pre">beamformer.filters_utils.make_mvp_n</span></code>).</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>H</strong> (<em>array-like</em>) – Leadfield matrix.</p></li>
+<li><p><strong>N</strong> (<em>array-like</em>) – Noise covariance matrix</p></li>
+<li><p><strong>filter_rank</strong> (<em>int</em><em> | </em><em>str</em>) – <ul>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">int</span></code>: Defines number of largest eigenvalues of matrix S to use calculating orthogonal projection matrix.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">full</span></code>, it is equal to number of sources.</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>proj_matrix</strong> (<em>array-like</em>) – Projection matrix onto <span class="math notranslate nohighlight">\(G\)</span> subspace</p></li>
+<li><p><strong>filter_rank</strong> (<em>int</em>) – Rank of the used filter</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.beamformer.mvpure_utils.get_S_proj_matrix">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.beamformer.mvpure_utils.</span></span><span class="sig-name descname"><span class="pre">get_S_proj_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/mvpure_py/beamformer/mvpure_utils.html#get_S_proj_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.beamformer.mvpure_utils.get_S_proj_matrix" title="Link to this definition">#</a></dt>
+<dd><p>Compute the orthogonal projection matrix onto subspace spanned by eigenvectors corresponding to the
+<code class="docutils literal notranslate"><span class="pre">filter_rank</span></code> number of largest eigenvalues of <span class="math notranslate nohighlight">\(S\)</span>.</p>
+<div class="line-block">
+<div class="line"><span class="math notranslate nohighlight">\(S\)</span> is defined as <span class="math notranslate nohighlight">\({H}^t{R}^{-1}{H}\)</span> (eq. 21 in <a href="#id8"><span class="problematic" id="id4">[1]_</span></a>), where <span class="math notranslate nohighlight">\(H\)</span> is the leadfield matrix</div>
+</div>
+<p>and <span class="math notranslate nohighlight">\(R\)</span> is the data covariance matrix.</p>
+<div class="line-block">
+<div class="line">Given projection matrix is used during computing <strong>MVP_R</strong> filter (<code class="docutils literal notranslate"><span class="pre">beamformer.filters_utils.make_mvp_r</span></code>).</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>H</strong> (<em>array-like</em>) – Leadfield matrix.</p></li>
+<li><p><strong>R</strong> (<em>array-like</em>) – Data covariance matrix</p></li>
+<li><p><strong>filter_rank</strong> (<em>int</em><em> | </em><em>str</em>) – <ul>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">int</span></code>: Defines number of largest eigenvalues of matrix S to use calculating orthogonal projection matrix.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">full</span></code>, it is equal to number of sources.</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>proj_matrix</strong> (<em>array-like</em>) – Projection matrix onto <span class="math notranslate nohighlight">\(S\)</span> subspace</p></li>
+<li><p><strong>filter_rank</strong> (<em>int</em>) – Rank of the used filter</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+</dd></dl>
+
+</section>
+<section id="module-mvpure_py.beamformer">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mvpure_py.beamformer" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mvpure_py.beamformer.filters_utils">mvpure_py.beamformer.filters_utils module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.beamformer.filters_utils.make_mvp_n"><code class="docutils literal notranslate"><span class="pre">make_mvp_n()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.beamformer.filters_utils.make_mvp_r"><code class="docutils literal notranslate"><span class="pre">make_mvp_r()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mvpure_py.beamformer.mvp_filter">mvpure_py.beamformer.mvp_filter module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.beamformer.mvp_filter.apply_filter"><code class="docutils literal notranslate"><span class="pre">apply_filter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.beamformer.mvp_filter.apply_filter_cov"><code class="docutils literal notranslate"><span class="pre">apply_filter_cov()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.beamformer.mvp_filter.apply_filter_epochs"><code class="docutils literal notranslate"><span class="pre">apply_filter_epochs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.beamformer.mvp_filter.apply_filter_raw"><code class="docutils literal notranslate"><span class="pre">apply_filter_raw()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.beamformer.mvp_filter.make_filter"><code class="docutils literal notranslate"><span class="pre">make_filter()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mvpure_py.beamformer.mvpure_utils">mvpure_py.beamformer.mvpure_utils module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.beamformer.mvpure_utils.get_G_proj_matrix"><code class="docutils literal notranslate"><span class="pre">get_G_proj_matrix()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.beamformer.mvpure_utils.get_S_proj_matrix"><code class="docutils literal notranslate"><span class="pre">get_S_proj_matrix()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mvpure_py.beamformer">Module contents</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/mvpure_py.beamformer.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Julia Jurkowska et al..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
