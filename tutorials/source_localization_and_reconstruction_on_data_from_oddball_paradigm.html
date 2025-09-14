@@ -664,9 +664,10 @@ Leadfield indices corresponding to localized sources: [31, 3557, 795, 1213, 1690
 <p>This function works similarly to <code class="docutils literal notranslate"><span class="pre">mne.beamformer.make_lcmv</span></code>, but with additional parameters specific to MVPURE.</p>
 <p>We provide these in a dictionary called <code class="docutils literal notranslate"><span class="pre">mvpure_params</span></code>:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">filter_type</span></code>: type of the beamformer to use. Options are: <code class="docutils literal notranslate"><span class="pre">MVP_R</span></code> and <code class="docutils literal notranslate"><span class="pre">MVP_N</span></code>. In this case, we will use <code class="docutils literal notranslate"><span class="pre">MVP_R</span></code> as it is generalization of commonly used LCMV filter. -<code class="docutils literal notranslate"><span class="pre">filter_rank</span></code>: optimization rank parameter. For best performance, we use the same rank as in the localization step.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filter_type</span></code>: type of the beamformer to use. Options are: <code class="docutils literal notranslate"><span class="pre">MVP_R</span></code> and <code class="docutils literal notranslate"><span class="pre">MVP_N</span></code>. In this case, we will use <code class="docutils literal notranslate"><span class="pre">MVP_R</span></code> as it is generalization of commonly used LCMV filter.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filter_rank</span></code>: optimization rank parameter. For best performance, we use the same rank as in the localization step.</p></li>
 </ul>
-<p>Note: setting <code class="docutils literal notranslate"><span class="pre">filter_rank=&quot;ful&quot;</span></code> reduces the method to a standard LCMV filter. For theoretical details see [PAPER].</p>
+<p>Note: setting <code class="docutils literal notranslate"><span class="pre">filter_rank=&quot;full&quot;</span></code> reduces the method to a standard LCMV filter. For theoretical details see [PAPER].</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
