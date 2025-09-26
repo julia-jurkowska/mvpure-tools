@@ -10,15 +10,13 @@ from ..viz import plot_RN_eigenvalues
 from ..utils import algebra
 
 
-def suggest_n_sources_and_rank(
-    R: np.ndarray,
-    N: np.ndarray,
-    show_plot: bool = True,
-    subject: str = None,
-    n_sources_threshold: float = 1,
-    rank_threshold: float = 1.5,
-    **kwargs
-) -> tuple[int, int]:
+def suggest_n_sources_and_rank(R: np.ndarray,
+                               N: np.ndarray,
+                               show_plot: bool = True,
+                               subject: str = None,
+                               n_sources_threshold: float = 1,
+                               rank_threshold: float = 1.5,
+                               **kwargs) -> tuple[int, int]:
     """
     Automatically propose number of sources to localize and rank based on Proposition 3 in [1]_.
 
@@ -54,125 +52,280 @@ def suggest_n_sources_and_rank(
 
     """
     if show_plot:
-        _, eigvals = plot_RN_eigenvalues(R=R, N=N, subject=subject, return_eigvals=True, **kwargs)
+        _, eigvals = plot_RN_eigenvalues(R=R,
+                                         N=N,
+                                         subject=subject,
+                                         return_eigvals=True,
+                                         **kwargs)
     else:
         eigvals = algebra.get_pinv_RN_eigenvals(R=R, N=N)
-        
+
     # Suggesting number of sources
     n_sources_temp = np.where(eigvals > n_sources_threshold)[0]
     if n_sources_temp.size == 0:
-        raise ValueError(f"All eigenvalues of $\\mathrm{{RN}}^{{-1}}$ are smaller than {n_sources_threshold}.")
+        raise ValueError(
+            f"All eigenvalues of $\\mathrm{{RN}}^{{-1}}$ are smaller than {n_sources_threshold}."
+        )
     else:
         n_sources = n_sources_temp[-1] + 1
-    
+
     # Suggesting rank
     rank_temp = np.where(eigvals > rank_threshold)[0]
     if rank_temp.size == 0:
-        raise ValueError(f"All eigenvalues of $\\mathrm{{RN}}^{{-1}}$ are smaller than {rank_threshold}.")
+        raise ValueError(
+            f"All eigenvalues of $\\mathrm{{RN}}^{{-1}}$ are smaller than {rank_threshold}."
+        )
     else:
         rank = rank_temp[-1] + 1
-    
+
     print(f"Suggested number of sources to localize: {n_sources}")
     print(f"Suggested rank is: {rank}")
     return int(n_sources), int(rank)
 
 
-def get_activity_index(localizer_to_use: str,
-                       H: np.ndarray,
-                       R: np.ndarray,
-                       N: np.ndarray,
-                       n_sources_to_localize: int,
-                       r: int) -> tuple[np.ndarray, np.ndarray, int, np.ndarray]:
+import os
+
+os.environ["OMP_NUM_THREADS"] = "8"  # you can tune this
+
+import numpy as np
+from tqdm import tqdm
+from typing import List, Tuple
+
+# ---------------- Block builders (CPU, vectorized) ----------------
+
+
+def _build_S_blocks_batch_cpu(H_sel: np.ndarray, S_sel: np.ndarray,
+                              A_R_batch: np.ndarray,
+                              H_batch: np.ndarray) -> np.ndarray:
+    k = S_sel.shape[0]
+    B = A_R_batch.shape[1]
+    m = k + 1
+    blocks = np.empty((B, m, m), dtype=A_R_batch.dtype)
+
+    if k == 0:
+        s_batch = np.sum(A_R_batch * H_batch, axis=0)  # (B,)
+        blocks[:] = s_batch[:, None, None]
+        return blocks
+
+    a_batch = H_sel[:, :k].T @ A_R_batch
+    s_batch = np.sum(A_R_batch * H_batch, axis=0)
+
+    blocks[:, :k, :k] = S_sel[None, :, :]
+    blocks[:, :k, k:k + 1] = a_batch.T[:, :, None]
+    blocks[:, k:k + 1, :k] = a_batch.T[:, None, :]
+    blocks[:, k, k] = s_batch
+    return blocks
+
+
+def _build_G_blocks_batch_cpu(H_sel: np.ndarray, G_sel: np.ndarray,
+                              A_N_batch: np.ndarray,
+                              H_batch: np.ndarray) -> np.ndarray:
+    k = G_sel.shape[0]
+    B = A_N_batch.shape[1]
+    m = k + 1
+    blocks = np.empty((B, m, m), dtype=A_N_batch.dtype)
+
+    if k == 0:
+        s_batch = np.sum(A_N_batch * H_batch, axis=0)
+        blocks[:] = s_batch[:, None, None]
+        return blocks
+
+    a_batch = H_sel[:, :k].T @ A_N_batch
+    s_batch = np.sum(A_N_batch * H_batch, axis=0)
+
+    blocks[:, :k, :k] = G_sel[None, :, :]
+    blocks[:, :k, k:k + 1] = a_batch.T[:, :, None]
+    blocks[:, k:k + 1, :k] = a_batch.T[:, None, :]
+    blocks[:, k, k] = s_batch
+    return blocks
+
+
+def _build_T_blocks_batch_cpu(H_sel: np.ndarray, T_sel: np.ndarray,
+                              A_TR_batch: np.ndarray,
+                              H_batch: np.ndarray) -> np.ndarray:
+    k = T_sel.shape[0]
+    B = A_TR_batch.shape[1]
+    m = k + 1
+    blocks = np.empty((B, m, m), dtype=A_TR_batch.dtype)
+
+    if k == 0:
+        s_batch = np.sum(A_TR_batch * H_batch, axis=0)
+        blocks[:] = s_batch[:, None, None]
+        return blocks
+
+    a_batch = H_sel[:, :k].T @ A_TR_batch
+    s_batch = np.sum(A_TR_batch * H_batch, axis=0)
+
+    blocks[:, :k, :k] = T_sel[None, :, :]
+    blocks[:, :k, k:k + 1] = a_batch.T[:, :, None]
+    blocks[:, k:k + 1, :k] = a_batch.T[:, None, :]
+    blocks[:, k, k] = s_batch
+    return blocks
+
+
+# ---------------- Main function (CPU-only) ----------------
+
+
+def get_activity_index(
+    localizer_to_use: str,
+    H: np.ndarray,
+    R: np.ndarray,
+    N: np.ndarray,
+    n_sources_to_localize: int,
+    r: int,
+    batch_size: int = 16384,
+    show_progress: bool = True
+) -> Tuple[List[int], np.ndarray, int, np.ndarray]:
     """
-    Calculate activity index specified in ``localizer_to_use``.
-
-    Parameters
-    -----------
-    localizer_to_use: str
-        activity index to use.
-        Options: "mai", "mpz", "mai_mvp", "mpz_mvp".
-    H : array-like, shape (n_channels, n_sources)
-        leadfield matrix
-    R : array-like, shape (n_channels, n_channels)
-        data covariance matrix
-    N : array-like, shape (n_channels, n_channels)
-        noise covariance matrix
-    n_sources_to_localize: int
-        number of sources to localize
-    r : int
-        optimization parameter
-
-    Returns
-    -----------
-    index_max: array-like, shape (n_sources_to_localize,)
-        indices of localized dipoles
-    act_index_values: array-like, shape (n_sources_to_localize,)
-        activity index value
-    r : int
-        optimization parameter used
-    H_res: array-like, shape (n_channels, n_sources_to_localize)
-        subset of leadfield matrix for localized dipoles
+    CPU-only version of the hybrid-fast algorithm.
+    All computations are NumPy-based (no GPU).
     """
-    # placeholder for localizer activity index
-    index_max = np.zeros(n_sources_to_localize)
-    act_index_values = np.zeros(n_sources_to_localize)
-    # leadfield of dipoles corresponding to max index
-    H_res = None
-    # iterate through number of sources to localize
-    for n in range(1, n_sources_to_localize + 1):
-        # placeholder for activity index for each source
-        act = np.zeros(H.shape[1])
-        # iterate through all sources
-        for l in tqdm(range(H.shape[1]), total=H.shape[1]):
-            # current dipole leadfield
-            H_curr = H[:, l]
-            if H_res is not None:
-                if len(H_res.shape) == 1:
-                    H_res = H_res.reshape(-1, 1)
-                # if some source was selected in previous loop(s) [ n > 1 ]
-                # stack current leadfield with selected dipole(s) leadfield(s)
-                H_curr = np.hstack((H_res, H_curr.reshape(-1, 1)))
+    # Heavy precomputations (once)
+    R_inv = np.linalg.pinv(R)
+    N_inv = np.linalg.pinv(N)
 
-            # choose activity index
-            func = _choose_activity_index(localizer_to_use)
-            S_curr = algebra._get_S(H_curr, R)
+    A_R = R_inv @ H
+    A_N = N_inv @ H
+    A_TR = (R_inv @ N @ R_inv) @ H
 
-            # MAI family
-            if "mai" in localizer_to_use:
-                G_curr = algebra._get_G(H_curr, N)
-                act[l] = func(G_curr, S_curr, current_iter=n, r=r)
+    H_cpu = H.copy()
+    A_R_cpu = A_R
+    A_N_cpu = A_N
+    A_TR_cpu = A_TR
 
-            # MPZ family
-            elif "mpz" in localizer_to_use:
-                T_curr = algebra._get_T(H_curr, R, N)
-                if localizer_to_use == "mpz_mvp":
-                    G_curr = algebra._get_G(H_curr, N)
-                    Q_curr = algebra._get_Q(S_curr, G_curr)
-                    act[l] = func(S_curr, T_curr, Q_curr, r=r, current_iter=n)
+    n_channels, n_sources = H_cpu.shape
+
+    # Selection buffers
+    max_k = n_sources_to_localize
+    H_sel = np.zeros((n_channels, max_k), dtype=H_cpu.dtype)
+    S_sel = np.zeros((0, 0), dtype=H_cpu.dtype)
+    G_sel = np.zeros((0, 0), dtype=H_cpu.dtype)
+    T_sel = np.zeros((0, 0), dtype=H_cpu.dtype)
+
+    index_max: List[int] = []
+    act_index_values: List[float] = []
+
+    func = _choose_activity_index(localizer_to_use)  # must be CPU function
+
+    selected_mask = np.zeros(n_sources, dtype=bool)
+    selected_count = 0
+    all_indices = np.arange(n_sources, dtype=np.int64)
+
+    for outer_iter in range(n_sources_to_localize):
+        best_val = -np.inf
+        best_idx = None
+
+        if show_progress:
+            pbar = tqdm(total=n_sources,
+                        desc=f"iter{outer_iter+1}/{n_sources_to_localize}")
+
+        selected_mask[:] = False
+        for idx in index_max:
+            selected_mask[idx] = True
+
+        need_G = ("mai" in localizer_to_use) or (localizer_to_use == "mpz_mvp")
+        need_T = ("mpz" in localizer_to_use)
+
+        for start in range(0, n_sources, batch_size):
+            end = min(n_sources, start + batch_size)
+            batch_idx = all_indices[start:end]
+            batch_idx = batch_idx[~selected_mask[batch_idx]]
+            if batch_idx.size == 0:
+                if show_progress:
+                    pbar.update(end - start)
+                continue
+
+            # Current batch (CPU)
+            A_R_batch = A_R_cpu[:, batch_idx]
+            H_batch = H_cpu[:, batch_idx]
+
+            blocks_S = _build_S_blocks_batch_cpu(H_sel, S_sel, A_R_batch,
+                                                 H_batch)
+
+            if need_G:
+                A_N_batch = A_N_cpu[:, batch_idx]
+                blocks_G = _build_G_blocks_batch_cpu(H_sel, G_sel, A_N_batch,
+                                                     H_batch)
+            else:
+                blocks_G = None
+
+            if need_T:
+                A_TR_batch = A_TR_cpu[:, batch_idx]
+                blocks_T = _build_T_blocks_batch_cpu(H_sel, T_sel, A_TR_batch,
+                                                     H_batch)
+            else:
+                blocks_T = None
+
+            # Evaluate localizer
+            for j_i, j in enumerate(batch_idx):
+                if "mai" in localizer_to_use:
+                    val = func(blocks_G[j_i],
+                               blocks_S[j_i],
+                               current_iter=outer_iter + 1,
+                               r=r)
+                elif "mpz" in localizer_to_use:
+                    if localizer_to_use == "mpz_mvp":
+                        Q_cpu = np.linalg.pinv(blocks_S[j_i]) - np.linalg.pinv(
+                            blocks_G[j_i])
+                        val = func(blocks_S[j_i],
+                                   blocks_T[j_i],
+                                   Q_cpu,
+                                   r=r,
+                                   current_iter=outer_iter + 1)
+                    else:
+                        val = func(blocks_S[j_i],
+                                   blocks_T[j_i],
+                                   current_iter=outer_iter + 1,
+                                   r=r)
                 else:
-                    act[l] = func(S_curr, T_curr, current_iter=n, r=r)
+                    val = func(blocks_S[j_i], current_iter=outer_iter + 1, r=r)
 
-        # find for which dipole index is max
-        index_max[n-1] = int(np.argmax(act))
-        act_index_values[n-1] = np.max(act)
+                if val > best_val:
+                    best_val = val
+                    best_idx = int(j)
 
-        # create H_res with leadfields of selected dipoles
-        if H_res is None:
-            H_res = H[:, int(index_max[n-1])]
-        else:
-            H_res = np.hstack((H_res, H[:, int(index_max[n-1])].reshape(-1, 1)))
+            if show_progress:
+                pbar.update(end - start)
 
-    if H_res.ndim == 1:
-        H_res = H_res[:, np.newaxis]
-    index_max = [int(i) for i in index_max]
-    print(f"Leadfield indices corresponding to localized sources: {index_max}")
+        if show_progress:
+            pbar.close()
 
-    return index_max, act_index_values, r, H_res
+        if best_idx is None:
+            break
+
+        index_max.append(int(best_idx))
+        act_index_values.append(float(best_val))
+
+        # Update selection state
+        H_sel[:,
+              selected_count:selected_count + 1] = H_cpu[:,
+                                                         best_idx:best_idx + 1]
+
+        # Update reference blocks
+        aR_chosen = A_R_cpu[:, best_idx:best_idx + 1]
+        S_sel = _build_S_blocks_batch_cpu(H_sel, S_sel, aR_chosen,
+                                          H_cpu[:, best_idx:best_idx + 1])[0]
+        if need_G:
+            aN_chosen = A_N_cpu[:, best_idx:best_idx + 1]
+            G_sel = _build_G_blocks_batch_cpu(H_sel, G_sel, aN_chosen,
+                                              H_cpu[:,
+                                                    best_idx:best_idx + 1])[0]
+        if need_T:
+            aTR_chosen = A_TR_cpu[:, best_idx:best_idx + 1]
+            T_sel = _build_T_blocks_batch_cpu(H_sel, T_sel, aTR_chosen,
+                                              H_cpu[:,
+                                                    best_idx:best_idx + 1])[0]
+
+        selected_count += 1
+
+    H_res = None
+    H_res = H[:, index_max].copy()
+
+    print(index_max, r)
+    return index_max, np.array(act_index_values, dtype=float), r, H_res
 
 
-def _choose_activity_index(
-        localizer_to_use: str
-):
+def _choose_activity_index(localizer_to_use: str):
     """
     Specify activity index to use.
 
@@ -194,13 +347,17 @@ def _choose_activity_index(
     elif localizer_to_use == "mpz_mvp":
         func = _get_mpz_mvp
     else:
-        raise ValueError("Only possible localizers to specify are: 'mai', 'mpz', "
-                         "'mai_mvp', 'mpz_mvp'")
+        raise ValueError(
+            "Only possible localizers to specify are: 'mai', 'mpz', "
+            "'mai_mvp', 'mpz_mvp'")
 
     return func
 
 
-def _get_simple_mai(G: np.ndarray, S: np.ndarray, current_iter: int, r: int = None) -> float:
+def _get_simple_mai(G: np.ndarray,
+                    S: np.ndarray,
+                    current_iter: int,
+                    r: int = None) -> float:
     """
     Using eq. 39 from [1]_.
 
@@ -240,7 +397,10 @@ def _get_simple_mai(G: np.ndarray, S: np.ndarray, current_iter: int, r: int = No
     return mai
 
 
-def _get_simple_mpz(S: np.ndarray, T: np.ndarray, current_iter: int, r: int = None) -> float:
+def _get_simple_mpz(S: np.ndarray,
+                    T: np.ndarray,
+                    current_iter: int,
+                    r: int = None) -> float:
     """
     Using eq. 42 from [1]_.
     MPZ = tr{S@T^(-1)} - l
@@ -279,7 +439,8 @@ def _get_simple_mpz(S: np.ndarray, T: np.ndarray, current_iter: int, r: int = No
     return mpz
 
 
-def _get_mai_mvp(G: np.ndarray, S: np.ndarray, r: int, current_iter: int) -> float:
+def _get_mai_mvp(G: np.ndarray, S: np.ndarray, r: int,
+                 current_iter: int) -> float:
     """
     MAI_MVP = sum_to_l(eigenval(G @ S^(-1)) - l for 1 <= l <= r
             = sum_to_r(eigenval(G @ S^(-1)) - r for l > r
@@ -316,7 +477,8 @@ def _get_mai_mvp(G: np.ndarray, S: np.ndarray, r: int, current_iter: int) -> flo
     return mai_mvp
 
 
-def _get_mpz_mvp(S: np.ndarray, T: np.ndarray, Q: np.ndarray, r: int, current_iter: int) -> float:
+def _get_mpz_mvp(S: np.ndarray, T: np.ndarray, Q: np.ndarray, r: int,
+                 current_iter: int) -> float:
     """
     MPZ_MVP = trace{S@T^(-1)} - r             for r <= l
             = trace(S @ T^(-1) @ P_SQ_r) - r  for l > r
@@ -353,9 +515,9 @@ def _get_mpz_mvp(S: np.ndarray, T: np.ndarray, Q: np.ndarray, r: int, current_it
         s, u = np.linalg.eig(np.matmul(S, Q))
         sorted_idx = np.argsort(s)[::-1]
         u = u[:, sorted_idx]
-        proj_matrix = u @ np.block(
-            [[np.eye(r), np.zeros((r, current_iter - r))], [np.zeros((current_iter - r, current_iter))]]
-        ) @ np.linalg.pinv(u)
+        proj_matrix = u @ np.block([[
+            np.eye(r), np.zeros((r, current_iter - r))
+        ], [np.zeros((current_iter - r, current_iter))]]) @ np.linalg.pinv(u)
         mpz_mvp = np.trace(S @ np.linalg.pinv(T) @ proj_matrix) - r
 
     return mpz_mvp
