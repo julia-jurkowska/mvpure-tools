@@ -5,8 +5,6 @@ from .mvpure_localizer import (
 )
 from .localizer_utils import (
     get_activity_index,
-    _get_simple_mai,
-    _get_simple_mpz,
     suggest_n_sources_and_rank
 )
 
