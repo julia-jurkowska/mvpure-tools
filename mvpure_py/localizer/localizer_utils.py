@@ -2,17 +2,19 @@
 
 # Author: Julia Jurkowska
 
-import numpy as np
-import scipy.linalg as sla
 import os
-
-from scipy.linalg import sqrtm, cho_factor, cho_solve, pinv
-from tqdm import tqdm
-from ..viz import plot_RN_eigenvalues
-from ..utils import algebra
 from typing import List, Optional, Tuple
 
-# Number of threads used by BLAS/LAPACK 
+import numpy as np
+import scipy.linalg as sla
+from joblib import Parallel, delayed
+from scipy.linalg import cho_factor, cho_solve, pinv
+from tqdm import tqdm
+
+from ..utils import algebra
+from ..viz import plot_RN_eigenvalues
+
+# Number of threads used by BLAS/LAPACK - ADJUSTABLE
 os.environ["OMP_NUM_THREADS"] = "10"
 
 
@@ -75,63 +77,67 @@ def _simple_mai_batch(blocks_G: np.ndarray,
                       blocks_S: np.ndarray,
                       current_iter: int) -> np.ndarray:
     """
-    Compute the MAI activity index for a batch (simplified form).
+    Compute the MAI activity index for a batch (simplified form) in parallel.
 
     Definition:
         MAI = trace(G S⁻¹) - current_iter
     """
     B, m, _ = blocks_S.shape
+
+    # Handle 1x1 blocks quickly
     if m == 1:
-        # Special case: scalar blocks
         return blocks_G[:, 0, 0] / blocks_S[:, 0, 0] - current_iter
 
-    results = np.empty(B, dtype=float)
     I = np.eye(m)
 
-    for i in range(B):
+    def _process_block(i):
+        # Inverse of S
         try:
-            # Prefer Cholesky-based inversion for stability
-            invS = sla.cho_solve(
-                sla.cho_factor(blocks_S[i], lower=False, check_finite=False),
-                I, check_finite=False
-            )
-        except sla.LinAlgError:
-            # Fallback: Moore–Penrose pseudoinverse
-            invS = np.linalg.pinv(blocks_S[i])
+            invS = cho_solve(cho_factor(blocks_S[i], lower=False, check_finite=False),
+                             I, check_finite=False)
+        except np.linalg.LinAlgError:
+            invS = pinv(blocks_S[i])
 
-        results[i] = np.trace(blocks_G[i] @ invS) - current_iter
+        # Activity index for this block
+        return np.trace(blocks_G[i] @ invS) - current_iter
 
-    return results
+    # Parallel execution across all blocks
+    results = Parallel(n_jobs=-1)(delayed(_process_block)(i) for i in range(B))
+    return np.array(results, dtype=float)
 
 
 def _simple_mpz_batch(blocks_S: np.ndarray,
                       blocks_T: np.ndarray,
                       current_iter: int) -> np.ndarray:
     """
-    Compute the MPZ activity index for a batch (simplified form).
+    Compute the MPZ activity index for a batch (simplified form) in parallel.
 
     Definition:
         MPZ = trace(S T⁻¹) - current_iter
     """
     B, m, _ = blocks_S.shape
+
+    # Handle 1x1 blocks quickly
     if m == 1:
         return blocks_S[:, 0, 0] / blocks_T[:, 0, 0] - current_iter
 
-    results = np.empty(B, dtype=float)
     I = np.eye(m)
 
-    for i in range(B):
+    def _process_block(i):
+        # Inverse of T
         try:
-            invT = sla.cho_solve(
-                sla.cho_factor(blocks_T[i], lower=False, check_finite=False),
+            invT = cho_solve(
+                cho_factor(blocks_T[i], lower=False, check_finite=False),
                 I, check_finite=False
             )
-        except sla.LinAlgError:
+        except np.linalg.LinAlgError:
             invT = np.linalg.pinv(blocks_T[i])
 
-        results[i] = np.trace(blocks_S[i] @ invT) - current_iter
+        return np.trace(blocks_S[i] @ invT) - current_iter
 
-    return results
+    # Parallel execution across blocks
+    results = Parallel(n_jobs=-1)(delayed(_process_block)(i) for i in range(B))
+    return np.array(results, dtype=float)
 
 
 # ============================================================
@@ -143,25 +149,24 @@ def _mai_mvp_batch(blocks_G: np.ndarray,
                    r: int,
                    current_iter: int) -> np.ndarray:
     """
-    Compute the MAI-MVP activity index for a batch.
+    Compute the MAI-MVP activity index for a batch in parallel.
 
     This version matches the eigenvalue-based definition:
         MAI-MVP = sum of top-r eigenvalues of (G S⁻¹) - r
     """
     B, m, _ = blocks_S.shape
-    results = np.empty(B, dtype=float)
 
     # For early iterations (<= r), fall back to simplified version
     if current_iter <= r:
         return _simple_mai_batch(blocks_G, blocks_S, current_iter)
 
-    for i in range(B):
-        if m == 1:
-            # Scalar case
-            results[i] = blocks_G[i, 0, 0] / blocks_S[i, 0, 0] - r
-            continue
+    I = np.eye(m)
 
-        I = np.eye(m)
+    def _process_block(i):
+        if m == 1:
+            return blocks_G[i, 0, 0] / blocks_S[i, 0, 0] - r
+
+        # Inverse of S
         try:
             invS = cho_solve(cho_factor(blocks_S[i], lower=False, check_finite=False),
                              I, check_finite=False)
@@ -171,10 +176,13 @@ def _mai_mvp_batch(blocks_G: np.ndarray,
         # Eigen-decomposition of G S⁻¹
         M = blocks_G[i] @ invS
         s, _ = np.linalg.eig(M)
-        s_sorted = np.sort(s)[::-1].real  # descending order, real part only
-        results[i] = np.sum(s_sorted[:r]) - r
+        s_sorted = np.sort(s)[::-1].real  # descending order
 
-    return results
+        return np.sum(s_sorted[:r]) - r
+
+    # Parallel execution across blocks (order preserved)
+    results = Parallel(n_jobs=-1)(delayed(_process_block)(i) for i in range(B))
+    return np.array(results, dtype=float)
 
 
 def _mpz_mvp_batch(blocks_S: np.ndarray,
@@ -190,13 +198,12 @@ def _mpz_mvp_batch(blocks_S: np.ndarray,
     where P is the oblique projection onto the top-r eigenspace of SQ.
     """
     B, m, _ = blocks_S.shape
-    results = np.empty(B, dtype=float)
     I = np.eye(m)
 
     if current_iter <= r:
         return _simple_mpz_batch(blocks_S, blocks_T, current_iter)
 
-    for i in range(B):
+    def _process_block(i):
         # Inverse of S
         try:
             invS = cho_solve(cho_factor(blocks_S[i], lower=False, check_finite=False),
@@ -216,14 +223,14 @@ def _mpz_mvp_batch(blocks_S: np.ndarray,
 
         # Eigen-decomposition of S Q
         s, u = np.linalg.eig(blocks_S[i] @ Q)
-        sorted_idx = np.argsort(s)[::-1]   # sort eigenvalues descending
+        sorted_idx = np.argsort(s)[::-1]  # sort eigenvalues descending
         u = u[:, sorted_idx]
 
         # Projection matrix onto top-r subspace
-        proj_matrix = u @ np.block(
-            [[np.eye(r), np.zeros((r, current_iter - r))],
-             [np.zeros((current_iter - r, current_iter))]]
-        ) @ pinv(u)
+        proj_matrix = u @ np.block([
+            [np.eye(r), np.zeros((r, current_iter - r))],
+            [np.zeros((current_iter - r, current_iter))]
+        ]) @ pinv(u)
 
         # Apply T⁻¹ to projection
         try:
@@ -232,10 +239,11 @@ def _mpz_mvp_batch(blocks_S: np.ndarray,
         except np.linalg.LinAlgError:
             temp = pinv(blocks_T[i]) @ proj_matrix
 
-        results[i] = np.trace(blocks_S[i] @ temp) - r
+        return np.trace(blocks_S[i] @ temp) - r
 
-    return results
-
+    # Parallel execution across all B blocks
+    results = Parallel(n_jobs=-1)(delayed(_process_block)(i) for i in range(B))
+    return np.array(results, dtype=float)
 
 # ============================================================
 # ---------------- Dispatcher: choose function ---------------
