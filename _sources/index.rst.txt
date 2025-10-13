@@ -13,7 +13,7 @@ Tutorials
 .. toctree::
    :maxdepth: 1
 
-   tutorials/preprocessing_data_from_oddball paradigm
+   tutorials/preprocessing_data_from_oddball_paradigm
    tutorials/source_localization_and_reconstruction_on_data_from_oddball_paradigm
 
 

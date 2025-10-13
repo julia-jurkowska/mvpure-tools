@@ -48,7 +48,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/source_localization_and_reconstruction_on_data_from_oddball_paradigm';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="EEG Preprocessing for an Oddball Paradigm" href="preprocessing_data_from_oddball%20paradigm.html" />
+    <link rel="prev" title="EEG Preprocessing for an Oddball Paradigm" href="preprocessing_data_from_oddball_paradigm.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -285,7 +285,7 @@ div.nboutput:not(:has(div.figure)) {
 <h1>Source localization and signal reconstruction - case study for oddball data<a class="headerlink" href="#Source-localization-and-signal-reconstruction---case-study-for-oddball-data" title="Link to this heading">#</a></h1>
 <section id="Introduction">
 <h2>Introduction<a class="headerlink" href="#Introduction" title="Link to this heading">#</a></h2>
-<p>In this tutorial, we will learn how to <strong>localize sources</strong> from EEG data and <strong>reconstruct signals</strong> at those sources using <strong>MVPURE-py</strong>, an extension to MNE-Python. Source localization allows us to move beyond sensor-level analysis to estimate where in the brain the measured activity originates. Once sources are identified, we can reconstruct time series from vertices of interest for further analysis.</p>
+<p>In this tutorial, we will learn how to <strong>localize sources</strong> from EEG data and <strong>reconstruct signals</strong> at those sources using <strong>MVPURE_py</strong>, an extension to MNE-Python. Source localization allows us to move beyond sensor-level analysis to estimate where in the brain the measured activity originates. Once sources are identified, we can reconstruct time series from vertices of interest for further analysis.</p>
 <p>We will cover the following steps:</p>
 <ol class="arabic simple">
 <li><p>Reading all necessary data for the <code class="docutils literal notranslate"><span class="pre">sample_subject</span></code>. You can download this dataset <a class="reference external" href="https://figshare.com/articles/dataset/Sample_subject_data_/30102451?file=57853861">here</a>.</p></li>
@@ -296,8 +296,8 @@ div.nboutput:not(:has(div.figure)) {
 </ol>
 <p>All steps will be repeated for two time frames: “sensory” (50-200 ms after stimuli) and “cognitive” (350-600 ms after stimuli).</p>
 <p>By the end of this tutorial, you will understand the basic workflow of source localization and signal reconstruction using the MVPURE-py package.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">mne</span>
@@ -309,13 +309,22 @@ div.nboutput:not(:has(div.figure)) {
 </pre></div>
 </div>
 </div>
-<p>We will use data the <code class="docutils literal notranslate"><span class="pre">sample_subject</span></code> dataset <a class="reference external" href="https://figshare.com/articles/dataset/Sample_subject_data_/30102451?file=57853861">provided on Figshare</a>. If you wish to start from the beginning, please complete tutorial [Preprocessing data from oddball paradigm] first.</p>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Using pyvistaqt 3d backend.
+</pre></div></div>
+</div>
+<p>We will use data the <code class="docutils literal notranslate"><span class="pre">sample_subject</span></code> dataset <a class="reference external" href="https://figshare.com/articles/dataset/Sample_subject_data_/30102451?file=57853861">provided on Figshare</a>. If you wish to start from the beginning, please complete tutorial <a class="reference external" href="https://julia-jurkowska.github.io/mvpure-tools/tutorials/preprocessing_data_from_oddball%20paradigm.html">Preprocessing data from oddball paradigm</a> first.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subject</span> <span class="o">=</span> <span class="s2">&quot;sample_subject&quot;</span>
 <span class="n">subjects_dir</span> <span class="o">=</span> <span class="s2">&quot;subjects&quot;</span>
+<span class="n">mne</span><span class="o">.</span><span class="n">set_config</span><span class="p">(</span><span class="s1">&#39;SUBJECTS_DIR&#39;</span><span class="p">,</span> <span class="n">subjects_dir</span><span class="p">)</span>
 
 <span class="c1"># Reading mne.Epochs</span>
 <span class="n">epoched</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">read_epochs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subjects_dir</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="s2">&quot;_eeg&quot;</span><span class="p">,</span> <span class="s2">&quot;_pre&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subject</span><span class="si">}</span><span class="s2">_oddball-epo.fif&quot;</span><span class="p">))</span>
@@ -336,7 +345,7 @@ div.nboutput:not(:has(div.figure)) {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Reading /Volumes/UMK/oddball/subjects/sample_subject/_eeg/_pre/sample_subject_oddball-epo.fif ...
+Reading /Users/julia/Downloads/sample_subject/_eeg/_pre/sample_subject_oddball-epo.fif ...
     Found the data of interest:
         t =    -199.22 ...     800.78 ms
         0 CTF compensation matrices available
@@ -382,7 +391,7 @@ SSP projectors applied...
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Reading forward solution from /Volumes/UMK/oddball/subjects/sample_subject/forward/sample_subject_ico4-fwd.fif...
+Reading forward solution from /Users/julia/Downloads/sample_subject/forward/sample_subject_ico4-fwd.fif...
     Reading a source space...
     [done]
     Reading a source space...
@@ -453,7 +462,7 @@ Number of samples used : 3042
 </div>
 <section id="RN^{-1}-eigenvalues-analysis">
 <h3><span class="math notranslate nohighlight">\(RN^{-1}\)</span> eigenvalues analysis<a class="headerlink" href="#RN^{-1}-eigenvalues-analysis" title="Link to this heading">#</a></h3>
-<p>Before attempting source localization, we need to decide <strong>how many sources</strong> to model and with what <strong>rank</strong>. Our proposition is to analyze the eigenvalues of the product of data covariance matrix <span class="math notranslate nohighlight">\(R\)</span> and the inverse of the noise covariance matrix <span class="math notranslate nohighlight">\(N\)</span>. For a detailed theoretical background, see [PAPER].</p>
+<p>Before attempting source localization, we need to decide <strong>how many sources</strong> to model and with what <strong>rank</strong>. Our proposition is to analyze the eigenvalues of the product of data covariance matrix <span class="math notranslate nohighlight">\(R\)</span> and the inverse of the noise covariance matrix <span class="math notranslate nohighlight">\(N\)</span>. For a detailed theoretical background, see <a class="reference external" href="https://www.biorxiv.org/content/10.1101/2025.09.15.676243v1">paper</a> :cite:<code class="docutils literal notranslate"><span class="pre">jurkowska2025multi</span></code>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -487,11 +496,11 @@ Suggested rank is: 42
 </section>
 <section id="Localize">
 <h3>Localize<a class="headerlink" href="#Localize" title="Link to this heading">#</a></h3>
-<p>Based on the eigenvalue spectrium above, we will localize <strong>62 sources</strong> using <strong>rank of 42</strong>. We will use function <code class="docutils literal notranslate"><span class="pre">mvpure_py.localizer.localize</span></code>, which performs the actual source localization. The main parameters are:</p>
+<p>Based on the eigenvalue spectrum above, we will localize <strong>62 sources</strong> using <strong>rank of 42</strong>. We will use function <code class="docutils literal notranslate"><span class="pre">mvpure_py.localizer.localize</span></code>, which performs the actual source localization. The main parameters are:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">subject</span></code>: the subject ID (here: <code class="docutils literal notranslate"><span class="pre">&quot;sample_subject&quot;</span></code>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">subjects_dir</span></code>: directory containing the subject folders.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">localizer_to_use</span></code>: the algorithm variant. Here we choose <code class="docutils literal notranslate"><span class="pre">&quot;mpz_mvp&quot;</span></code> because it provides the highest spacial resolution. Other possible options include: <code class="docutils literal notranslate"><span class="pre">&quot;mai&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;mpz&quot;</span></code>, and <code class="docutils literal notranslate"><span class="pre">&quot;mai_mvp&quot;</span></code>. For details, see [PAPER] or the function documentation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">localizer_to_use</span></code>: the algorithm variant. Here we choose <code class="docutils literal notranslate"><span class="pre">&quot;mpz_mvp&quot;</span></code> because it provides the highest spacial resolution. Other possible options include: <code class="docutils literal notranslate"><span class="pre">&quot;mai&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;mpz&quot;</span></code>, and <code class="docutils literal notranslate"><span class="pre">&quot;mai_mvp&quot;</span></code>. For details, see [1]_ or the function documentation.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">n_sources_to_localize</span></code>: number of sources to localize. We will use the suggested number of sources from <span class="math notranslate nohighlight">\(RN^{-1}\)</span> analysis.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">R</span></code>: data covariance matrix</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">N</span></code>: noise covariance matrix</p></li>
@@ -528,68 +537,68 @@ Suggested rank is: 42
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 5124/5124 [00:16&lt;00:00, 302.37it/s]
-100%|██████████| 5124/5124 [00:16&lt;00:00, 311.68it/s]
-100%|██████████| 5124/5124 [00:16&lt;00:00, 311.65it/s]
-100%|██████████| 5124/5124 [00:16&lt;00:00, 306.47it/s]
-100%|██████████| 5124/5124 [00:16&lt;00:00, 309.97it/s]
-100%|██████████| 5124/5124 [00:16&lt;00:00, 307.57it/s]
-100%|██████████| 5124/5124 [00:16&lt;00:00, 303.06it/s]
-100%|██████████| 5124/5124 [00:16&lt;00:00, 304.61it/s]
-100%|██████████| 5124/5124 [00:16&lt;00:00, 303.29it/s]
-100%|██████████| 5124/5124 [00:16&lt;00:00, 302.00it/s]
-100%|██████████| 5124/5124 [00:17&lt;00:00, 301.35it/s]
-100%|██████████| 5124/5124 [00:17&lt;00:00, 295.38it/s]
-100%|██████████| 5124/5124 [00:17&lt;00:00, 294.21it/s]
-100%|██████████| 5124/5124 [00:17&lt;00:00, 295.95it/s]
-100%|██████████| 5124/5124 [00:17&lt;00:00, 293.16it/s]
-100%|██████████| 5124/5124 [00:17&lt;00:00, 291.34it/s]
-100%|██████████| 5124/5124 [00:18&lt;00:00, 282.57it/s]
-100%|██████████| 5124/5124 [00:17&lt;00:00, 287.68it/s]
-100%|██████████| 5124/5124 [00:17&lt;00:00, 285.50it/s]
-100%|██████████| 5124/5124 [00:19&lt;00:00, 269.37it/s]
-100%|██████████| 5124/5124 [00:19&lt;00:00, 268.82it/s]
-100%|██████████| 5124/5124 [00:18&lt;00:00, 272.12it/s]
-100%|██████████| 5124/5124 [00:18&lt;00:00, 275.31it/s]
-100%|██████████| 5124/5124 [00:18&lt;00:00, 278.55it/s]
-100%|██████████| 5124/5124 [00:18&lt;00:00, 274.03it/s]
-100%|██████████| 5124/5124 [00:18&lt;00:00, 277.67it/s]
-100%|██████████| 5124/5124 [00:18&lt;00:00, 272.22it/s]
-100%|██████████| 5124/5124 [00:18&lt;00:00, 272.04it/s]
-100%|██████████| 5124/5124 [00:18&lt;00:00, 271.20it/s]
-100%|██████████| 5124/5124 [00:19&lt;00:00, 266.81it/s]
-100%|██████████| 5124/5124 [00:19&lt;00:00, 266.88it/s]
-100%|██████████| 5124/5124 [00:19&lt;00:00, 264.43it/s]
-100%|██████████| 5124/5124 [00:19&lt;00:00, 264.33it/s]
-100%|██████████| 5124/5124 [00:19&lt;00:00, 264.21it/s]
-100%|██████████| 5124/5124 [00:19&lt;00:00, 260.33it/s]
-100%|██████████| 5124/5124 [00:22&lt;00:00, 231.19it/s]
-100%|██████████| 5124/5124 [00:22&lt;00:00, 226.51it/s]
-100%|██████████| 5124/5124 [00:22&lt;00:00, 230.34it/s]
-100%|██████████| 5124/5124 [00:22&lt;00:00, 231.64it/s]
-100%|██████████| 5124/5124 [00:23&lt;00:00, 215.33it/s]
-100%|██████████| 5124/5124 [00:30&lt;00:00, 168.64it/s]
-100%|██████████| 5124/5124 [00:28&lt;00:00, 181.66it/s]
-100%|██████████| 5124/5124 [00:33&lt;00:00, 152.17it/s]
-100%|██████████| 5124/5124 [00:34&lt;00:00, 146.65it/s]
-100%|██████████| 5124/5124 [00:36&lt;00:00, 141.51it/s]
-100%|██████████| 5124/5124 [00:38&lt;00:00, 131.63it/s]
-100%|██████████| 5124/5124 [00:39&lt;00:00, 129.57it/s]
-100%|██████████| 5124/5124 [00:36&lt;00:00, 139.15it/s]
-100%|██████████| 5124/5124 [00:38&lt;00:00, 133.81it/s]
-100%|██████████| 5124/5124 [00:38&lt;00:00, 134.63it/s]
-100%|██████████| 5124/5124 [00:38&lt;00:00, 133.06it/s]
-100%|██████████| 5124/5124 [00:39&lt;00:00, 128.37it/s]
-100%|██████████| 5124/5124 [00:37&lt;00:00, 136.43it/s]
-100%|██████████| 5124/5124 [00:37&lt;00:00, 137.27it/s]
-100%|██████████| 5124/5124 [00:37&lt;00:00, 136.45it/s]
-100%|██████████| 5124/5124 [00:38&lt;00:00, 132.86it/s]
-100%|██████████| 5124/5124 [00:39&lt;00:00, 129.94it/s]
-100%|██████████| 5124/5124 [00:39&lt;00:00, 128.66it/s]
-100%|██████████| 5124/5124 [00:40&lt;00:00, 126.19it/s]
-100%|██████████| 5124/5124 [00:41&lt;00:00, 123.15it/s]
-100%|██████████| 5124/5124 [00:42&lt;00:00, 121.05it/s]
-100%|██████████| 5124/5124 [00:45&lt;00:00, 113.27it/s]
+iter 1/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 423647.03it/s]
+iter 2/62: 100%|██████████| 5124/5124 [00:01&lt;00:00, 4461.26it/s]
+iter 3/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 20542.92it/s]
+iter 4/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15067.32it/s]
+iter 5/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 9346.17it/s]
+iter 6/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17252.65it/s]
+iter 7/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17195.34it/s]
+iter 8/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17197.16it/s]
+iter 9/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17262.65it/s]
+iter 10/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17166.69it/s]
+iter 11/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17104.62it/s]
+iter 12/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17166.92it/s]
+iter 13/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16736.83it/s]
+iter 14/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16414.33it/s]
+iter 15/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16632.03it/s]
+iter 16/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16591.77it/s]
+iter 17/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15826.14it/s]
+iter 18/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15567.52it/s]
+iter 19/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16543.60it/s]
+iter 20/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16031.49it/s]
+iter 21/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13900.64it/s]
+iter 22/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15342.41it/s]
+iter 23/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14940.08it/s]
+iter 24/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14864.54it/s]
+iter 25/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14544.34it/s]
+iter 26/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14058.61it/s]
+iter 27/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14471.83it/s]
+iter 28/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 12013.64it/s]
+iter 29/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13561.26it/s]
+iter 30/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 11235.68it/s]
+iter 31/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 11895.04it/s]
+iter 32/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13627.63it/s]
+iter 33/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 12838.50it/s]
+iter 34/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 11983.22it/s]
+iter 35/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 9649.29it/s]
+iter 36/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 12125.74it/s]
+iter 37/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 10649.22it/s]
+iter 38/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 8756.48it/s]
+iter 39/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 11141.04it/s]
+iter 40/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 11042.17it/s]
+iter 41/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 8941.58it/s]
+iter 42/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 10850.30it/s]
+iter 43/62: 100%|██████████| 5124/5124 [00:03&lt;00:00, 1637.60it/s]
+iter 44/62: 100%|██████████| 5124/5124 [00:03&lt;00:00, 1537.59it/s]
+iter 45/62: 100%|██████████| 5124/5124 [00:03&lt;00:00, 1461.97it/s]
+iter 46/62: 100%|██████████| 5124/5124 [00:03&lt;00:00, 1399.30it/s]
+iter 47/62: 100%|██████████| 5124/5124 [00:03&lt;00:00, 1341.83it/s]
+iter 48/62: 100%|██████████| 5124/5124 [00:03&lt;00:00, 1335.81it/s]
+iter 49/62: 100%|██████████| 5124/5124 [00:04&lt;00:00, 1248.97it/s]
+iter 50/62: 100%|██████████| 5124/5124 [00:04&lt;00:00, 1197.41it/s]
+iter 51/62: 100%|██████████| 5124/5124 [00:04&lt;00:00, 1160.37it/s]
+iter 52/62: 100%|██████████| 5124/5124 [00:04&lt;00:00, 1145.77it/s]
+iter 53/62: 100%|██████████| 5124/5124 [00:04&lt;00:00, 1115.01it/s]
+iter 54/62: 100%|██████████| 5124/5124 [00:05&lt;00:00, 949.00it/s]
+iter 55/62: 100%|██████████| 5124/5124 [00:05&lt;00:00, 1002.33it/s]
+iter 56/62: 100%|██████████| 5124/5124 [00:05&lt;00:00, 998.51it/s]
+iter 57/62: 100%|██████████| 5124/5124 [00:05&lt;00:00, 969.23it/s]
+iter 58/62: 100%|██████████| 5124/5124 [00:05&lt;00:00, 921.80it/s]
+iter 59/62: 100%|██████████| 5124/5124 [00:05&lt;00:00, 858.80it/s]
+iter 60/62: 100%|██████████| 5124/5124 [00:05&lt;00:00, 867.44it/s]
+iter 61/62: 100%|██████████| 5124/5124 [00:06&lt;00:00, 846.61it/s]
+iter 62/62: 100%|██████████| 5124/5124 [00:06&lt;00:00, 814.71it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -597,7 +606,10 @@ Suggested rank is: 42
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Leadfield indices corresponding to localized sources: [31, 3557, 795, 1213, 1690, 2506, 2697, 2602, 1225, 83, 1966, 2085, 994, 2850, 2212, 4404, 4304, 4882, 608, 2522, 2325, 1876, 6, 3255, 1860, 3714, 4804, 2690, 84, 371, 2454, 3624, 5108, 1971, 265, 650, 992, 2727, 42, 4698, 329, 2574, 1258, 4002, 3368, 4920, 3, 33, 1405, 2887, 2333, 2771, 4604, 3333, 302, 306, 4422, 2597, 2580, 16, 4266, 3815]
+
+[Activity Index Result]
+  Selected indices (index_max): [31, 3557, 795, 1213, 1690, 2506, 2697, 2602, 1225, 83, 1966, 2085, 994, 2850, 2212, 4404, 4304, 4882, 608, 2522, 2325, 1876, 6, 3255, 1860, 3714, 4804, 2690, 84, 371, 2454, 3624, 5108, 1971, 265, 650, 992, 2727, 42, 4698, 329, 2574, 1258, 4002, 3368, 4920, 3, 33, 1405, 2887, 2333, 2771, 4604, 3333, 302, 306, 4422, 2597, 2580, 16, 4266, 3815]
+  Rank parameter (r): 42
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -664,10 +676,9 @@ Leadfield indices corresponding to localized sources: [31, 3557, 795, 1213, 1690
 <p>This function works similarly to <code class="docutils literal notranslate"><span class="pre">mne.beamformer.make_lcmv</span></code>, but with additional parameters specific to MVPURE.</p>
 <p>We provide these in a dictionary called <code class="docutils literal notranslate"><span class="pre">mvpure_params</span></code>:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">filter_type</span></code>: type of the beamformer to use. Options are: <code class="docutils literal notranslate"><span class="pre">MVP_R</span></code> and <code class="docutils literal notranslate"><span class="pre">MVP_N</span></code>. In this case, we will use <code class="docutils literal notranslate"><span class="pre">MVP_R</span></code> as it is generalization of commonly used LCMV filter.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">filter_rank</span></code>: optimization rank parameter. For best performance, we use the same rank as in the localization step.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filter_type</span></code>: type of the beamformer to use. Options are: <code class="docutils literal notranslate"><span class="pre">MVP_R</span></code> and <code class="docutils literal notranslate"><span class="pre">MVP_N</span></code>. In this case, we will use <code class="docutils literal notranslate"><span class="pre">MVP_R</span></code> as it is generalization of commonly used LCMV filter. -<code class="docutils literal notranslate"><span class="pre">filter_rank</span></code>: optimization rank parameter. For best performance, we use the same rank as in the localization step.</p></li>
 </ul>
-<p>Note: setting <code class="docutils literal notranslate"><span class="pre">filter_rank=&quot;full&quot;</span></code> reduces the method to a standard LCMV filter. For theoretical details see [PAPER].</p>
+<p>Note: setting <code class="docutils literal notranslate"><span class="pre">filter_rank=&quot;ful&quot;</span></code> reduces the method to a standard LCMV filter. For theoretical details see :cite:<code class="docutils literal notranslate"><span class="pre">jurkowska2025multi</span></code>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
@@ -737,7 +748,7 @@ Filter computation complete
 </pre></div>
 </div>
 </div>
-<p>We then attach the resulting <code class="docutils literal notranslate"><span class="pre">mne.SourceEstimate</span></code> to the localized sources object, making it easier to visualize:</p>
+<p>Then we attach the resulting <code class="docutils literal notranslate"><span class="pre">mne.SourceEstimate</span></code> to the localized sources object, making it easier to visualize:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
@@ -754,8 +765,7 @@ Filter computation complete
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">viz</span><span class="o">.</span><span class="n">plot_sources_with_activity</span><span class="p">(</span>
     <span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span>
-    <span class="n">stc</span><span class="o">=</span><span class="n">stc_sen</span><span class="p">,</span>
-    <span class="n">background</span><span class="o">=</span><span class="s2">&quot;white&quot;</span>
+    <span class="n">stc</span><span class="o">=</span><span class="n">stc_sen</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -774,14 +784,14 @@ Using control points [2.91332758e-09 3.43983961e-09 7.89233742e-09]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;mne.viz._brain._brain.Brain at 0x1583aa270&gt;
+&lt;mne.viz._brain._brain.Brain at 0x145ca1010&gt;
 </pre></div></div>
 </div>
 </section>
 </section>
 <section id="%22Cognitive%22-task">
 <h2>“Cognitive” task<a class="headerlink" href="#%22Cognitive%22-task" title="Link to this heading">#</a></h2>
-<p>After examing the early sensory responses, we now turn to the later cognitive stahe of processing in the oddball paradigm. In EEG, target stimuli typically evoke a P300 component — a positive deflection peaking around 300–600 ms after stimulus onset. This response is thought to reflect higher-level cognitive processes, such as attention allocation and stimulus evaluation, in contrast to the earlier sensory responses.</p>
+<p>After examining the early sensory responses, we now turn to the later cognitive stage of processing in the oddball paradigm. In EEG, target stimuli typically evoke a P300 component — a positive deflection peaking around 300–600 ms after stimulus onset. This response is thought to reflect higher-level cognitive processes, such as attention allocation and stimulus evaluation, in contrast to the earlier sensory responses.</p>
 <p>For this dataset, we will therefore define the cognitive time window as <strong>350–600 ms</strong>. The pipeline remains the same as before:</p>
 <ul class="simple">
 <li><p>Compute noise covariance (always from −200 to 0 ms).</p></li>
@@ -895,75 +905,75 @@ Suggested rank is: 50
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 5124/5124 [00:22&lt;00:00, 227.29it/s]
-100%|██████████| 5124/5124 [00:23&lt;00:00, 219.92it/s]
-100%|██████████| 5124/5124 [00:24&lt;00:00, 206.87it/s]
-100%|██████████| 5124/5124 [00:22&lt;00:00, 230.55it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 239.85it/s]
-100%|██████████| 5124/5124 [00:22&lt;00:00, 232.09it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 241.26it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 234.91it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 242.70it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 243.91it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 234.48it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 241.44it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 239.30it/s]
-100%|██████████| 5124/5124 [00:20&lt;00:00, 248.39it/s]
-100%|██████████| 5124/5124 [00:20&lt;00:00, 246.96it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 243.96it/s]
-100%|██████████| 5124/5124 [00:20&lt;00:00, 250.55it/s]
-100%|██████████| 5124/5124 [00:20&lt;00:00, 252.83it/s]
-100%|██████████| 5124/5124 [00:20&lt;00:00, 250.98it/s]
-100%|██████████| 5124/5124 [00:20&lt;00:00, 250.03it/s]
-100%|██████████| 5124/5124 [00:20&lt;00:00, 249.71it/s]
-100%|██████████| 5124/5124 [00:20&lt;00:00, 252.17it/s]
-100%|██████████| 5124/5124 [00:20&lt;00:00, 245.33it/s]
-100%|██████████| 5124/5124 [00:20&lt;00:00, 252.36it/s]
-100%|██████████| 5124/5124 [00:20&lt;00:00, 247.02it/s]
-100%|██████████| 5124/5124 [00:20&lt;00:00, 251.69it/s]
-100%|██████████| 5124/5124 [00:23&lt;00:00, 215.61it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 234.60it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 243.44it/s]
-100%|██████████| 5124/5124 [00:20&lt;00:00, 245.63it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 240.35it/s]
-100%|██████████| 5124/5124 [00:20&lt;00:00, 247.86it/s]
-100%|██████████| 5124/5124 [00:20&lt;00:00, 246.37it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 243.88it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 243.70it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 243.27it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 238.34it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 239.47it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 238.29it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 242.33it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 235.48it/s]
-100%|██████████| 5124/5124 [00:22&lt;00:00, 228.16it/s]
-100%|██████████| 5124/5124 [00:22&lt;00:00, 225.14it/s]
-100%|██████████| 5124/5124 [00:21&lt;00:00, 233.82it/s]
-100%|██████████| 5124/5124 [00:24&lt;00:00, 206.37it/s]
-100%|██████████| 5124/5124 [00:22&lt;00:00, 227.36it/s]
-100%|██████████| 5124/5124 [00:22&lt;00:00, 224.77it/s]
-100%|██████████| 5124/5124 [00:27&lt;00:00, 185.77it/s]
-100%|██████████| 5124/5124 [00:22&lt;00:00, 226.67it/s]
-100%|██████████| 5124/5124 [00:22&lt;00:00, 231.82it/s]
-100%|██████████| 5124/5124 [00:30&lt;00:00, 165.56it/s]
-100%|██████████| 5124/5124 [00:33&lt;00:00, 154.77it/s]
-100%|██████████| 5124/5124 [00:31&lt;00:00, 163.60it/s]
-100%|██████████| 5124/5124 [00:31&lt;00:00, 165.03it/s]
-100%|██████████| 5124/5124 [00:31&lt;00:00, 162.19it/s]
-100%|██████████| 5124/5124 [00:32&lt;00:00, 159.90it/s]
-100%|██████████| 5124/5124 [00:33&lt;00:00, 154.72it/s]
-100%|██████████| 5124/5124 [00:33&lt;00:00, 151.46it/s]
-100%|██████████| 5124/5124 [00:34&lt;00:00, 148.82it/s]
-100%|██████████| 5124/5124 [00:34&lt;00:00, 148.85it/s]
-100%|██████████| 5124/5124 [00:35&lt;00:00, 142.92it/s]
-100%|██████████| 5124/5124 [00:37&lt;00:00, 137.03it/s]
-100%|██████████| 5124/5124 [00:39&lt;00:00, 128.70it/s]
-100%|██████████| 5124/5124 [00:40&lt;00:00, 127.15it/s]
-100%|██████████| 5124/5124 [00:41&lt;00:00, 123.43it/s]
-100%|██████████| 5124/5124 [00:42&lt;00:00, 120.62it/s]
-100%|██████████| 5124/5124 [00:42&lt;00:00, 120.70it/s]
-100%|██████████| 5124/5124 [00:42&lt;00:00, 119.88it/s]
-100%|██████████| 5124/5124 [00:43&lt;00:00, 117.34it/s]
+iter 1/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 673148.55it/s]
+iter 2/69: 100%|██████████| 5124/5124 [00:01&lt;00:00, 3447.51it/s]
+iter 3/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17790.01it/s]
+iter 4/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13533.68it/s]
+iter 5/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 6630.55it/s]
+iter 6/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13777.58it/s]
+iter 7/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13743.67it/s]
+iter 8/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13652.64it/s]
+iter 9/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16777.56it/s]
+iter 10/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17439.25it/s]
+iter 11/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17217.11it/s]
+iter 12/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17288.15it/s]
+iter 13/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15111.29it/s]
+iter 14/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15579.35it/s]
+iter 15/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16393.45it/s]
+iter 16/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16664.49it/s]
+iter 17/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15762.28it/s]
+iter 18/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14986.45it/s]
+iter 19/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15905.99it/s]
+iter 20/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 12813.01it/s]
+iter 21/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14890.67it/s]
+iter 22/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15474.94it/s]
+iter 23/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13959.68it/s]
+iter 24/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 12913.37it/s]
+iter 25/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13516.01it/s]
+iter 26/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14048.63it/s]
+iter 27/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13181.55it/s]
+iter 28/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 12684.84it/s]
+iter 29/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13859.17it/s]
+iter 30/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 11456.32it/s]
+iter 31/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13169.45it/s]
+iter 32/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13019.41it/s]
+iter 33/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 5513.26it/s]
+iter 34/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 6869.02it/s]
+iter 35/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 8471.36it/s]
+iter 36/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 7948.14it/s]
+iter 37/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 7309.58it/s]
+iter 38/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 8317.20it/s]
+iter 39/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 9949.81it/s]
+iter 40/69: 100%|██████████| 5124/5124 [00:01&lt;00:00, 2762.50it/s]
+iter 41/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 5185.08it/s]
+iter 42/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 8541.85it/s]
+iter 43/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 7091.39it/s]
+iter 44/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 7988.27it/s]
+iter 45/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 7147.67it/s]
+iter 46/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 6498.89it/s]
+iter 47/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 5899.57it/s]
+iter 48/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 6188.39it/s]
+iter 49/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 6344.22it/s]
+iter 50/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 5948.13it/s]
+iter 51/69: 100%|██████████| 5124/5124 [00:04&lt;00:00, 1078.99it/s]
+iter 52/69: 100%|██████████| 5124/5124 [00:04&lt;00:00, 1077.08it/s]
+iter 53/69: 100%|██████████| 5124/5124 [00:04&lt;00:00, 1033.61it/s]
+iter 54/69: 100%|██████████| 5124/5124 [00:05&lt;00:00, 982.79it/s]
+iter 55/69: 100%|██████████| 5124/5124 [00:05&lt;00:00, 938.43it/s]
+iter 56/69: 100%|██████████| 5124/5124 [00:05&lt;00:00, 957.84it/s]
+iter 57/69: 100%|██████████| 5124/5124 [00:05&lt;00:00, 898.29it/s]
+iter 58/69: 100%|██████████| 5124/5124 [00:05&lt;00:00, 879.83it/s]
+iter 59/69: 100%|██████████| 5124/5124 [00:06&lt;00:00, 830.73it/s]
+iter 60/69: 100%|██████████| 5124/5124 [00:06&lt;00:00, 778.66it/s]
+iter 61/69: 100%|██████████| 5124/5124 [00:10&lt;00:00, 494.61it/s]
+iter 62/69: 100%|██████████| 5124/5124 [00:11&lt;00:00, 461.76it/s]
+iter 63/69: 100%|██████████| 5124/5124 [00:07&lt;00:00, 720.94it/s]
+iter 64/69: 100%|██████████| 5124/5124 [00:07&lt;00:00, 649.19it/s]
+iter 65/69: 100%|██████████| 5124/5124 [00:08&lt;00:00, 615.75it/s]
+iter 66/69: 100%|██████████| 5124/5124 [00:08&lt;00:00, 617.40it/s]
+iter 67/69: 100%|██████████| 5124/5124 [00:08&lt;00:00, 638.77it/s]
+iter 68/69: 100%|██████████| 5124/5124 [00:09&lt;00:00, 566.07it/s]
+iter 69/69: 100%|██████████| 5124/5124 [00:08&lt;00:00, 587.54it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -971,7 +981,10 @@ Suggested rank is: 50
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Leadfield indices corresponding to localized sources: [1689, 1291, 1489, 2159, 4405, 5051, 2039, 800, 2020, 3224, 1792, 4998, 821, 1865, 3762, 4165, 2372, 2471, 4817, 495, 1755, 2548, 3334, 1572, 2322, 2008, 4379, 3733, 4426, 2527, 2230, 2362, 4774, 356, 2545, 902, 108, 3720, 211, 481, 64, 2740, 2303, 4641, 148, 170, 1460, 3454, 68, 4850, 1732, 641, 2310, 4678, 764, 669, 1376, 3730, 2856, 4542, 4680, 2932, 3896, 600, 3172, 2564, 2631, 4982, 1342]
+
+[Activity Index Result]
+  Selected indices (index_max): [1689, 1291, 1489, 2159, 4405, 5051, 2039, 800, 2020, 3224, 1792, 4998, 821, 1865, 3762, 4165, 2372, 2471, 4817, 495, 1755, 2548, 3334, 1572, 2322, 2008, 4379, 3733, 4426, 2527, 2230, 2362, 4774, 356, 2545, 902, 108, 3720, 211, 481, 64, 2740, 2303, 4641, 148, 170, 1460, 3454, 68, 4850, 1732, 641, 2310, 4678, 764, 669, 1376, 3730, 2856, 4542, 4680, 2932, 3896, 600, 3172, 2564, 2631, 4982, 1342]
+  Rank parameter (r): 50
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1098,10 +1111,13 @@ Using control points [2.84206626e-09 3.11743662e-09 5.08812233e-09]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;mne.viz._brain._brain.Brain at 0x16c554cd0&gt;
+&lt;mne.viz._brain._brain.Brain at 0x1459b1810&gt;
 </pre></div></div>
 </div>
 </section>
+<section id="References">
+<h2>References<a class="headerlink" href="#References" title="Link to this heading">#</a></h2>
+<span class="target" id="id1"></span></section>
 </section>
 
 
@@ -1115,7 +1131,7 @@ Using control points [2.84206626e-09 3.11743662e-09 5.08812233e-09]
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="preprocessing_data_from_oddball%20paradigm.html"
+       href="preprocessing_data_from_oddball_paradigm.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
@@ -1150,6 +1166,7 @@ Using control points [2.84206626e-09 3.11743662e-09 5.08812233e-09]
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#%22Cognitive%22-task">“Cognitive” task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#References">References</a></li>
 </ul>
   </nav></div>
 

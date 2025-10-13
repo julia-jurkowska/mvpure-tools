@@ -1,7 +1,0 @@
-mvpure_py
-=========
-
-.. toctree::
-   :maxdepth: 4
-
-   mvpure_py

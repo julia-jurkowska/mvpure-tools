@@ -45,7 +45,7 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/preprocessing_data_from_oddball paradigm';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/preprocessing_data_from_oddball_paradigm';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Source localization and signal reconstruction - case study for oddball data" href="source_localization_and_reconstruction_on_data_from_oddball_paradigm.html" />
@@ -284,7 +284,7 @@ div.nboutput:not(:has(div.figure)) {
 </style><p>Author: Krzysztof Tołpa</p>
 <section id="EEG-Preprocessing-for-an-Oddball-Paradigm">
 <h1>EEG Preprocessing for an Oddball Paradigm<a class="headerlink" href="#EEG-Preprocessing-for-an-Oddball-Paradigm" title="Link to this heading">#</a></h1>
-<p>Preprocessing is a critical step in EEG analysis. It involves cleaning the data to remove noise and artifacts — signals that are not of neural origin — which can otherwise contaminate our results. We use <strong>MNE-Python</strong> library accompanied with adapted from <strong>EEGLAB</strong> functions: <code class="docutils literal notranslate"><span class="pre">rejchanspec</span></code> and <code class="docutils literal notranslate"><span class="pre">trimoutlier</span></code>. We also utilize <code class="docutils literal notranslate"><span class="pre">mne-icalabel</span></code> plugin for automatic classification ICA components.</p>
+<p>Preprocessing is a critical step in EEG analysis. It involves cleaning the data to remove noise and artifacts — signals that are not of neural origin — which can otherwise contaminate our results. We use <strong>MNE-Python</strong> library accompanied by adapted from <strong>EEGLAB</strong> functions: <code class="docutils literal notranslate"><span class="pre">rejchanspec</span></code> and <code class="docutils literal notranslate"><span class="pre">trimoutlier</span></code>. We also utilize <strong>mne-icalabel</strong> plugin for automatic classification ICA components.</p>
 <p>Our pipeline covers commonly applied steps:</p>
 <ol class="arabic simple">
 <li><p><strong>Loading Data</strong>: Importing the raw EEG recording.</p></li>
@@ -299,7 +299,7 @@ div.nboutput:not(:has(div.figure)) {
 <section id="1.-Setup:-Importing-Necessary-Libraries">
 <h2>1. Setup: Importing Necessary Libraries<a class="headerlink" href="#1.-Setup:-Importing-Necessary-Libraries" title="Link to this heading">#</a></h2>
 <p>First things first, we need to import all the Python packages we’ll use throughout the analysis.</p>
-<p>Filr with <code class="docutils literal notranslate"><span class="pre">preprocessing_utils</span></code> can be found on <a class="reference external" href="https://github.com/julia-jurkowska/supFunSim-py/blob/dev/tutorials/preprocessing_utils.py">github</a>.</p>
+<p>File with <code class="docutils literal notranslate"><span class="pre">preprocessing_utils</span></code> can be found on <a class="reference external" href="https://github.com/julia-jurkowska/mvpure-tools/blob/main/tutorials/preprocessing_utils.py">github</a>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -329,6 +329,7 @@ div.nboutput:not(:has(div.figure)) {
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subjects_dir</span> <span class="o">=</span> <span class="s1">&#39;data&#39;</span>
 <span class="n">subject</span> <span class="o">=</span> <span class="s1">&#39;sample_subject&#39;</span>
+<span class="n">mne</span><span class="o">.</span><span class="n">set_config</span><span class="p">(</span><span class="s1">&#39;SUBJECTS_DIR&#39;</span><span class="p">,</span> <span class="n">subjects_dir</span><span class="p">)</span>
 
 <span class="n">filepath</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">subjects_dir</span><span class="p">,</span><span class="n">subject</span><span class="p">,</span><span class="s1">&#39;_eeg&#39;</span><span class="p">,</span><span class="s1">&#39;_raw&#39;</span><span class="p">)</span>
 
@@ -343,7 +344,7 @@ div.nboutput:not(:has(div.figure)) {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Extracting parameters from /Volumes/UMK/oddball/subjects/sample_subject/_eeg/_raw/sample_subject_oddball.vhdr...
+Extracting parameters from /Users/julia/Downloads/sample_subject/_eeg/_raw/sample_subject_oddball.vhdr...
 Setting channel info structure...
 Reading 0 ... 1329199  =      0.000 ...  1329.199 secs...
 </pre></div></div>
@@ -552,9 +553,9 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="mne-repr-section-header general-34904d76-662e-49cf-8f9f-b3260669f4b4"
+<tr class="mne-repr-section-header general-db8d4c48-5d07-4c09-bf2a-2d5e1cb22512"
      title="Hide section"
-    onclick="toggleVisibility('general-34904d76-662e-49cf-8f9f-b3260669f4b4')">
+    onclick="toggleVisibility('general-db8d4c48-5d07-4c09-bf2a-2d5e1cb22512')">
     <th class="mne-repr-section-toggle">
         <button >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
@@ -566,7 +567,7 @@ this file apply (plus whatever default styling the IDE applies).
 </tr>
 
 
-<tr class="repr-element general-34904d76-662e-49cf-8f9f-b3260669f4b4 ">
+<tr class="repr-element general-db8d4c48-5d07-4c09-bf2a-2d5e1cb22512 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Filename(s)</td>
     <td>
@@ -577,26 +578,26 @@ this file apply (plus whatever default styling the IDE applies).
     </td>
 </tr>
 
-<tr class="repr-element general-34904d76-662e-49cf-8f9f-b3260669f4b4 ">
+<tr class="repr-element general-db8d4c48-5d07-4c09-bf2a-2d5e1cb22512 ">
     <td class="mne-repr-section-toggle"></td>
     <td>MNE object type</td>
     <td>RawBrainVision</td>
 </tr>
-<tr class="repr-element general-34904d76-662e-49cf-8f9f-b3260669f4b4 ">
+<tr class="repr-element general-db8d4c48-5d07-4c09-bf2a-2d5e1cb22512 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Measurement date</td>
 
     <td>2018-10-31 at 11:19:57 UTC</td>
 
 </tr>
-<tr class="repr-element general-34904d76-662e-49cf-8f9f-b3260669f4b4 ">
+<tr class="repr-element general-db8d4c48-5d07-4c09-bf2a-2d5e1cb22512 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Participant</td>
 
     <td>Unknown</td>
 
 </tr>
-<tr class="repr-element general-34904d76-662e-49cf-8f9f-b3260669f4b4 ">
+<tr class="repr-element general-db8d4c48-5d07-4c09-bf2a-2d5e1cb22512 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Experimenter</td>
 
@@ -611,9 +612,9 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="mne-repr-section-header acquisition-a824e2e4-12f9-4e1f-ada8-156cbfd3ceaa"
+<tr class="mne-repr-section-header acquisition-0bdb7711-2f7f-4745-860e-74b4f720b811"
      title="Hide section"
-    onclick="toggleVisibility('acquisition-a824e2e4-12f9-4e1f-ada8-156cbfd3ceaa')">
+    onclick="toggleVisibility('acquisition-0bdb7711-2f7f-4745-860e-74b4f720b811')">
     <th class="mne-repr-section-toggle">
         <button >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
@@ -625,7 +626,7 @@ this file apply (plus whatever default styling the IDE applies).
 </tr>
 
 
-<tr class="repr-element acquisition-a824e2e4-12f9-4e1f-ada8-156cbfd3ceaa ">
+<tr class="repr-element acquisition-0bdb7711-2f7f-4745-860e-74b4f720b811 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Duration</td>
     <td>00:22:10 (HH:MM:SS)</td>
@@ -638,14 +639,14 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="repr-element acquisition-a824e2e4-12f9-4e1f-ada8-156cbfd3ceaa ">
+<tr class="repr-element acquisition-0bdb7711-2f7f-4745-860e-74b4f720b811 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Sampling frequency</td>
     <td>1000.00 Hz</td>
 </tr>
 
 
-<tr class="repr-element acquisition-a824e2e4-12f9-4e1f-ada8-156cbfd3ceaa ">
+<tr class="repr-element acquisition-0bdb7711-2f7f-4745-860e-74b4f720b811 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Time points</td>
     <td>1,329,200</td>
@@ -660,9 +661,9 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="mne-repr-section-header channels-7940349a-350d-4b7f-b2aa-7888cfe6d408"
+<tr class="mne-repr-section-header channels-d650b848-9495-45e7-b213-d189e10656a7"
      title="Hide section"
-    onclick="toggleVisibility('channels-7940349a-350d-4b7f-b2aa-7888cfe6d408')">
+    onclick="toggleVisibility('channels-d650b848-9495-45e7-b213-d189e10656a7')">
     <th class="mne-repr-section-toggle">
         <button >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
@@ -675,7 +676,7 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="repr-element channels-7940349a-350d-4b7f-b2aa-7888cfe6d408 ">
+<tr class="repr-element channels-d650b848-9495-45e7-b213-d189e10656a7 ">
     <td class="mne-repr-section-toggle"></td>
     <td>EEG</td>
     <td>
@@ -688,7 +689,7 @@ this file apply (plus whatever default styling the IDE applies).
 </tr>
 
 
-<tr class="repr-element channels-7940349a-350d-4b7f-b2aa-7888cfe6d408 ">
+<tr class="repr-element channels-d650b848-9495-45e7-b213-d189e10656a7 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Head & sensor digitization</td>
 
@@ -703,9 +704,9 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="mne-repr-section-header filters-4ab80219-dde2-4250-a9ac-431d535cb311"
+<tr class="mne-repr-section-header filters-f534fafd-9c65-4253-93a5-b1a1aadf5bfb"
      title="Hide section"
-    onclick="toggleVisibility('filters-4ab80219-dde2-4250-a9ac-431d535cb311')">
+    onclick="toggleVisibility('filters-f534fafd-9c65-4253-93a5-b1a1aadf5bfb')">
     <th class="mne-repr-section-toggle">
         <button >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
@@ -717,14 +718,14 @@ this file apply (plus whatever default styling the IDE applies).
 </tr>
 
 
-<tr class="repr-element filters-4ab80219-dde2-4250-a9ac-431d535cb311 ">
+<tr class="repr-element filters-f534fafd-9c65-4253-93a5-b1a1aadf5bfb ">
     <td class="mne-repr-section-toggle"></td>
     <td>Highpass</td>
     <td>0.00 Hz</td>
 </tr>
 
 
-<tr class="repr-element filters-4ab80219-dde2-4250-a9ac-431d535cb311 ">
+<tr class="repr-element filters-f534fafd-9c65-4253-93a5-b1a1aadf5bfb ">
     <td class="mne-repr-section-toggle"></td>
     <td>Lowpass</td>
     <td>280.00 Hz</td>
@@ -734,10 +735,10 @@ this file apply (plus whatever default styling the IDE applies).
 </table></div>
 </div>
 </section>
-</section>
 <section id="4.-Filtering-and-Artifact-Detection">
-<h2>4. Filtering and Artifact Detection<a class="headerlink" href="#4.-Filtering-and-Artifact-Detection" title="Link to this heading">#</a></h2>
+<h3>4. Filtering and Artifact Detection<a class="headerlink" href="#4.-Filtering-and-Artifact-Detection" title="Link to this heading">#</a></h3>
 <p>Now we begin the core cleaning process. The order of operations here is important.</p>
+</section>
 <section id="High-Pass-Filtering">
 <h3>High-Pass Filtering<a class="headerlink" href="#High-Pass-Filtering" title="Link to this heading">#</a></h3>
 <p>We start with a <strong>high-pass filter</strong> to remove slow drifts in the data. These drifts can be caused by sweat, skin potentials, or slow electrode movement. A cutoff of 1 Hz is common for ERP analysis, as it effectively removes these drifts while preserving the faster neural signals of interest.</p>
@@ -750,7 +751,7 @@ this file apply (plus whatever default styling the IDE applies).
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
+<div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
@@ -766,6 +767,17 @@ Designing a one-pass, zero-phase, non-causal highpass filter:
 - Lower passband edge: 1.00
 - Lower transition bandwidth: 1.00 Hz (-6 dB cutoff frequency: 0.50 Hz)
 - Filter length: 3301 samples (3.301 s)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+[Parallel(n_jobs=-1)]: Using backend LokyBackend with 8 concurrent workers.
+[Parallel(n_jobs=-1)]: Done  10 tasks      | elapsed:    5.7s
+[Parallel(n_jobs=-1)]: Done  64 tasks      | elapsed:   11.8s
+[Parallel(n_jobs=-1)]: Done 127 out of 127 | elapsed:   16.9s finished
 </pre></div></div>
 </div>
 </section>
@@ -795,7 +807,7 @@ excluded from subsequent analyses. The function creates <strong>annotations</str
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Removed EEG channels: [&#39;FCC1h&#39;, &#39;Fz&#39;, &#39;FC1&#39;, &#39;FCC2h&#39;, &#39;Cz&#39;, &#39;FFC1h&#39;, &#39;FFC2h&#39;]
+Removed EEG channels: [&#39;FCC2h&#39;, &#39;FCC1h&#39;, &#39;FC1&#39;, &#39;Cz&#39;, &#39;Fz&#39;, &#39;FFC2h&#39;, &#39;FFC1h&#39;]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -836,7 +848,7 @@ trimOutlier done. The masks for clean channels and data points are stored in the
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
+<div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
@@ -852,6 +864,17 @@ Designing a one-pass, zero-phase, non-causal lowpass filter:
 - Upper passband edge: 100.00 Hz
 - Upper transition bandwidth: 25.00 Hz (-6 dB cutoff frequency: 112.50 Hz)
 - Filter length: 133 samples (0.133 s)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+[Parallel(n_jobs=-1)]: Using backend LokyBackend with 8 concurrent workers.
+[Parallel(n_jobs=-1)]: Done  10 tasks      | elapsed:    5.3s
+[Parallel(n_jobs=-1)]: Done  64 tasks      | elapsed:   12.2s
+[Parallel(n_jobs=-1)]: Done 127 out of 127 | elapsed:   18.3s finished
 </pre></div></div>
 </div>
 </section>
@@ -930,13 +953,13 @@ Fitting ICA to data using 121 channels (please be patient, this may take a while
 Omitting 20454 of 1329200 (1.54%) samples, retaining 1308746 (98.46%) samples.
 Selecting by number: 120 components
 Computing Extended Infomax ICA
-Fitting ICA took 1790.4s.
+Fitting ICA took 1826.1s.
 </pre></div></div>
 </div>
 <p>We can visually inspect identified components. The code below first selects the components that were labeled as “eye blink” with high confidence (over 75%). Then, it generates two types of plots for our inspection:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">plot_properties()</span></code>: A detailed summary, including the component’s <strong>scalp topography</strong> (which should be frontal for blinks) and frequency spectrum.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">plot_sources()</span></code>: The component’s <strong>activity over time</strong>, which should show the characteristic sharp peaks of eye blinks.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_properties()</span></code>: A detailed summary, including the component’s <code class="docutils literal notranslate"><span class="pre">scalp</span> <span class="pre">topography</span></code> (which should be frontal for blinks) and frequency spectrum.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_sources()</span></code>: The component’s <code class="docutils literal notranslate"><span class="pre">activity</span> <span class="pre">over</span> <span class="pre">time</span></code>, which should show the characteristic sharp peaks of eye blinks.</p></li>
 </ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
@@ -949,7 +972,7 @@ Fitting ICA took 1790.4s.
 <br/></pre></div>
 </div>
 </div>
-<p>The following code creates a list of component indices to <code class="docutils literal notranslate"><span class="pre">exclude_idx</span></code>. It identifies any component whose label is <em>not</em> <code class="docutils literal notranslate"><span class="pre">&quot;brain&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;other&quot;</span></code> and has a prediction probability greater than ****75%****. Finally, <code class="docutils literal notranslate"><span class="pre">ica.apply()</span></code> removes the activity from these selected components, cleaning the underlying EEG data.</p>
+<p>The following code creates a list of component indices to <code class="docutils literal notranslate"><span class="pre">exclude_idx</span></code>. It identifies any component whose label is <em>not</em> <code class="docutils literal notranslate"><span class="pre">&quot;brain&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;other&quot;</span></code> and has a prediction probability greater than 75%. Finally, <code class="docutils literal notranslate"><span class="pre">ica.apply()</span></code> removes the activity from these selected components, cleaning the underlying EEG data.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
@@ -1130,9 +1153,9 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="mne-repr-section-header general-e21d740f-496e-42d1-8d68-e800d813635e"
+<tr class="mne-repr-section-header general-21befb40-2d22-4ffd-afe2-058dafc3d348"
      title="Hide section"
-    onclick="toggleVisibility('general-e21d740f-496e-42d1-8d68-e800d813635e')">
+    onclick="toggleVisibility('general-21befb40-2d22-4ffd-afe2-058dafc3d348')">
     <th class="mne-repr-section-toggle">
         <button >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
@@ -1144,7 +1167,7 @@ this file apply (plus whatever default styling the IDE applies).
 </tr>
 
 
-<tr class="repr-element general-e21d740f-496e-42d1-8d68-e800d813635e ">
+<tr class="repr-element general-21befb40-2d22-4ffd-afe2-058dafc3d348 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Filename(s)</td>
     <td>
@@ -1155,26 +1178,26 @@ this file apply (plus whatever default styling the IDE applies).
     </td>
 </tr>
 
-<tr class="repr-element general-e21d740f-496e-42d1-8d68-e800d813635e ">
+<tr class="repr-element general-21befb40-2d22-4ffd-afe2-058dafc3d348 ">
     <td class="mne-repr-section-toggle"></td>
     <td>MNE object type</td>
     <td>RawBrainVision</td>
 </tr>
-<tr class="repr-element general-e21d740f-496e-42d1-8d68-e800d813635e ">
+<tr class="repr-element general-21befb40-2d22-4ffd-afe2-058dafc3d348 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Measurement date</td>
 
     <td>2018-10-31 at 11:19:57 UTC</td>
 
 </tr>
-<tr class="repr-element general-e21d740f-496e-42d1-8d68-e800d813635e ">
+<tr class="repr-element general-21befb40-2d22-4ffd-afe2-058dafc3d348 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Participant</td>
 
     <td>Unknown</td>
 
 </tr>
-<tr class="repr-element general-e21d740f-496e-42d1-8d68-e800d813635e ">
+<tr class="repr-element general-21befb40-2d22-4ffd-afe2-058dafc3d348 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Experimenter</td>
 
@@ -1189,9 +1212,9 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="mne-repr-section-header acquisition-d0e040f2-153d-4bc0-8297-1b05a1f042d3"
+<tr class="mne-repr-section-header acquisition-d9d8505b-b517-491b-8b57-2e2d1ee2a22a"
      title="Hide section"
-    onclick="toggleVisibility('acquisition-d0e040f2-153d-4bc0-8297-1b05a1f042d3')">
+    onclick="toggleVisibility('acquisition-d9d8505b-b517-491b-8b57-2e2d1ee2a22a')">
     <th class="mne-repr-section-toggle">
         <button >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
@@ -1203,7 +1226,7 @@ this file apply (plus whatever default styling the IDE applies).
 </tr>
 
 
-<tr class="repr-element acquisition-d0e040f2-153d-4bc0-8297-1b05a1f042d3 ">
+<tr class="repr-element acquisition-d9d8505b-b517-491b-8b57-2e2d1ee2a22a ">
     <td class="mne-repr-section-toggle"></td>
     <td>Duration</td>
     <td>00:22:10 (HH:MM:SS)</td>
@@ -1216,14 +1239,14 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="repr-element acquisition-d0e040f2-153d-4bc0-8297-1b05a1f042d3 ">
+<tr class="repr-element acquisition-d9d8505b-b517-491b-8b57-2e2d1ee2a22a ">
     <td class="mne-repr-section-toggle"></td>
     <td>Sampling frequency</td>
     <td>1000.00 Hz</td>
 </tr>
 
 
-<tr class="repr-element acquisition-d0e040f2-153d-4bc0-8297-1b05a1f042d3 ">
+<tr class="repr-element acquisition-d9d8505b-b517-491b-8b57-2e2d1ee2a22a ">
     <td class="mne-repr-section-toggle"></td>
     <td>Time points</td>
     <td>1,329,200</td>
@@ -1238,9 +1261,9 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="mne-repr-section-header channels-49458bed-1315-4d3f-b3d3-6d84ac4004eb"
+<tr class="mne-repr-section-header channels-a012027b-f88e-4345-80c6-7834f212b09c"
      title="Hide section"
-    onclick="toggleVisibility('channels-49458bed-1315-4d3f-b3d3-6d84ac4004eb')">
+    onclick="toggleVisibility('channels-a012027b-f88e-4345-80c6-7834f212b09c')">
     <th class="mne-repr-section-toggle">
         <button >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
@@ -1253,7 +1276,7 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="repr-element channels-49458bed-1315-4d3f-b3d3-6d84ac4004eb ">
+<tr class="repr-element channels-a012027b-f88e-4345-80c6-7834f212b09c ">
     <td class="mne-repr-section-toggle"></td>
     <td>EEG</td>
     <td>
@@ -1271,7 +1294,7 @@ this file apply (plus whatever default styling the IDE applies).
 </tr>
 
 
-<tr class="repr-element channels-49458bed-1315-4d3f-b3d3-6d84ac4004eb ">
+<tr class="repr-element channels-a012027b-f88e-4345-80c6-7834f212b09c ">
     <td class="mne-repr-section-toggle"></td>
     <td>Head & sensor digitization</td>
 
@@ -1286,9 +1309,9 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="mne-repr-section-header filters-ce669b8a-807a-4112-8202-d980ba1c6e1f"
+<tr class="mne-repr-section-header filters-21be1c52-e330-4b99-ba35-0fa2e5f5e9f1"
      title="Hide section"
-    onclick="toggleVisibility('filters-ce669b8a-807a-4112-8202-d980ba1c6e1f')">
+    onclick="toggleVisibility('filters-21be1c52-e330-4b99-ba35-0fa2e5f5e9f1')">
     <th class="mne-repr-section-toggle">
         <button >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
@@ -1300,14 +1323,14 @@ this file apply (plus whatever default styling the IDE applies).
 </tr>
 
 
-<tr class="repr-element filters-ce669b8a-807a-4112-8202-d980ba1c6e1f ">
+<tr class="repr-element filters-21be1c52-e330-4b99-ba35-0fa2e5f5e9f1 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Highpass</td>
     <td>1.00 Hz</td>
 </tr>
 
 
-<tr class="repr-element filters-ce669b8a-807a-4112-8202-d980ba1c6e1f ">
+<tr class="repr-element filters-21be1c52-e330-4b99-ba35-0fa2e5f5e9f1 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Lowpass</td>
     <td>100.00 Hz</td>
@@ -1332,7 +1355,7 @@ this file apply (plus whatever default styling the IDE applies).
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
+<div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
@@ -1348,6 +1371,17 @@ Designing a one-pass, zero-phase, non-causal lowpass filter:
 - Upper passband edge: 40.00 Hz
 - Upper transition bandwidth: 10.00 Hz (-6 dB cutoff frequency: 45.00 Hz)
 - Filter length: 331 samples (0.331 s)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+[Parallel(n_jobs=-1)]: Using backend LokyBackend with 8 concurrent workers.
+[Parallel(n_jobs=-1)]: Done  10 tasks      | elapsed:    4.9s
+[Parallel(n_jobs=-1)]: Done  64 tasks      | elapsed:   10.1s
+[Parallel(n_jobs=-1)]: Done 128 out of 128 | elapsed:   14.0s finished
 </pre></div></div>
 </div>
 </section>
@@ -1451,7 +1485,7 @@ trimOutlier done. The masks for clean channels and data points are stored in the
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save the raw object data</span>
 <span class="n">filepath_save</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">subjects_dir</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span><span class="s1">&#39;_eeg&#39;</span><span class="p">,</span><span class="s1">&#39;_pre&#39;</span><span class="p">)</span>
-<span class="c1">#raw.save(join(filepath_save, filename.replace(&#39;.vhdr&#39;, &#39;_preprocessed_raw.fif&#39;)), overwrite=True)</span>
+<span class="n">raw</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">filepath_save</span><span class="p">,</span> <span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.vhdr&#39;</span><span class="p">,</span> <span class="s1">&#39;_preprocessed_raw.fif&#39;</span><span class="p">)),</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1496,13 +1530,22 @@ Using data from preloaded Raw for 660 events and 257 original time points ...
 39 bad epochs dropped
 </pre></div></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">epoched</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">filepath_save</span><span class="p">,</span> <span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.vhdr&#39;</span><span class="p">,</span> <span class="s1">&#39;_epo.fif&#39;</span><span class="p">)),</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">epoched</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">filepath_save</span><span class="p">,</span> <span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.vhdr&#39;</span><span class="p">,</span> <span class="s1">&#39;-epo.fif&#39;</span><span class="p">)),</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[PosixPath(&#39;/Users/julia/Downloads/sample_subject/_eeg/_pre/sample_subject_oddball-epo.fif&#39;)]
+</pre></div></div>
 </div>
 </section>
 </section>
@@ -1561,9 +1604,7 @@ Using data from preloaded Raw for 660 events and 257 original time points ...
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#3.-Channel-Management">3. Channel Management</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Setting-the-Montage-(Electrode-Locations)">Setting the Montage (Electrode Locations)</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#4.-Filtering-and-Artifact-Detection">4. Filtering and Artifact Detection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#4.-Filtering-and-Artifact-Detection">4. Filtering and Artifact Detection</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#High-Pass-Filtering">High-Pass Filtering</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Automated-Bad-Channel-and-Segment-Detection">Automated Bad Channel and Segment Detection</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Low-Pass-Filtering-(for-ICA)">Low-Pass Filtering (for ICA)</a></li>
@@ -1585,7 +1626,7 @@ Using data from preloaded Raw for 660 events and 257 original time points ...
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/tutorials/preprocessing_data_from_oddball paradigm.ipynb.txt"
+      <li><a href="../_sources/tutorials/preprocessing_data_from_oddball_paradigm.ipynb.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>
