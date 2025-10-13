@@ -60,7 +60,7 @@ matplotlib-inline==0.1.7
 mdurl==0.1.2
 meshio==5.3.5
 mistune==3.1.4
-mne @ https://github.com/mne-tools/mne-python/archive/refs/heads/main.zip#sha256=bb9a85e3adcf354e02e251c2406a36db71ded61ad14a7cf597931124576f21f9
+mne==1.10.0
 mne-qt-browser==0.7.2
 more-itertools==10.8.0
 msgpack==1.1.2
