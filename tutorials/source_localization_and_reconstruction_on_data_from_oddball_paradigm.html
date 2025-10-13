@@ -462,7 +462,7 @@ Number of samples used : 3042
 </div>
 <section id="RN^{-1}-eigenvalues-analysis">
 <h3><span class="math notranslate nohighlight">\(RN^{-1}\)</span> eigenvalues analysis<a class="headerlink" href="#RN^{-1}-eigenvalues-analysis" title="Link to this heading">#</a></h3>
-<p>Before attempting source localization, we need to decide <strong>how many sources</strong> to model and with what <strong>rank</strong>. Our proposition is to analyze the eigenvalues of the product of data covariance matrix <span class="math notranslate nohighlight">\(R\)</span> and the inverse of the noise covariance matrix <span class="math notranslate nohighlight">\(N\)</span>. For a detailed theoretical background, see <a class="reference external" href="https://www.biorxiv.org/content/10.1101/2025.09.15.676243v1">paper</a> :cite:<code class="docutils literal notranslate"><span class="pre">jurkowska2025multi</span></code>.</p>
+<p>Before attempting source localization, we need to decide <strong>how many sources</strong> to model and with what <strong>rank</strong>. Our proposition is to analyze the eigenvalues of the product of data covariance matrix <span class="math notranslate nohighlight">\(R\)</span> and the inverse of the noise covariance matrix <span class="math notranslate nohighlight">\(N\)</span>. For a detailed theoretical background, see <a class="reference external" href="https://www.biorxiv.org/content/10.1101/2025.09.15.676243v1">paper</a>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -500,7 +500,7 @@ Suggested rank is: 42
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">subject</span></code>: the subject ID (here: <code class="docutils literal notranslate"><span class="pre">&quot;sample_subject&quot;</span></code>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">subjects_dir</span></code>: directory containing the subject folders.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">localizer_to_use</span></code>: the algorithm variant. Here we choose <code class="docutils literal notranslate"><span class="pre">&quot;mpz_mvp&quot;</span></code> because it provides the highest spacial resolution. Other possible options include: <code class="docutils literal notranslate"><span class="pre">&quot;mai&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;mpz&quot;</span></code>, and <code class="docutils literal notranslate"><span class="pre">&quot;mai_mvp&quot;</span></code>. For details, see [1]_ or the function documentation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">localizer_to_use</span></code>: the algorithm variant. Here we choose <code class="docutils literal notranslate"><span class="pre">&quot;mpz_mvp&quot;</span></code> because it provides the highest spacial resolution. Other possible options include: <code class="docutils literal notranslate"><span class="pre">&quot;mai&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;mpz&quot;</span></code>, and <code class="docutils literal notranslate"><span class="pre">&quot;mai_mvp&quot;</span></code>. For details, see <a class="reference external" href="https://www.biorxiv.org/content/10.1101/2025.09.15.676243v1">paper</a> or the function documentation.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">n_sources_to_localize</span></code>: number of sources to localize. We will use the suggested number of sources from <span class="math notranslate nohighlight">\(RN^{-1}\)</span> analysis.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">R</span></code>: data covariance matrix</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">N</span></code>: noise covariance matrix</p></li>
@@ -676,9 +676,10 @@ iter 62/62: 100%|██████████| 5124/5124 [00:06&lt;00:00, 814.
 <p>This function works similarly to <code class="docutils literal notranslate"><span class="pre">mne.beamformer.make_lcmv</span></code>, but with additional parameters specific to MVPURE.</p>
 <p>We provide these in a dictionary called <code class="docutils literal notranslate"><span class="pre">mvpure_params</span></code>:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">filter_type</span></code>: type of the beamformer to use. Options are: <code class="docutils literal notranslate"><span class="pre">MVP_R</span></code> and <code class="docutils literal notranslate"><span class="pre">MVP_N</span></code>. In this case, we will use <code class="docutils literal notranslate"><span class="pre">MVP_R</span></code> as it is generalization of commonly used LCMV filter. -<code class="docutils literal notranslate"><span class="pre">filter_rank</span></code>: optimization rank parameter. For best performance, we use the same rank as in the localization step.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filter_type</span></code>: type of the beamformer to use. Options are: <code class="docutils literal notranslate"><span class="pre">MVP_R</span></code> and <code class="docutils literal notranslate"><span class="pre">MVP_N</span></code>. In this case, we will use <code class="docutils literal notranslate"><span class="pre">MVP_R</span></code> as it is generalization of commonly used LCMV filter.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filter_rank</span></code>: optimization rank parameter. For best performance, we use the same rank as in the localization step.</p></li>
 </ul>
-<p>Note: setting <code class="docutils literal notranslate"><span class="pre">filter_rank=&quot;ful&quot;</span></code> reduces the method to a standard LCMV filter. For theoretical details see :cite:<code class="docutils literal notranslate"><span class="pre">jurkowska2025multi</span></code>.</p>
+<p>Note: setting <code class="docutils literal notranslate"><span class="pre">filter_rank=&quot;ful&quot;</span></code> reduces the method to a standard LCMV filter. For theoretical details see <a class="reference external" href="https://www.biorxiv.org/content/10.1101/2025.09.15.676243v1">paper</a>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
@@ -1115,9 +1116,6 @@ Using control points [2.84206626e-09 3.11743662e-09 5.08812233e-09]
 </pre></div></div>
 </div>
 </section>
-<section id="References">
-<h2>References<a class="headerlink" href="#References" title="Link to this heading">#</a></h2>
-<span class="target" id="id1"></span></section>
 </section>
 
 
@@ -1166,7 +1164,6 @@ Using control points [2.84206626e-09 3.11743662e-09 5.08812233e-09]
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#%22Cognitive%22-task">“Cognitive” task</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#References">References</a></li>
 </ul>
   </nav></div>
 

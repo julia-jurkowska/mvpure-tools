@@ -316,7 +316,7 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="mvpure_py.localizer.localizer_utils.suggest_n_sources_and_rank">
 <span class="sig-prename descclassname"><span class="pre">mvpure_py.localizer.localizer_utils.</span></span><span class="sig-name descname"><span class="pre">suggest_n_sources_and_rank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sources_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/mvpure_py/localizer/localizer_utils.html#suggest_n_sources_and_rank"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.localizer.localizer_utils.suggest_n_sources_and_rank" title="Link to this definition">#</a></dt>
-<dd><p>Automatically propose number of sources to localize and rank based on Proposition 3 in <a href="#id4"><span class="problematic" id="id1">[1]_</span></a>.</p>
+<dd><p>Automatically propose number of sources to localize and rank based on Proposition 3 in <a class="footnote-reference brackets" href="#id4" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -327,10 +327,10 @@ Default to True.</p></li>
 <li><p><strong>subject</strong> (<em>str</em>) – Subject name the analysis is performed for. Optional.</p></li>
 <li><p><strong>n_sources_threshold</strong> (<em>float</em>) – Number of eigenvalues of the <span class="math notranslate nohighlight">\(RN^{-1}\)</span> matrix below this threshold corresponds to the suggested
 number of sources to localize.
-Default to 1.0. For more details see Observation 1 in <a href="#id5"><span class="problematic" id="id2">[1]_</span></a>.</p></li>
+Default to 1.0. For more details see Observation 1 in <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p></li>
 <li><p><strong>rank_threshold</strong> (<em>float</em>) – Number of eigenvalues of the <span class="math notranslate nohighlight">\(RN^{-1}\)</span> matrix below this threshold corresponds to the
 suggested rank optimization parameter.
-Default to 1.5. For more details see Proposition 3 in <a href="#id6"><span class="problematic" id="id3">[1]_</span></a>.</p></li>
+Default to 1.5. For more details see Proposition 3 in <a class="footnote-reference brackets" href="#id4" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -539,6 +539,15 @@ Can be None if <code class="docutils literal notranslate"><span class="pre">forw
 </section>
 <section id="module-mvpure_py.localizer">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mvpure_py.localizer" title="Link to this heading">#</a></h2>
+<p class="rubric">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>,<a role="doc-backlink" href="#id3">3</a>)</span>
+<p>Jurkowska, J., Dreszer, J., Lewandowska, M., Tolpa, K., &amp; Piotrowski, T. J. (2025).
+Multi-Source Neural Activity Indices and Spatial Filters for EEG/MEG Inverse Problem: An Extension to MNE-Python. bioRxiv, 2025-09.</p>
+</aside>
+</aside>
 </section>
 </section>
 

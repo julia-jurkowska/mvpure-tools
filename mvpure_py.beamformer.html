@@ -287,7 +287,7 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="mvpure_py.beamformer.filters_utils.make_mvp_n">
 <span class="sig-prename descclassname"><span class="pre">mvpure_py.beamformer.filters_utils.</span></span><span class="sig-name descname"><span class="pre">make_mvp_n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Gk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bf_numer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bf_denom_inv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_orient</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/mvpure_py/beamformer/filters_utils.html#make_mvp_n"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.beamformer.filters_utils.make_mvp_n" title="Link to this definition">#</a></dt>
-<dd><p>Implements MVP_R filter defined in Eq. 44 of <a href="#id5"><span class="problematic" id="id1">[1]_</span></a>.</p>
+<dd><p>Implements MVP_R filter defined in Eq. 44 of <a class="footnote-reference brackets" href="#id5" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
 <div class="line-block">
 <div class="line">It is defined as: <span class="math notranslate nohighlight">\({W}^{(r)}_{MVP_N}=P^{(r)}_{G_0}{W}_{LCMV_N}\)</span>,</div>
 </div>
@@ -314,13 +314,12 @@ in case of using MVPURE should be equal to 1</p></li>
 <dd class="field-odd"><p>ndarray, shape (n_sources, n_channels)</p>
 </dd>
 </dl>
-<p class="rubric">References</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mvpure_py.beamformer.filters_utils.make_mvp_r">
 <span class="sig-prename descclassname"><span class="pre">mvpure_py.beamformer.filters_utils.</span></span><span class="sig-name descname"><span class="pre">make_mvp_r</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Gk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bf_numer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bf_denom_inv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_orient</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/mvpure_py/beamformer/filters_utils.html#make_mvp_r"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.beamformer.filters_utils.make_mvp_r" title="Link to this definition">#</a></dt>
-<dd><p>Implements MVP_R filter defined in Eq. 43 of <a href="#id6"><span class="problematic" id="id2">[1]_</span></a>.</p>
+<dd><p>Implements MVP_R filter defined in Eq. 43 of <a class="footnote-reference brackets" href="#id5" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
 <div class="line-block">
 <div class="line">It is defined as: <span class="math notranslate nohighlight">\({W}^{(r)}_{MVP_R}=P^{(r)}_{S_0}{W}_{LCMV_R}\)</span>,</div>
 </div>
@@ -347,7 +346,6 @@ in case of using MV-PURE should be equal to 1</p></li>
 <dd class="field-odd"><p>ndarray, shape (n_sources, n_channels)</p>
 </dd>
 </dl>
-<p class="rubric">References</p>
 </dd></dl>
 
 </section>
@@ -447,12 +445,12 @@ Based on mne.beamformer.make_lcmv() function with additional parameter <code cla
 MVPURE-specific parameters:
 - ‘filter_type’ (with options MVP_R and MVP_N. If None, MVP_R will be used)
 - ‘filter_rank’ (as integer lower or equal to number of sources or ‘full’; if None ‘full’ will be used)</p>
-<dl class="simple">
-<dt>mvpure_params = {</dt><dd><p>‘filter_type’: str,
-‘filter_rank’: str | int</p>
-</dd>
-</dl>
-<p>}</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mvpure_params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;filter_type&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="s1">&#39;filter_rank&#39;</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -502,7 +500,7 @@ Contains the same set of keys as mne.Beamformer.</p>
 <dd><p>Compute the orthogonal projection matrix onto subspace spanned by eigenvectors corresponding to the
 <code class="docutils literal notranslate"><span class="pre">filter_rank</span></code> number of largest eigenvalues of <span class="math notranslate nohighlight">\(G\)</span>.</p>
 <div class="line-block">
-<div class="line"><span class="math notranslate nohighlight">\(G\)</span> is defined as <span class="math notranslate nohighlight">\({H}^t{N}^{-1}{H}\)</span> (eq. 20 in <a href="#id7"><span class="problematic" id="id3">[1]_</span></a>), where <span class="math notranslate nohighlight">\(H\)</span> is the leadfield matrix</div>
+<div class="line"><span class="math notranslate nohighlight">\(G\)</span> is defined as <span class="math notranslate nohighlight">\({H}^t{N}^{-1}{H}\)</span> (eq. 20 in <a class="footnote-reference brackets" href="#id5" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>), where <span class="math notranslate nohighlight">\(H\)</span> is the leadfield matrix</div>
 </div>
 <p>and <span class="math notranslate nohighlight">\(N\)</span> is the noise covariance matrix.</p>
 <div class="line-block">
@@ -537,7 +535,7 @@ Contains the same set of keys as mne.Beamformer.</p>
 <dd><p>Compute the orthogonal projection matrix onto subspace spanned by eigenvectors corresponding to the
 <code class="docutils literal notranslate"><span class="pre">filter_rank</span></code> number of largest eigenvalues of <span class="math notranslate nohighlight">\(S\)</span>.</p>
 <div class="line-block">
-<div class="line"><span class="math notranslate nohighlight">\(S\)</span> is defined as <span class="math notranslate nohighlight">\({H}^t{R}^{-1}{H}\)</span> (eq. 21 in <a href="#id8"><span class="problematic" id="id4">[1]_</span></a>), where <span class="math notranslate nohighlight">\(H\)</span> is the leadfield matrix</div>
+<div class="line"><span class="math notranslate nohighlight">\(S\)</span> is defined as <span class="math notranslate nohighlight">\({H}^t{R}^{-1}{H}\)</span> (eq. 21 in <a class="footnote-reference brackets" href="#id5" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>), where <span class="math notranslate nohighlight">\(H\)</span> is the leadfield matrix</div>
 </div>
 <p>and <span class="math notranslate nohighlight">\(R\)</span> is the data covariance matrix.</p>
 <div class="line-block">
@@ -569,6 +567,15 @@ Contains the same set of keys as mne.Beamformer.</p>
 </section>
 <section id="module-mvpure_py.beamformer">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mvpure_py.beamformer" title="Link to this heading">#</a></h2>
+<p class="rubric">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id5" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>,<a role="doc-backlink" href="#id3">3</a>,<a role="doc-backlink" href="#id4">4</a>)</span>
+<p>Jurkowska, J., Dreszer, J., Lewandowska, M., Tolpa, K., &amp; Piotrowski, T. J. (2025).
+Multi-Source Neural Activity Indices and Spatial Filters for EEG/MEG Inverse Problem: An Extension to MNE-Python. bioRxiv, 2025-09.</p>
+</aside>
+</aside>
 </section>
 </section>
 

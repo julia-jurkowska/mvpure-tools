@@ -272,7 +272,7 @@
    "source": [
     "#### $RN^{-1}$ eigenvalues analysis\n",
     "Before attempting source localization, we need to decide **how many sources** to model and with what **rank**. Our proposition is to analyze the eigenvalues of the product of data covariance matrix $R$ and the inverse of the noise covariance matrix $N$. \n",
-    "For a detailed theoretical background, see [paper](https://www.biorxiv.org/content/10.1101/2025.09.15.676243v1) :cite:`jurkowska2025multi`."
+    "For a detailed theoretical background, see [paper](https://www.biorxiv.org/content/10.1101/2025.09.15.676243v1)."
    ],
    "metadata": {
     "collapsed": false
@@ -327,7 +327,7 @@
     "The main parameters are: \n",
     "- ``subject``: the subject ID (here: ``\"sample_subject\"``)\n",
     "- ``subjects_dir``: directory containing the subject folders.\n",
-    "- ``localizer_to_use``: the algorithm variant. Here we choose ``\"mpz_mvp\"`` because it provides the highest spacial resolution. Other possible options include: ``\"mai\"``, ``\"mpz\"``, and ``\"mai_mvp\"``. For details, see [1]_ or the function documentation.\n",
+    "- ``localizer_to_use``: the algorithm variant. Here we choose ``\"mpz_mvp\"`` because it provides the highest spacial resolution. Other possible options include: ``\"mai\"``, ``\"mpz\"``, and ``\"mai_mvp\"``. For details, see [paper](https://www.biorxiv.org/content/10.1101/2025.09.15.676243v1) or the function documentation.\n",
     "- ``n_sources_to_localize``: number of sources to localize. We will use the suggested number of sources from $RN^{-1}$ analysis.\n",
     "- ``R``: data covariance matrix\n",
     "- ``N``: noise covariance matrix\n",
@@ -566,10 +566,10 @@
     "\n",
     "We provide these in a dictionary called ``mvpure_params``:\n",
     "- ``filter_type``: type of the beamformer to use. Options are: ``MVP_R`` and ``MVP_N``. In this case, we will use ``MVP_R`` as it is generalization of commonly used LCMV filter.\n",
-    "-``filter_rank``: optimization rank parameter. For best performance, we use the same rank as in the localization step.\n",
+    "- ``filter_rank``: optimization rank parameter. For best performance, we use the same rank as in the localization step.\n",
     "\n",
     "Note: setting ``filter_rank=\"ful\"`` reduces the method to a standard LCMV filter.\n",
-    "For theoretical details see :cite:`jurkowska2025multi`."
+    "For theoretical details see [paper](https://www.biorxiv.org/content/10.1101/2025.09.15.676243v1)."
    ],
    "metadata": {
     "collapsed": false
@@ -1136,27 +1136,6 @@
     }
    },
    "id": "80e9e875ebb67275"
-  },
-  {
-   "cell_type": "markdown",
-   "source": [
-    "### References\n"
-   ],
-   "metadata": {
-    "collapsed": false
-   },
-   "id": "340072fd5f0fd37"
-  },
-  {
-   "cell_type": "markdown",
-   "source": [
-    ".. bibliography::\n",
-    "   :style: unsrt"
-   ],
-   "metadata": {
-    "collapsed": false
-   },
-   "id": "d4bc7f5f6aec494b"
   }
  ],
  "metadata": {
