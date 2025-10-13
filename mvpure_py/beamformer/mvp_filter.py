@@ -61,10 +61,12 @@ def make_filter(
     - 'filter_type' (with options MVP_R and MVP_N. If None, MVP_R will be used)
     - 'filter_rank' (as integer lower or equal to number of sources or 'full'; if None 'full' will be used)
 
-    mvpure_params = {
-        'filter_type': str,
-        'filter_rank': str | int
-    }
+    .. code-block:: python
+
+        mvpure_params = {
+            'filter_type': str,
+            'filter_rank': str | int
+        }
 
     Parameters
     ----------

@@ -1,6 +1,6 @@
 """ Functions used during sources localization. """
 
-# Author: Julia Jurkowska
+# Authors: Julia Jurkowska, Tomasz Piotrowski
 
 import os
 from typing import List, Optional, Tuple

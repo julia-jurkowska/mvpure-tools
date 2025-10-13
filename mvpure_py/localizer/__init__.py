@@ -1,3 +1,9 @@
+"""
+References
+----------
+.. [1] Jurkowska, J., Dreszer, J., Lewandowska, M., Tolpa, K., & Piotrowski, T. J. (2025).
+        Multi-Source Neural Activity Indices and Spatial Filters for EEG/MEG Inverse Problem: An Extension to MNE-Python. bioRxiv, 2025-09.
+"""
 from .mvpure_localizer import (
     localize,
     Localized,

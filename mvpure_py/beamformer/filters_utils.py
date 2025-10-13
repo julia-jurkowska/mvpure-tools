@@ -46,8 +46,6 @@ def make_mvp_r(
     W : ndarray, shape (n_sources, n_channels)
         Beamformer weights for 'MVP_R'.
 
-    References
-    -----------
     """
 
     print("MVP_R computation - in progress...")
@@ -101,9 +99,6 @@ def make_mvp_n(
     -----------
     W : ndarray, shape (n_sources, n_channels)
         Beamformer weights for 'MVP_N'.
-
-    References
-    -----------
     """
 
     print("MVP_N computation - in progress...")
