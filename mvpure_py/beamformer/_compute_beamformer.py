@@ -107,7 +107,7 @@ def _compute_beamformer(
         # bf_denom_noise_inv = _sym_inv_sm(bf_denom_noise, reduce_rank, inversion, sk)
         # bf_denom_noise_inv = np.linalg.pinv(bf_denom_noise)
         c, lower = cho_factor(bf_denom_noise, lower=True, check_finite=True)
-        bf_denom_noise_inv = cho_solve((c, lower), np.eye(bf_denom.shape[0]))
+        bf_denom_noise_inv = cho_solve((c, lower), np.eye(bf_denom_noise.shape[0]))
         
         W = make_mvp_n(Gk, bf_numer_noise, bf_denom_noise_inv, filter_rank=filter_rank,
                        n_orient=n_orient, N=Nm)
