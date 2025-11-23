@@ -23,8 +23,13 @@ from mne.utils import (
 
 
 def _compute_bf_terms(Gk, Cm_inv):
-    bf_numer = np.matmul(Gk.swapaxes(-2, -1).conj(), Cm_inv)
-    bf_denom = np.matmul(bf_numer, Gk)
+    # bf_numer = np.matmul(Gk.swapaxes(-2, -1).conj(), Cm_inv)
+    # bf_denom = np.matmul(bf_numer, Gk)
+
+    Gk=np.squeeze(Gk)
+    bf_numer = np.matmul(Gk, Cm_inv)
+    bf_denom = np.matmul(bf_numer, Gk.T)
+
     return bf_numer, bf_denom
 
 

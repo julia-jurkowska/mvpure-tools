@@ -54,7 +54,7 @@ def make_mvp_r(
     print(f"Filter rank: {frank}")
  
     W_LCMV = np.matmul(bf_denom_inv, bf_numer)
-    W_LCMV = W_LCMV.reshape(W_LCMV.shape[0], W_LCMV.shape[2])
+    # W_LCMV = W_LCMV.reshape(W_LCMV.shape[0], W_LCMV.shape[2])
  
     W = np.matmul(P_L2, W_LCMV)
     W = W.reshape(W.shape[0], n_orient, W.shape[1])
@@ -107,7 +107,7 @@ def make_mvp_n(
     print(f"Filter rank: {frank}")
     
     W_LCMV = np.matmul(bf_denom_inv, bf_numer)
-    W_LCMV = W_LCMV.reshape(W_LCMV.shape[0], W_LCMV.shape[2])
+    # W_LCMV = W_LCMV.reshape(W_LCMV.shape[0], W_LCMV.shape[2])
 
     W = np.matmul(P_L3, W_LCMV)
     W = W.reshape(W.shape[0], n_orient, W.shape[1])

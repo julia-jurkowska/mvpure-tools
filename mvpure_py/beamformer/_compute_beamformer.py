@@ -7,6 +7,8 @@ from copy import deepcopy
 
 import numpy as np
 
+from scipy.linalg import cho_factor, cho_solve
+
 from mne.minimum_norm.inverse import _prepare_forward
 from mne.utils import logger
 
@@ -87,19 +89,26 @@ def _compute_beamformer(
                             whitener)
 
     bf_numer, bf_denom = _compute_bf_terms(Gk, Cm_inv)
-    assert bf_denom.shape == (n_sources,) + (n_orient,) * 2
-    assert bf_numer.shape == (n_sources, n_orient, n_channels)
+    # assert bf_denom.shape == (n_sources,) + (n_orient,) * 2
+    # assert bf_numer.shape == (n_sources, n_orient, n_channels)
     # check MVPURE specific parameters
     filter_type, filter_rank = _prepare_parameters(mvpure_params, n_sources)
     if filter_type == 'MVP_R':
-        bf_denom_inv = _sym_inv_sm(bf_denom, reduce_rank, inversion, sk)
-        assert bf_denom_inv.shape == (n_sources, n_orient, n_orient)
+        # bf_denom_inv = _sym_inv_sm(bf_denom, reduce_rank, inversion, sk)
+        # bf_denom_inv = np.linalg.pinv(bf_denom)
+        c, lower = cho_factor(bf_denom, lower=True, check_finite=True)
+        bf_denom_inv = cho_solve((c, lower), np.eye(bf_denom.shape[0]))
+        # assert bf_denom_inv.shape == (n_sources, n_orient, n_orient)
 
         W = make_mvp_r(Gk, bf_numer, bf_denom_inv, filter_rank=filter_rank,
                        n_orient=n_orient, R=Cm)
     elif filter_type == 'MVP_N':
         bf_numer_noise, bf_denom_noise = _compute_bf_terms(Gk, Nm_inv)
-        bf_denom_noise_inv = _sym_inv_sm(bf_denom_noise, reduce_rank, inversion, sk)
+        # bf_denom_noise_inv = _sym_inv_sm(bf_denom_noise, reduce_rank, inversion, sk)
+        # bf_denom_noise_inv = np.linalg.pinv(bf_denom_noise)
+        c, lower = cho_factor(bf_denom_noise, lower=True, check_finite=True)
+        bf_denom_noise_inv = cho_solve((c, lower), np.eye(bf_denom.shape[0]))
+        
         W = make_mvp_n(Gk, bf_numer_noise, bf_denom_noise_inv, filter_rank=filter_rank,
                        n_orient=n_orient, N=Nm)
     else:
