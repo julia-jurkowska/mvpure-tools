@@ -277,7 +277,7 @@
     "- **Eigenvalues vs. rank**: Helps determine optimal number of sources\n",
     "- **Signal/noise separation**: Drop-off indicates transition between signal and noise eigenvalues\n",
     "\n",
-    "For technical details on eigenvalue-based rank selection, see the [MVPURE paper](https://arxiv.org/pdf/2509.14118)."
+    "For technical details on eigenvalue-based rank selection, see the [MVPURE paper](https://arxiv.org/abs/2509.14118)."
    ],
    "metadata": {
     "collapsed": false
@@ -323,7 +323,7 @@
     "The main parameters are: \n",
     "- ``subject``: the subject ID (here: ``\"sample_subject\"``)\n",
     "- ``subjects_dir``: directory containing the subject folders.\n",
-    "- ``localizer_to_use``: the algorithm variant. Here we choose ``\"mai_mvp\"``. For details, see [paper](https://arxiv.org/pdf/2509.14118) or the function documentation.\n",
+    "- ``localizer_to_use``: the algorithm variant. Here we choose ``\"mai_mvp\"``. For details, see [paper](https://arxiv.org/abs/2509.14118) or the function documentation.\n",
     "- ``n_sources_to_localize``: number of sources to localize.\n",
     "- ``R``: data covariance matrix\n",
     "- ``N``: noise covariance matrix\n",
