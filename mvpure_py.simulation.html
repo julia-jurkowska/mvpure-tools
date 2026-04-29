@@ -1,0 +1,829 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>mvpure_py.simulation &#8212; mvpure_py 2.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=7be6d3a6"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'mvpure_py.simulation';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="EEG Preprocessing for an Oddball Paradigm" href="tutorials/preprocessing_data_from_oddball_paradigm.html" />
+    <link rel="prev" title="mvpure_py.utils" href="mvpure_py.utils.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">mvpure_py</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="mvpure_py.localizer.html">mvpure_py.localizer</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">mvpure_py.simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mvpure_py.utils.html">mvpure_py.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mvpure_py.viz.html">mvpure_py.viz</a></li>
+</ul>
+</div>
+</nav></div>
+        <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">mvpure_py.simulation</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="mvpure-py-simulation">
+<h1>mvpure_py.simulation<a class="headerlink" href="#mvpure-py-simulation" title="Link to this heading">#</a></h1>
+<section id="module-mvpure_py.simulation.simulate">
+<span id="mvpure-py-simulation-simulate"></span><h2>mvpure_py.simulation.simulate<a class="headerlink" href="#module-mvpure_py.simulation.simulate" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.simulation.simulate.add_leadfield_indices_info">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.simulation.simulate.</span></span><span class="sig-name descname"><span class="pre">add_leadfield_indices_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lh_vert_to_lf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rh_vert_to_lf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="_modules/mvpure_py/simulation/simulate.html#add_leadfield_indices_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.simulation.simulate.add_leadfield_indices_info" title="Link to this definition">#</a></dt>
+<dd><p>Add leadfield indices corresponding to selected vertices for each label.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>labels_info</strong> (<em>dict</em>) – Dictionary describing selected vertices for each label.</p></li>
+<li><p><strong>lh_vert_to_lf</strong> (<em>dict</em>) – Mapping from left-hemisphere vertex to leadfield index.</p></li>
+<li><p><strong>rh_vert_to_lf</strong> (<em>dict</em>) – Mapping from right-hemisphere vertex to leadfield index</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>labels_info</strong> – Updated dictionary where each label entry additionally contains
+a <code class="docutils literal notranslate"><span class="pre">'leadfield_indices'</span></code> field listing the leadfield indices
+corresponding to the selected vertices.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.simulation.simulate.add_simulated_epochs_to_stc">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.simulation.simulate.</span></span><span class="sig-name descname"><span class="pre">add_simulated_epochs_to_stc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_epochs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SourceSpaces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_times</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lf_subset_indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sfreq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SourceEstimate</span></span></span><a class="reference internal" href="_modules/mvpure_py/simulation/simulate.html#add_simulated_epochs_to_stc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.simulation.simulate.add_simulated_epochs_to_stc" title="Link to this definition">#</a></dt>
+<dd><p>Convert averaged simulated source activity to an MNE Source Estimate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_epochs</strong> (<em>ndarray</em>) – Simulated source activity with shape (n_epochs, n_sources, n_times)</p></li>
+<li><p><strong>src</strong> (<em>mne.SourceSpaces</em>) – Source space used in the forward model.</p></li>
+<li><p><strong>n_times</strong> (<em>int</em>) – Number of time points.</p></li>
+<li><p><strong>lf_subset_indices</strong> (<em>ndarray</em>) – Leadfield indices corresponding to simulated sources.</p></li>
+<li><p><strong>tmin</strong> (<em>float</em>) – Start time of the data.</p></li>
+<li><p><strong>sfreq</strong> (<em>float</em>) – Sampling frequency</p></li>
+<li><p><strong>subject</strong> (<em>str</em>) – Subject name used by MNE.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>stc_evoked</strong> – Source estimate containing the average simulated activity.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>mne.SourceEstimate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.simulation.simulate.assign_label_to_leadfield_index">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.simulation.simulate.</span></span><span class="sig-name descname"><span class="pre">assign_label_to_leadfield_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lh_vert_to_lf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rh_vert_to_lf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="_modules/mvpure_py/simulation/simulate.html#assign_label_to_leadfield_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.simulation.simulate.assign_label_to_leadfield_index" title="Link to this definition">#</a></dt>
+<dd><p>Create a mapping from leadfield indices to anatomical labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>labels_info</strong> (<em>dict</em>) – Dictionary describing selected vertices for each label.</p></li>
+<li><p><strong>lh_vert_to_lf</strong> (<em>dict</em>) – Mapping from left-hemisphere vertex to leadfield index.</p></li>
+<li><p><strong>rh_vert_to_lf</strong> (<em>dict</em>) – Mapping from right-hemisphere vertex to leadfield index.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>lf_to_label</strong> – Mapping from leadfield index to label name.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.simulation.simulate.erp_waveform">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.simulation.simulate.</span></span><span class="sig-name descname"><span class="pre">erp_waveform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/mvpure_py/simulation/simulate.html#erp_waveform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.simulation.simulate.erp_waveform" title="Link to this definition">#</a></dt>
+<dd><p>Generate a synthetic ERP waveform (P1-N1-P2 complex).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>t</strong> (<em>ndarray</em>) – Time vector in seconds.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>waveform</strong> – ERP waveform evaluated at times <cite>t</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.simulation.simulate.get_random_vertices">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.simulation.simulate.</span></span><span class="sig-name descname"><span class="pre">get_random_vertices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_vertices_per_label_bg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_vertices_per_poststimuli_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poststimuli_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subjects_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SourceSpaces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">find_close</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_distance_cm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="_modules/mvpure_py/simulation/simulate.html#get_random_vertices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.simulation.simulate.get_random_vertices" title="Link to this definition">#</a></dt>
+<dd><p>Randomly select cortical vertices from anatomical labels.</p>
+<p>Vertices are drawn from FreeSurfer annotation labels and
+filtered to include only those present in the current source space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_vertices_per_label_bg</strong> (<em>int</em>) – Number of vertices selected per background label.</p></li>
+<li><p><strong>n_vertices_per_poststimuli_label</strong> (<em>int</em>) – Number of vertices selected per stimulus-active label.</p></li>
+<li><p><strong>all_labels</strong> (<em>List</em>) – Labels used for activity.</p></li>
+<li><p><strong>poststimuli_labels</strong> (<em>List</em>) – Labels generating stimulus-locked activity.</p></li>
+<li><p><strong>subject</strong> (<em>str</em>) – Subject name.</p></li>
+<li><p><strong>subjects_dir</strong> (<em>str</em>) – FreeSurfer SUBJECTS_DIR.</p></li>
+<li><p><strong>src</strong> (<em>mne.SourceSpaces</em>) – Source space used for simulation.</p></li>
+<li><p><strong>find_close</strong> (<em>bool</em>) – If True and <cite>n_vertices_per_poststimuli_label</cite> is at least 2, selected sources are within <cite>max_distance_cm</cite>.</p></li>
+<li><p><strong>max_distance_cm</strong> (<em>float</em>) – Maximum allowed Euclidean distance in centimeters between the first randomly selected vertex
+and all remaining vertices.</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em> | </em><em>None</em>) – Random seed for reproducibility.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>labels_info</strong> – Dictionary containing selected vertices and metadata.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.simulation.simulate.simulate_mvar_for_dipoles">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.simulation.simulate.</span></span><span class="sig-name descname"><span class="pre">simulate_mvar_for_dipoles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_sources</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_std</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coupling_strength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaussian_filter_sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/mvpure_py/simulation/simulate.html#simulate_mvar_for_dipoles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.simulation.simulate.simulate_mvar_for_dipoles" title="Link to this definition">#</a></dt>
+<dd><p>Simulate multivariate autoregresive (MVAR) signals for cortical dipoles.</p>
+<p>A MVAR process is generated with random coeefficients and optional cross-source coupling.
+The resulting time series are smoothed and scaled to a target physical amplitude.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_sources</strong> (<em>int</em>) – Number of simulated sources.</p></li>
+<li><p><strong>n_samples</strong> (<em>int</em>) – Number of time samples.</p></li>
+<li><p><strong>order</strong> (<em>int</em>) – MVAR order</p></li>
+<li><p><strong>target_std</strong> (<em>float</em>) – Target standard deviation of simulated signals.</p></li>
+<li><p><strong>coupling_strength</strong> (<em>float</em>) – Scaling factor for cross-source coupling coefficients.</p></li>
+<li><p><strong>noise_level</strong> (<em>float</em>) – Innovation noise amplitude.</p></li>
+<li><p><strong>gaussian_filter_sigma</strong> (<em>float</em>) – Temporal smoothing applied to each source.</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em> | </em><em>None</em>) – Random seed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>X</strong> – Simulated source activity.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray, shape (n_sources, n_samples)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.simulation.simulate.simulate_sensor_epochs">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.simulation.simulate.</span></span><span class="sig-name descname"><span class="pre">simulate_sensor_epochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_epochs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leadfield</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lf_subset_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SourceSpaces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sfreq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Info</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">EpochsArray</span></span></span><a class="reference internal" href="_modules/mvpure_py/simulation/simulate.html#simulate_sensor_epochs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.simulation.simulate.simulate_sensor_epochs" title="Link to this definition">#</a></dt>
+<dd><p>Project simulated source activity to EEG sensors.</p>
+<p>The function inserts simulated sources into the full cortical source space,
+applied the forward model, and adds sensor noise and slow drift to produce EEG epochs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_epochs</strong> (<em>ndarray</em>) – Source-space activity with shape (n_epochs, n_sources, n_times)</p></li>
+<li><p><strong>leadfield</strong> (<em>ndarray</em>) – Forward model matrix mapping sources to sensors.</p></li>
+<li><p><strong>lf_subset_indices</strong> (<em>ndarray</em>) – Leadfield indices corresponding to the simulated sources.</p></li>
+<li><p><strong>src</strong> (<em>mne.SourceSpaces</em>) – MNE source space used for the forward model.</p></li>
+<li><p><strong>tmin</strong> (<em>float</em>) – Epoch start time in seconds.</p></li>
+<li><p><strong>sfreq</strong> (<em>float</em>) – Sampling frequency.</p></li>
+<li><p><strong>noise_factor</strong> (<em>float</em>) – Scaling factor controlling sensor noise amplitude.</p></li>
+<li><p><strong>info</strong> (<em>mne.Info</em>) – MNE measurement info structure for creating EpochsArray.</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em> | </em><em>None</em>) – Random seed for reproducibility.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>sim_epochs</strong> – Simulated EEG sensor data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>mne.EpochsArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.simulation.simulate.simulate_source_epochs">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.simulation.simulate.</span></span><span class="sig-name descname"><span class="pre">simulate_source_epochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_epochs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lf_subset_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_times</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poststimuli_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poststimuli_lf_subset_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lf_to_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sfreq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">erp_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snr_db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_bg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_std_bg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_std</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coupling_bg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coupling</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_bg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaussian_filter_sigma_bg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaussian_filter_sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dominant_eigvals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mvpure_py/simulation/simulate.html#simulate_source_epochs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.simulation.simulate.simulate_source_epochs" title="Link to this definition">#</a></dt>
+<dd><p>Simulate source-space EEG activity for multiple epochs (<code class="docutils literal notranslate"><span class="pre">n_epochs</span></code>).</p>
+<p>The simulation generates background activity using a multivariate autoregressive (MVAR) process
+and adds post-stimulus activity within a defined time window. Post-stimulus activity is generated
+from a low-rank latent MVAR process and projected onto selected cortical sources.</p>
+<p>Optionally, an ERP waveform (P1-N1-P2) can be added to the active sources with amplitude and latency jitter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_epochs</strong> (<em>int</em>) – Number of epochs to simulate.</p></li>
+<li><p><strong>lf_subset_indices</strong> (<em>array-like</em>) – Leadfield indices corresponding to the simulated sources.</p></li>
+<li><p><strong>n_times</strong> (<em>int</em>) – Number of time samples per epoch.</p></li>
+<li><p><strong>poststimuli_mask</strong> (<em>ndarray</em><em> (</em><em>bool</em><em>)</em>) – Boolean mask indicating the time window where stimulus-locked activity occurs.</p></li>
+<li><p><strong>poststimuli_lf_subset_indices</strong> (<em>array-like</em>) – Leadfield indices of sources that should contain post-stimulus activity.</p></li>
+<li><p><strong>lf_to_label</strong> (<em>dict</em>) – Mapping from leadfield index to anatomical label name.</p></li>
+<li><p><strong>sfreq</strong> (<em>float</em>) – Sampling frequency in Hz.</p></li>
+<li><p><strong>erp_factor</strong> (<em>float</em><em> | </em><em>None</em>) – Scaling factor for ERP waveform amplitude. If None, no ERP is added.</p></li>
+<li><p><strong>snr_db</strong> (<em>float</em>) – Desired signal-to-noise ratio (in dB) between post-stimulus activity and background activity.</p></li>
+<li><p><strong>order_bg</strong> (<em>int</em>) – MVAR order for background activity.</p></li>
+<li><p><strong>order</strong> (<em>int</em>) – MVAR order for post-stimulus activity.</p></li>
+<li><p><strong>target_std_bg</strong> (<em>float</em>) – Target standard deviation of background source activity (Am).</p></li>
+<li><p><strong>target_std</strong> (<em>float</em>) – Target standard deviation of post-stimulus activity (Am).</p></li>
+<li><p><strong>coupling_bg</strong> (<em>float</em>) – Cross-source coupling strength for background MVAR model.</p></li>
+<li><p><strong>coupling</strong> (<em>float</em>) – Cross-source coupling strength for stimulus-driven MVAR model.</p></li>
+<li><p><strong>noise_bg</strong> (<em>float</em>) – Innovation noise amplitude for background activity.</p></li>
+<li><p><strong>noise</strong> (<em>float</em>) – Innovation noise amplitude for stimulus-driven activity.</p></li>
+<li><p><strong>gaussian_filter_sigma_bg</strong> (<em>float</em>) – Temporal smoothing (Gaussian sigma) for background activity.</p></li>
+<li><p><strong>gaussian_filter_sigma</strong> (<em>float</em>) – Temporal smoothing for stimulus activity.</p></li>
+<li><p><strong>n_dominant_eigvals</strong> (<em>int</em>) – Dimensionality of latent sources used to generated correlated stimulus-locked activity.</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em> | </em><em>None</em>) – Random seed for reproducibility.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>X_epochs</strong> – Simulated source-space time series for all epochs.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray, shape (n_epochs, n_sources, n_times)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.simulation.simulate.split_vertices">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.simulation.simulate.</span></span><span class="sig-name descname"><span class="pre">split_vertices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poststimuli_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/mvpure_py/simulation/simulate.html#split_vertices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.simulation.simulate.split_vertices" title="Link to this definition">#</a></dt>
+<dd><p>Separate vertices by hemisphere and by stimulus activity role.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>labels_info</strong> (<em>dict</em>) – Dictionary describing labels and selected vertices.</p></li>
+<li><p><strong>poststimuli_labels</strong> (<em>list</em>) – Labels designated as stimulus-active regions.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>all_vertices</strong> (<em>list</em>) – Vertices from all labels split into left/right hemisphere.</p></li>
+<li><p><strong>post_vertices</strong> (<em>list</em>) – Vertices belonging only to stimulus-active labels.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-mvpure_py.simulation.validate">
+<span id="mvpure-py-simulation-validate"></span><h2>mvpure_py.simulation.validate<a class="headerlink" href="#module-mvpure_py.simulation.validate" title="Link to this heading">#</a></h2>
+<p>Validation of results achieved on synthetic data.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.simulation.validate.compare_with_strongest_sources_lcmv">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.simulation.validate.</span></span><span class="sig-name descname"><span class="pre">compare_with_strongest_sources_lcmv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sources</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_vertices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forward</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Forward</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Covariance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Covariance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pick_ori</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mvpure_py/simulation/validate.html#compare_with_strongest_sources_lcmv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.simulation.validate.compare_with_strongest_sources_lcmv" title="Link to this definition">#</a></dt>
+<dd><p>Identify the strongest sources based on LCMV reconstruction and compare them to ground-truth sources.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signal</strong> – Sensor space data</p></li>
+<li><p><strong>n_sources</strong> (<em>int</em>) – Number of sources to localize.</p></li>
+<li><p><strong>true_vertices</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em>) – Ground-truth vertices in the format <code class="docutils literal notranslate"><span class="pre">[lh_vertices,</span> <span class="pre">rh_vertices]</span></code>.</p></li>
+<li><p><strong>forward</strong> (<em>mne.Forward</em>) – Forward solution used for creating ground-truth data.</p></li>
+<li><p><strong>R</strong> (<em>mne.Covariance</em>) – Data covariance matrix</p></li>
+<li><p><strong>N</strong> (<em>mne.Covariance</em>) – Noise covariance matrix</p></li>
+<li><p><strong>reg</strong> (<em>float</em>) – The regularization for the whitened data covariance. Default to 0.05.</p></li>
+<li><p><strong>pick_ori</strong> – Orientation specification. Default to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.simulation.validate.evaluate_localization_for_each_rank">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.simulation.validate.</span></span><span class="sig-name descname"><span class="pre">evaluate_localization_for_each_rank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subjects_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sources</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Covariance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Covariance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forward</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Forward</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_vertices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">localizer_to_use</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_correct_sources_by_rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_sum_error_by_rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_mean_error_by_rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mvpure_py/simulation/validate.html#evaluate_localization_for_each_rank"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.simulation.validate.evaluate_localization_for_each_rank" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate source localization performance for different rank parameters.</p>
+<p>The function iteratively runs a source localization method for ranks <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">...</span> <span class="pre">n_sources</span></code> and compared the localized
+vertices with ground-truth vertices. For each rank, the number of correctly localized sources and localization error
+metrics are computed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subject</strong> (<em>str</em>) – Subject identifier the analysis is performed for</p></li>
+<li><p><strong>subjects_dir</strong> (<em>str</em>) – Directory where <code class="docutils literal notranslate"><span class="pre">subject</span></code> folder is being stored</p></li>
+<li><p><strong>n_sources</strong> (<em>int</em>) – Number of sources to localize</p></li>
+<li><p><strong>R</strong> (<em>mne.Covariance</em>) – Data covariance matrix</p></li>
+<li><p><strong>N</strong> (<em>mne.Covariance</em>) – Noise covariance matrix</p></li>
+<li><p><strong>forward</strong> (<em>mne.Forward</em>) – Forward solution used for source localization.</p></li>
+<li><p><strong>true_vertices</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em>) – Ground-truth vertices in the format <code class="docutils literal notranslate"><span class="pre">[lh_vertices,</span> <span class="pre">rh_vertices]</span></code>.</p></li>
+<li><p><strong>localizer_to_use</strong> (<em>list</em><em> | </em><em>str</em>) – Type of localizer index to use.
+Options are: ‘mai’, ‘mpz’, ‘mai_mvp’, ‘mpz_mvp’.</p></li>
+<li><p><strong>plot_correct_sources_by_rank</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to plot the number of correctly localized sources per rank.
+Default is True.</p></li>
+<li><p><strong>plot_sum_error_by_rank</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to plot the sum of localization errors per rank.
+Default is False.</p></li>
+<li><p><strong>plot_mean_error_by_rank</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to plot the mean localization error per rank.
+Default is True.</p></li>
+<li><p><strong>show_progress</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to display progress during localization. Default is True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>summary_dict</strong> – Dictionary summarizing results for each rank. Each entry contains:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">localized</span></code> : localization result object</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_correctly_localized</span></code> : int
+Number of correctly identified vertices.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">correctly_localized</span></code> : list[list[int]]
+Intersection between estimated and true vertices.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">error_info</span></code> : dict
+Localization error statistics returned by
+<a class="reference internal" href="#mvpure_py.simulation.validate.localization_error" title="mvpure_py.simulation.validate.localization_error"><code class="xref py py-func docutils literal notranslate"><span class="pre">localization_error()</span></code></a>.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.simulation.validate.evaluate_reconstruction">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.simulation.validate.</span></span><span class="sig-name descname"><span class="pre">evaluate_reconstruction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">summary_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sim_stc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SourceEstimate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fwd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Forward</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Covariance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Covariance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pick_ori</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mvpure_py/simulation/validate.html#evaluate_reconstruction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.simulation.validate.evaluate_reconstruction" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate reconstruction quality using LCMV beamforming.</p>
+<p>For each rank entr in the localization summary, two reconstructions are computed:</p>
+<ul class="simple">
+<li><p>LCMV using the full forward model</p></li>
+<li><p>LCMV using a forward model restricted to the localized sources.</p></li>
+</ul>
+<p>Reconstruction performance is evaluated using the mean squared error (MSE)
+between the simulated source activity and the reconstructed activity for
+the correctly localized vertices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>summary_dict</strong> (<em>dict</em>) – Localization summary returned by
+<a class="reference internal" href="#mvpure_py.simulation.validate.evaluate_localization_for_each_rank" title="mvpure_py.simulation.validate.evaluate_localization_for_each_rank"><code class="xref py py-func docutils literal notranslate"><span class="pre">evaluate_localization_for_each_rank()</span></code></a>.</p></li>
+<li><p><strong>signal</strong> (<em>mne.Epochs</em>) – Sensor-space data used for beamforming.</p></li>
+<li><p><strong>sim_stc</strong> (<em>mne.SourceEstimate</em>) – Simulated ground-truth source time course.</p></li>
+<li><p><strong>fwd</strong> (<em>mne.Forward</em>) – Full forward solution.</p></li>
+<li><p><strong>R</strong> (<em>mne.Covariance</em>) – Data covariance</p></li>
+<li><p><strong>N</strong> (<em>mne.Covariance</em>) – Noise covariance</p></li>
+<li><p><strong>reg</strong> (<em>float</em><em>, </em><em>optional</em>) – Regularization parameter for LCMV. Default is 0.05.</p></li>
+<li><p><strong>pick_ori</strong> (<em>str</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – Orientation selection for beamformer weights.</p></li>
+<li><p><strong>rank</strong> (<em>int</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – Rank used in beamformer computation.</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments passed to <code class="docutils literal notranslate"><span class="pre">mne.beamformer.make_lcmv</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.simulation.validate.get_stc_data_for_vertices">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.simulation.validate.</span></span><span class="sig-name descname"><span class="pre">get_stc_data_for_vertices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SourceEstimate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mvpure_py/simulation/validate.html#get_stc_data_for_vertices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.simulation.validate.get_stc_data_for_vertices" title="Link to this definition">#</a></dt>
+<dd><p>Extract source time courses for specific vertices from a SourceEstimate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stc</strong> (<em>mne.SourceEstimate</em>) – Source estimate containing source time courses.</p></li>
+<li><p><strong>vertices</strong> (<em>[</em><em>list</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em>) – Vertices of interest in the format <code class="docutils literal notranslate"><span class="pre">[lh_vertices,</span> <span class="pre">rh_vertices]</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>data</strong> (<em>ndarray</em>) – Source time courses corresponding to the selected vertices
+with shape <code class="docutils literal notranslate"><span class="pre">(n_vertices,</span> <span class="pre">n_times)</span></code>.</p></li>
+<li><p><strong>indices</strong> (<em>ndarray</em>) – Indices of the selected vertices within <code class="docutils literal notranslate"><span class="pre">stc.data</span></code>.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.simulation.validate.localization_error">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.simulation.validate.</span></span><span class="sig-name descname"><span class="pre">localization_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertices_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">localized_vertices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SourceSpaces</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/mvpure_py/simulation/validate.html#localization_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.simulation.validate.localization_error" title="Link to this definition">#</a></dt>
+<dd><p>Compute localization error between true and estimated source vertices.</p>
+<p>The function converts vertex indices to 3D coordinated using the provided source space and computes pairwise
+Euclidean distances between true and localized sources. The Hungarian algorithm is used to determine the optimal
+one-to-one assignment that minimizes total distance error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vertices_true</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em>) – Ground-truth vertices for each hemisphere in the form <code class="docutils literal notranslate"><span class="pre">[lh_vertices,</span> <span class="pre">rh_vertices]</span></code></p></li>
+<li><p><strong>localized_vertices</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em>) – Localized vertices for each hemisphere in the form <code class="docutils literal notranslate"><span class="pre">[lh_vertices,</span> <span class="pre">rh_vertices]</span></code></p></li>
+<li><p><strong>src</strong> (<em>mne.SourceSpaces</em>) – Source space used to map vertices to 3D coordinates</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>results</strong> – Dictionary containing localization error statistics:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mean_error</span></code> : float
+Mean distance error (mm).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">median_error</span></code> : float
+Median distance error (mm).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sum_error</span></code> : float
+Sum of all matched vertex errors (mm).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_error</span></code> : float
+Maximum error among matched vertices (mm).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">min_error</span></code> : float
+Minimum error among matched vertices (mm).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">errors_per_vertex</span></code> : ndarray
+Distance error for each matched vertex (mm).</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-mvpure_py.simulation">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mvpure_py.simulation" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="mvpure_py.utils.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">mvpure_py.utils</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="tutorials/preprocessing_data_from_oddball_paradigm.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">EEG Preprocessing for an Oddball Paradigm</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mvpure_py.simulation.simulate">mvpure_py.simulation.simulate</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.simulation.simulate.add_leadfield_indices_info"><code class="docutils literal notranslate"><span class="pre">add_leadfield_indices_info()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.simulation.simulate.add_simulated_epochs_to_stc"><code class="docutils literal notranslate"><span class="pre">add_simulated_epochs_to_stc()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.simulation.simulate.assign_label_to_leadfield_index"><code class="docutils literal notranslate"><span class="pre">assign_label_to_leadfield_index()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.simulation.simulate.erp_waveform"><code class="docutils literal notranslate"><span class="pre">erp_waveform()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.simulation.simulate.get_random_vertices"><code class="docutils literal notranslate"><span class="pre">get_random_vertices()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.simulation.simulate.simulate_mvar_for_dipoles"><code class="docutils literal notranslate"><span class="pre">simulate_mvar_for_dipoles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.simulation.simulate.simulate_sensor_epochs"><code class="docutils literal notranslate"><span class="pre">simulate_sensor_epochs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.simulation.simulate.simulate_source_epochs"><code class="docutils literal notranslate"><span class="pre">simulate_source_epochs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.simulation.simulate.split_vertices"><code class="docutils literal notranslate"><span class="pre">split_vertices()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mvpure_py.simulation.validate">mvpure_py.simulation.validate</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.simulation.validate.compare_with_strongest_sources_lcmv"><code class="docutils literal notranslate"><span class="pre">compare_with_strongest_sources_lcmv()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.simulation.validate.evaluate_localization_for_each_rank"><code class="docutils literal notranslate"><span class="pre">evaluate_localization_for_each_rank()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.simulation.validate.evaluate_reconstruction"><code class="docutils literal notranslate"><span class="pre">evaluate_reconstruction()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.simulation.validate.get_stc_data_for_vertices"><code class="docutils literal notranslate"><span class="pre">get_stc_data_for_vertices()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.simulation.validate.localization_error"><code class="docutils literal notranslate"><span class="pre">localization_error()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mvpure_py.simulation">Module contents</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/mvpure_py.simulation.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Julia Jurkowska et al.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

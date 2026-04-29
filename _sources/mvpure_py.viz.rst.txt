@@ -6,21 +6,21 @@ mvpure\_py.viz.group\_viz
 
 .. automodule:: mvpure_py.viz.group_viz
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 mvpure\_py.viz.viz
 -------------------------
 
 .. automodule:: mvpure_py.viz.viz
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: mvpure_py.viz
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

@@ -1,0 +1,26 @@
+mvpure\_py.simulation
+=============================
+
+mvpure\_py.simulation.simulate
+-------------------------------------
+
+.. automodule:: mvpure_py.simulation.simulate
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+mvpure\_py.simulation.validate
+-------------------------------------
+
+.. automodule:: mvpure_py.simulation.validate
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: mvpure_py.simulation
+   :members:
+   :show-inheritance:
+   :undoc-members:

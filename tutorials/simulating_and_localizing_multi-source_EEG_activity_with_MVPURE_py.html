@@ -1,0 +1,1542 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Simulating and Localizing Multi-Source EEG Activity with MVPURE_py &#8212; mvpure_py 2.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=7be6d3a6"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/simulating_and_localizing_multi-source_EEG_activity_with_MVPURE_py';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Source localization and signal reconstruction - case study for oddball data" href="source_localization_and_reconstruction_on_data_from_oddball_paradigm.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">mvpure_py</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"></div>
+</nav></div>
+        <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Simulating and Localizing Multi-Source EEG Activity with MVPURE_py</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <style>
+/* Make all output cells scrollable if they are tall */
+div.nboutput:not(:has(div.figure)) {
+    max-height: 380px;
+    overflow-y: auto;
+    padding: 2px;
+}
+</style><p>Author: Julia Jurkowska</p>
+<section id="Simulating-and-Localizing-Multi-Source-EEG-Activity-with-MVPURE_py">
+<h1>Simulating and Localizing Multi-Source EEG Activity with MVPURE_py<a class="headerlink" href="#Simulating-and-Localizing-Multi-Source-EEG-Activity-with-MVPURE_py" title="Link to this heading">#</a></h1>
+<p>This tutorial walks through a complete pipeline for simulating brain activity from multiple sources and evaluating source localization accuracy using <strong>MVPURE_py</strong> framework.</p>
+<section id="Introduction">
+<h2>Introduction<a class="headerlink" href="#Introduction" title="Link to this heading">#</a></h2>
+<p>This tutorial provides a comprehensive workflow for:</p>
+<ol class="arabic simple">
+<li><p><strong>Simulating realistic multi-source brain activity</strong> using autoregressive models with controlled spatial and temporal characteristics.</p></li>
+<li><p><strong>Forward modeling</strong> to project cortical sources to sensor space through lead field matrices.</p></li>
+<li><p><strong>Data processing</strong> following standard EEG pipelines to prepare signals for inverse modeling.</p></li>
+<li><p><strong>Source localization</strong> using <strong>MVPURE_py</strong> and LCMV-NAI.</p></li>
+<li><p><strong>Quantitative evaluation</strong> of localization accuracy.</p></li>
+</ol>
+<p>Controlled simulations are essential for validating inverse solutions because they provide:</p>
+<ul class="simple">
+<li><p><strong>Ground truth</strong>: we know exactly where and when activity occurs.</p></li>
+<li><p><strong>Parameter control</strong>: we can systematically vary SNR, source configuration and coupling.</p></li>
+</ul>
+<p>This tutorial uses the <strong>MVPURE_py</strong> package, which extends MNE-Python with tools for multivariate source analysis.</p>
+</section>
+<section id="Tutorial-overview">
+<h2>Tutorial overview<a class="headerlink" href="#Tutorial-overview" title="Link to this heading">#</a></h2>
+<p>We will:</p>
+<ul class="simple">
+<li><p>Load anatomical and forward model data for <code class="docutils literal notranslate"><span class="pre">sample_subject</span></code> (downloadable from <a class="reference external" href="https://figshare.com/articles/dataset/Sample_subject_data_/30102451?file=57853861">Figshare</a>)</p></li>
+<li><p>Define regions of interest (ROIs) using Desikan-Killiany parcellation</p></li>
+<li><p>Generate synthetic source time courses with configurable temporal dynamics</p></li>
+<li><p>Project cortical activity to EEG sensor space via the forward solution</p></li>
+<li><p>Add controlled sensor noise and apply standard preprocessing</p></li>
+<li><p>Localize and reconstruct sources using <strong>MVPURE_py</strong> and LCMV beamforming</p></li>
+<li><p>Quantify localization error</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">mne</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="n">mne</span><span class="o">.</span><span class="n">viz</span><span class="o">.</span><span class="n">set_3d_backend</span><span class="p">(</span><span class="s1">&#39;pyvistaqt&#39;</span><span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">mvpure_py</span><span class="w"> </span><span class="kn">import</span> <span class="n">viz</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">simulation</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Using pyvistaqt 3d backend.
+</pre></div></div>
+</div>
+<section id="Simulation-Configuration">
+<h3>Simulation Configuration<a class="headerlink" href="#Simulation-Configuration" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="Anatomical-labeling-and-source-selection">
+<h2>Anatomical labeling and source selection<a class="headerlink" href="#Anatomical-labeling-and-source-selection" title="Link to this heading">#</a></h2>
+<p>We define simulation parameters that control both the spatial distribution and temporal characteristics of simulated brain activity. The workflow distinguishes between two types of sources:</p>
+<ol class="arabic simple">
+<li><p><strong>Task-related activity</strong> (post-stimulus): Simulated cortical responses following stimulus onset</p></li>
+<li><p><strong>Background activity</strong>: Ongoing oscillatory and coupled activity present throughout the recording</p></li>
+</ol>
+<p>Source locations are specified using the Desikan-Killiany <code class="docutils literal notranslate"><span class="pre">aparc</span></code> parcellation atlas.</p>
+</section>
+<section id="Temporal-dynamics-parameters">
+<h2>Temporal dynamics parameters<a class="headerlink" href="#Temporal-dynamics-parameters" title="Link to this heading">#</a></h2>
+<p>The simulation uses Multivariate AutoRegressive (MVAR) models to generate temporally structured source activity. Key parameters include:</p>
+<ul class="simple">
+<li><p><strong>MVAR order</strong> (<code class="docutils literal notranslate"><span class="pre">ORDER</span></code>, <code class="docutils literal notranslate"><span class="pre">ORDER_BG</span></code>): Determines temporal memory of the autoregressive process. Higher orders capture longer-range temporal dependencies but increase model complexity.</p></li>
+<li><p><strong>Coupling strength</strong> (<code class="docutils literal notranslate"><span class="pre">COUPLING</span></code>, <code class="docutils literal notranslate"><span class="pre">COUPLING_BG</span></code>): Controls cross-source interactions in the MVAR model. Values near 0 produce independent sources; values near 1 create strong interdependencies. Physiologically, this reflects effective connectivity between regions.</p></li>
+<li><p><strong>Innovation noise</strong> (<code class="docutils literal notranslate"><span class="pre">NOISE</span></code>, <code class="docutils literal notranslate"><span class="pre">NOISE_BG</span></code>): Amplitude of the white noise innovations driving the MVAR process. This controls the stochasticity vs. deterministic structure in the generated signals.</p></li>
+<li><p><strong>Temporal smoothing</strong> (<code class="docutils literal notranslate"><span class="pre">GAUSSIAN_FILTER_SIGMA</span></code>, <code class="docutils literal notranslate"><span class="pre">GAUSSIAN_FILTER_SIGMA_BG</span></code>): Standard deviation of Gaussian kernel applied to smooth generated time courses. This removes high-frequency artifacts and produces more physiologically realistic signals.</p></li>
+</ul>
+</section>
+<section id="Signal-amplitude-and-SNR-control">
+<h2>Signal amplitude and SNR control<a class="headerlink" href="#Signal-amplitude-and-SNR-control" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Target standard deviation</strong> (<code class="docutils literal notranslate"><span class="pre">TARGET_STD</span></code>, <code class="docutils literal notranslate"><span class="pre">TARGET_STD_BG</span></code>): Sets the amplitude of source activity in Ampere-meters (Am).</p></li>
+<li><p><strong>ERP scaling factor</strong> (<code class="docutils literal notranslate"><span class="pre">ERP_FACTOR</span></code>): Amplitude multiplier for event-related potential (ERP) components. This controls the strength of phase-locked, stimulus-evoked responses relative to ongoing activity.</p></li>
+<li><p><strong>SNR</strong> (<code class="docutils literal notranslate"><span class="pre">SNR_DB</span></code>): Signal-to-noise ratio in decibels on source level.</p></li>
+<li><p><strong>Sensor noise factor</strong> (<code class="docutils literal notranslate"><span class="pre">NOISE_FACTOR_SENSORS</span></code>): Additional amplitude scaling for sensor-level noise, allowing independent control of source-level and measurement noise.</p></li>
+</ul>
+</section>
+<section id="Dataset-size">
+<h2>Dataset size<a class="headerlink" href="#Dataset-size" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Number of epochs</strong> (<code class="docutils literal notranslate"><span class="pre">N_EPOCHS</span></code>): Determines statistical power for covariance estimation. More epochs provide more stable covariance estimates, improving beamformer performance.</p></li>
+<li><p><strong>Vertices per region</strong> (<code class="docutils literal notranslate"><span class="pre">N_VERTICES_PER_ACTIVITY_LABEL</span></code>, <code class="docutils literal notranslate"><span class="pre">N_VERTICES_PER_BG_LABEL</span></code>): Controls spatial extent of activity within each ROI.</p></li>
+</ul>
+<p>These parameters collectively define a realistic but controlled simulation environment. For methodological studies, parameters can be systematically varied to characterize performance across different scenarios.</p>
+<p>For more details see <a class="reference external" href="https://arxiv.org/pdf/2509.14118">paper</a>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels_to_use</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;cuneus-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cuneus-rh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lateraloccipital-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lateraloccipital-rh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;inferiorparietal-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;inferiorparietal-rh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;superiorparietal-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;superiorparietal-rh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;superiortemporal-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;superiortemporal-rh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;supramarginal-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;supramarginal-rh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;superiorfrontal-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;superiorfrontal-rh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;insula-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;insula-rh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;caudalanteriorcingulate-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;caudalanteriorcingulate-rh&quot;</span>
+<span class="p">]</span>
+
+<span class="n">labels_to_use_poststimuli</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;cuneus-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cuneus-rh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lateraloccipital-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lateraloccipital-rh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;inferiorparietal-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;inferiorparietal-rh&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N_VERTICES_PER_BG_LABEL</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">N_VERTICES_PER_ACTIVITY_LABEL</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">N_EPOCHS</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">SNR_DB</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">ERP_FACTOR</span> <span class="o">=</span> <span class="mf">15e-9</span>
+<span class="n">ORDER_BG</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="n">ORDER</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">TARGET_STD_BG</span> <span class="o">=</span> <span class="mf">15e-9</span>
+<span class="n">TARGET_STD</span> <span class="o">=</span> <span class="mf">15e-9</span>
+<span class="n">COUPLING_BG</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">COUPLING</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="n">NOISE_BG</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">NOISE</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">GAUSSIAN_FILTER_SIGMA_BG</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">GAUSSIAN_FILTER_SIGMA</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">N_DOMINANT_EIGVALS</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">NOISE_FACTOR_SENSORS</span> <span class="o">=</span> <span class="mf">0.3</span>
+</pre></div>
+</div>
+</div>
+<section id="Loading-real-data-for-sample-subject">
+<h3>Loading real data for sample subject<a class="headerlink" href="#Loading-real-data-for-sample-subject" title="Link to this heading">#</a></h3>
+<p>We load:</p>
+<ul class="simple">
+<li><p><strong>Epoched EEG data</strong>: Used here only to extract metadata (sampling rate, time windows, channel names)</p></li>
+<li><p><strong>Forward solution</strong>: Contains the lead field matrix and source space geometry</p></li>
+</ul>
+<p>The forward solution has already been converted to <strong>fixed orientation</strong> (surface-normal constraint), which reduces degrees of freedom from 3 to 1 per source location.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reading real data for sample subject</span>
+<span class="n">subject</span> <span class="o">=</span> <span class="s2">&quot;sample_subject&quot;</span>
+<span class="n">subjects_dir</span> <span class="o">=</span> <span class="s2">&quot;subjects&quot;</span>
+<span class="n">mne</span><span class="o">.</span><span class="n">set_config</span><span class="p">(</span><span class="s1">&#39;SUBJECTS_DIR&#39;</span><span class="p">,</span> <span class="n">subjects_dir</span><span class="p">)</span>
+
+<span class="n">epoched</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">read_epochs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subjects_dir</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="s2">&quot;_eeg&quot;</span><span class="p">,</span> <span class="s2">&quot;_pre&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subject</span><span class="si">}</span><span class="s2">_oddball-epo.fif&quot;</span><span class="p">))</span>
+
+<span class="c1"># Read forward</span>
+<span class="n">forward_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subjects_dir</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="s2">&quot;forward&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subject</span><span class="si">}</span><span class="s2">_ico4-fwd.fif&quot;</span><span class="p">)</span>
+<span class="n">fwd_vector</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">read_forward_solution</span><span class="p">(</span><span class="n">forward_path</span><span class="p">)</span>
+<span class="n">fwd</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">convert_forward_solution</span><span class="p">(</span>
+    <span class="n">fwd_vector</span><span class="p">,</span>
+    <span class="n">surf_ori</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">force_fixed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">use_cps</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Leadfield matrix</span>
+<span class="n">leadfield</span> <span class="o">=</span> <span class="n">fwd</span><span class="p">[</span><span class="s2">&quot;sol&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+<span class="c1"># Source positions extracted from forward model</span>
+<span class="n">src</span> <span class="o">=</span> <span class="n">fwd</span><span class="p">[</span><span class="s2">&quot;src&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Reading /Volumes/UMK/oddball/subjects/sample_subject/_eeg/_pre/sample_subject_oddball-epo.fif ...
+    Found the data of interest:
+        t =    -199.22 ...     800.78 ms
+        0 CTF compensation matrices available
+Not setting metadata
+621 matching events found
+No baseline correction applied
+0 projection items activated
+Reading forward solution from /Volumes/UMK/oddball/subjects/sample_subject/forward/sample_subject_ico4-fwd.fif...
+    Reading a source space...
+    [done]
+    Reading a source space...
+    [done]
+    2 source spaces read
+    Desired named matrix (kind = 3523 (FIFF_MNE_FORWARD_SOLUTION_GRAD)) not available
+    Read EEG forward solution (5124 sources, 128 channels, free orientations)
+    Source spaces transformed to the forward solution coordinate frame
+    No patch info available. The standard source space normals will be employed in the rotation to the local surface coordinates....
+    Changing to fixed-orientation forward solution with surface-based source orientations...
+    [done]
+</pre></div></div>
+</div>
+<p>We extract key timing parameters:</p>
+<ul class="simple">
+<li><p>sampling frequency (<code class="docutils literal notranslate"><span class="pre">sfreq</span></code>)</p></li>
+<li><p>time window (<code class="docutils literal notranslate"><span class="pre">tmin</span></code> to <code class="docutils literal notranslate"><span class="pre">tmax</span></code>)</p></li>
+<li><p>time vector (<code class="docutils literal notranslate"><span class="pre">times</span></code>) with its mask corresponding to sensory processing activity during oddball paradigm (<code class="docutils literal notranslate"><span class="pre">post_mask</span></code>)</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sfreq</span> <span class="o">=</span> <span class="n">epoched</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;sfreq&#39;</span><span class="p">]</span>
+<span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span> <span class="o">=</span> <span class="n">epoched</span><span class="o">.</span><span class="n">tmin</span><span class="p">,</span> <span class="mf">0.25</span>
+<span class="n">tmin_sensory</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">tmax_sensory</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">sfreq</span><span class="p">)</span>
+<span class="n">n_times</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+
+<span class="n">post_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">times</span> <span class="o">&gt;=</span> <span class="n">tmin_sensory</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">times</span> <span class="o">&lt;=</span> <span class="n">tmax_sensory</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Generating-source-locations">
+<h3>Generating source locations<a class="headerlink" href="#Generating-source-locations" title="Link to this heading">#</a></h3>
+<p>Rather than activating entire anatomical regions uniformly, we randomly select individual vertices within each label. For this simulation:</p>
+<ul class="simple">
+<li><p><strong>Background sources</strong>: Selected from the full <code class="docutils literal notranslate"><span class="pre">labels_to_use</span></code> set (18 bilateral regions)</p></li>
+<li><p><strong>Task-related sources</strong>: Selected from <code class="docutils literal notranslate"><span class="pre">labels_to_use_poststimuli</span></code> (6 posterior regions)</p></li>
+</ul>
+<p>This configuration mimics an oddball paradigm where visual stimuli engage posterior sensory areas while a broader network maintains sustained attention.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels_info</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">get_random_vertices</span><span class="p">(</span>
+    <span class="n">n_vertices_per_label_bg</span><span class="o">=</span><span class="n">N_VERTICES_PER_BG_LABEL</span><span class="p">,</span>
+    <span class="n">n_vertices_per_poststimuli_label</span><span class="o">=</span><span class="n">N_VERTICES_PER_ACTIVITY_LABEL</span><span class="p">,</span>
+    <span class="n">all_labels</span><span class="o">=</span><span class="n">labels_to_use</span><span class="p">,</span>
+    <span class="n">poststimuli_labels</span><span class="o">=</span><span class="n">labels_to_use_poststimuli</span><span class="p">,</span>
+    <span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span>
+    <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">,</span>
+    <span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">all_vertices</span><span class="p">,</span> <span class="n">poststimuli_vertices</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">split_vertices</span><span class="p">(</span><span class="n">labels_info</span><span class="p">,</span> <span class="n">labels_to_use_poststimuli</span><span class="p">)</span>
+
+<span class="c1"># Mapping to leadfield space</span>
+<span class="n">leadfield_subset_indices</span><span class="p">,</span> <span class="n">lh_vert_to_lf</span><span class="p">,</span> <span class="n">rh_vert_to_lf</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">translation</span><span class="o">.</span><span class="n">transform_vertices_to_leadfield_indices</span><span class="p">(</span>
+    <span class="n">vertices</span><span class="o">=</span><span class="n">all_vertices</span><span class="p">,</span>
+    <span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span>
+    <span class="n">hemi</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+    <span class="n">include_mapping</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="n">leadfield_subset_poststimuli_indices</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">translation</span><span class="o">.</span><span class="n">transform_vertices_to_leadfield_indices</span><span class="p">(</span>
+    <span class="n">vertices</span><span class="o">=</span><span class="n">poststimuli_vertices</span><span class="p">,</span>
+    <span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span>
+    <span class="n">hemi</span><span class="o">=</span><span class="s2">&quot;both&quot;</span>
+<span class="p">)</span>
+
+<span class="n">leadfield_to_label_mapping</span>  <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">assign_label_to_leadfield_index</span><span class="p">(</span>
+    <span class="n">labels_info</span><span class="o">=</span><span class="n">labels_info</span><span class="p">,</span>
+    <span class="n">lh_vert_to_lf</span><span class="o">=</span><span class="n">lh_vert_to_lf</span><span class="p">,</span>
+    <span class="n">rh_vert_to_lf</span><span class="o">=</span><span class="n">rh_vert_to_lf</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+</pre></div></div>
+</div>
+</section>
+<section id="Simulating-source-activity">
+<h3>Simulating source activity<a class="headerlink" href="#Simulating-source-activity" title="Link to this heading">#</a></h3>
+<p>Now we generate synthetic source time series. Our simulation generates two activity components:</p>
+<p><strong>1. Background activity (entire epoch)</strong></p>
+<ul class="simple">
+<li><p>Higher MVAR order (<code class="docutils literal notranslate"><span class="pre">ORDER_BG</span></code> = 7): Captures slower oscillatory dynamics</p></li>
+<li><p>Moderate coupling (<code class="docutils literal notranslate"><span class="pre">COUPLING_BG</span></code> = 0.5): Weak to moderate inter-regional interactions</p></li>
+<li><p>Active throughout the epoch: Represents ongoing brain state</p></li>
+</ul>
+<p><strong>2. Task-related activity (post-stimulus)</strong></p>
+<ul class="simple">
+<li><p>Lower MVAR order (<code class="docutils literal notranslate"><span class="pre">ORDER</span></code> = 3): Transient, event-related dynamics</p></li>
+<li><p>Strong coupling (<code class="docutils literal notranslate"><span class="pre">COUPLING</span></code> = 0.8): Coordinated network response</p></li>
+<li><p>Restricted to post-stimulus period: Evoked sensory processing</p></li>
+<li><p>Includes ERP component: Phase-locked response to stimulus onset</p></li>
+</ul>
+<p>After MVAR generation:</p>
+<ol class="arabic simple">
+<li><p><strong>Gaussian smoothing</strong>: Reduces high-frequency noise, mimics dendritic integration</p></li>
+<li><p><strong>Amplitude scaling</strong>: Normalizes to target RMS amplitude (<code class="docutils literal notranslate"><span class="pre">TARGET_STD</span></code>)</p></li>
+<li><p><strong>ERP addition</strong>: Superimposes stereotyped waveform for evoked components</p></li>
+</ol>
+<p>This yields <code class="docutils literal notranslate"><span class="pre">n_epochs</span> <span class="pre">×</span> <span class="pre">n_sources</span> <span class="pre">×</span> <span class="pre">n_times</span></code> array of source time courses with realistic spatiotemporal structure.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_epochs</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">simulate_source_epochs</span><span class="p">(</span>
+    <span class="n">n_epochs</span><span class="o">=</span><span class="n">N_EPOCHS</span><span class="p">,</span>
+    <span class="n">lf_subset_indices</span><span class="o">=</span><span class="n">leadfield_subset_indices</span><span class="p">,</span>
+    <span class="n">n_times</span><span class="o">=</span><span class="n">n_times</span><span class="p">,</span>
+    <span class="n">poststimuli_mask</span><span class="o">=</span><span class="n">post_mask</span><span class="p">,</span>
+    <span class="n">poststimuli_lf_subset_indices</span><span class="o">=</span><span class="n">leadfield_subset_poststimuli_indices</span><span class="p">,</span>
+    <span class="n">lf_to_label</span><span class="o">=</span><span class="n">leadfield_to_label_mapping</span><span class="p">,</span>
+    <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span>
+    <span class="n">erp_factor</span><span class="o">=</span><span class="n">ERP_FACTOR</span><span class="p">,</span>
+    <span class="n">snr_db</span><span class="o">=</span><span class="n">SNR_DB</span><span class="p">,</span>
+    <span class="n">order_bg</span><span class="o">=</span><span class="n">ORDER_BG</span><span class="p">,</span>
+    <span class="n">order</span><span class="o">=</span><span class="n">ORDER</span><span class="p">,</span>
+    <span class="n">target_std_bg</span><span class="o">=</span><span class="n">TARGET_STD_BG</span><span class="p">,</span>
+    <span class="n">target_std</span><span class="o">=</span><span class="n">TARGET_STD</span><span class="p">,</span>
+    <span class="n">coupling_bg</span><span class="o">=</span><span class="n">COUPLING_BG</span><span class="p">,</span>
+    <span class="n">coupling</span><span class="o">=</span><span class="n">COUPLING</span><span class="p">,</span>
+    <span class="n">noise_bg</span><span class="o">=</span><span class="n">NOISE_BG</span><span class="p">,</span>
+    <span class="n">noise</span><span class="o">=</span><span class="n">NOISE</span><span class="p">,</span>
+    <span class="n">n_dominant_eigvals</span><span class="o">=</span><span class="n">N_DOMINANT_EIGVALS</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Projecting-to-sensor-space">
+<h3>Projecting to sensor space<a class="headerlink" href="#Projecting-to-sensor-space" title="Link to this heading">#</a></h3>
+<p>Source activity is projected to EEG electrodes using the forward solution. The simulated sensor data is packaged into an MNE <code class="docutils literal notranslate"><span class="pre">Epochs</span></code> object. This allows the simulated data to be processed identically to real recordings.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_epochs</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">simulate_sensor_epochs</span><span class="p">(</span>
+    <span class="n">X_epochs</span><span class="o">=</span><span class="n">X_epochs</span><span class="p">,</span>
+    <span class="n">leadfield</span><span class="o">=</span><span class="n">leadfield</span><span class="p">,</span>
+    <span class="n">lf_subset_indices</span><span class="o">=</span><span class="n">leadfield_subset_indices</span><span class="p">,</span>
+    <span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span>
+    <span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span>
+    <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span>
+    <span class="n">noise_factor</span><span class="o">=</span><span class="n">NOISE_FACTOR_SENSORS</span><span class="p">,</span>
+    <span class="n">info</span><span class="o">=</span><span class="n">epoched</span><span class="o">.</span><span class="n">info</span>
+<span class="p">)</span>
+<span class="c1"># sim_epochs.plot()</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Preprocessing">
+<h3>Preprocessing<a class="headerlink" href="#Preprocessing" title="Link to this heading">#</a></h3>
+<p>We apply basic preprocessing:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_epochs</span> <span class="o">=</span> <span class="n">sim_epochs</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">l_freq</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">h_freq</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;iir&quot;</span><span class="p">)</span>
+<span class="c1"># sim_epochs.plot()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Setting up band-pass filter from 1 - 45 Hz
+
+IIR filter parameters
+---------------------
+Butterworth bandpass zero-phase (two-pass forward and reverse) non-causal filter:
+- Filter order 16 (effective, after forward-backward)
+- Cutoffs at 1.00, 45.00 Hz: -6.02, -6.02 dB
+</pre></div></div>
+</div>
+<p>Then re-reference the data:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_epochs_ref</span> <span class="o">=</span> <span class="n">sim_epochs</span><span class="o">.</span><span class="n">set_eeg_reference</span><span class="p">(</span><span class="s1">&#39;average&#39;</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sim_epochs_ref</span><span class="o">.</span><span class="n">apply_proj</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+EEG channel type selected for re-referencing
+Adding average EEG reference projection.
+1 projection items deactivated
+Average reference projection was added, but has not been applied yet. Use the apply_proj method to apply it.
+Created an SSP operator (subspace dimension = 1)
+1 projection items activated
+SSP projectors applied...
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<script type="text/javascript">
+    // must be `var` (not `const`) because this can get embedded multiple times on a page
+var toggleVisibility = (className) => {
+
+    const elements = document.querySelectorAll(`.${className}`);
+
+    elements.forEach(element => {
+        if (element.classList.contains("mne-repr-section-header")) {
+            return  // Don't collapse the section header row
+        }
+        element.classList.toggle("mne-repr-collapsed");
+    });
+
+    // trigger caret to rotate
+    var sel = `.mne-repr-section-header.${className} > th.mne-repr-section-toggle > button`;
+    const button = document.querySelector(sel);
+    button.classList.toggle("collapsed");
+
+    // adjust tooltip
+    sel = `tr.mne-repr-section-header.${className}`;
+    const secHeadRow = document.querySelector(sel);
+    secHeadRow.classList.toggle("collapsed");
+    secHeadRow.title = secHeadRow.title === "Hide section" ? "Show section" : "Hide section";
+}
+</script>
+
+<style type="text/css">
+    /*
+Styles in this section apply both to the sphinx-built website docs and to notebooks
+rendered in an IDE or in Jupyter. In our web docs, styles here are complemented by
+doc/_static/styles.css and other CSS files (e.g. from the sphinx theme, sphinx-gallery,
+or bootstrap). In IDEs/Jupyter, those style files are unavailable, so only the rules in
+this file apply (plus whatever default styling the IDE applies).
+*/
+.mne-repr-table {
+    display: inline;  /* prevent using full container width */
+}
+.mne-repr-table tr.mne-repr-section-header > th {
+    padding-top: 1rem;
+    text-align: left;
+    vertical-align: middle;
+}
+.mne-repr-section-toggle > button {
+    all: unset;
+    display: block;
+    height: 1rem;
+    width: 1rem;
+}
+.mne-repr-section-toggle > button > svg {
+    height: 60%;
+}
+
+/* transition (rotation) effects on the collapser button */
+.mne-repr-section-toggle > button.collapsed > svg {
+    transition: 0.1s ease-out;
+    transform: rotate(-90deg);
+}
+.mne-repr-section-toggle > button:not(.collapsed) > svg {
+    transition: 0.1s ease-out;
+    transform: rotate(0deg);
+}
+
+/* hide collapsed table rows */
+.mne-repr-collapsed {
+    display: none;
+}
+
+
+@layer {
+    /*
+    Selectors in a `@layer` will always be lower-precedence than selectors outside the
+    layer. So even though e.g. `div.output_html` is present in the sphinx-rendered
+    website docs, the styles here won't take effect there as long as some other rule
+    somewhere in the page's CSS targets the same element.
+
+    In IDEs or Jupyter notebooks, though, the CSS files from the sphinx theme,
+    sphinx-gallery, and bootstrap are unavailable, so these styles will apply.
+
+    Notes:
+
+    - the selector `.accordion-body` is for MNE Reports
+    - the selector `.output_html` is for VSCode's notebook interface
+    - the selector `.jp-RenderedHTML` is for Jupyter notebook
+    - variables starting with `--theme-` are VSCode-specific.
+    - variables starting with `--jp-` are Jupyter styles, *some of which* are also
+      available in VSCode. Here we try the `--theme-` variable first, then fall back to
+      the `--jp-` ones.
+    */
+    .mne-repr-table {
+        --mne-toggle-color: var(--theme-foreground, var(--jp-ui-font-color1));
+        --mne-button-bg-color: var(--theme-button-background, var(--jp-info-color0, var(--jp-content-link-color)));
+        --mne-button-fg-color: var(--theme-button-foreground, var(--jp-ui-inverse-font-color0, var(--jp-editor-background)));
+        --mne-button-hover-bg-color: var(--theme-button-hover-background, var(--jp-info-color1));
+        --mne-button-radius: var(--jp-border-radius, 0.25rem);
+    }
+    /* chevron position/alignment; in VSCode it looks ok without adjusting */
+    .accordion-body .mne-repr-section-toggle > button,
+    .jp-RenderedHTML .mne-repr-section-toggle > button {
+        padding: 0 0 45% 25% !important;
+    }
+    /* chevron color; MNE Report doesn't have light/dark mode */
+    div.output_html .mne-repr-section-toggle > button > svg > path,
+    .jp-RenderedHTML .mne-repr-section-toggle > button > svg > path {
+        fill: var(--mne-toggle-color);
+    }
+    .accordion-body .mne-ch-names-btn,
+    div.output_html .mne-ch-names-btn,
+    .jp-RenderedHTML .mne-ch-names-btn {
+        -webkit-border-radius: var(--mne-button-radius);
+        -moz-border-radius: var(--mne-button-radius);
+        border-radius: var(--mne-button-radius);
+        border: none;
+        background-image: none;
+        background-color: var(--mne-button-bg-color);
+        color: var(--mne-button-fg-color);
+        font-size: inherit;
+        min-width: 1.5rem;
+        padding: 0.25rem;
+        text-align: center;
+        text-decoration: none;
+    }
+    .accordion-body .mne-ch-names-btn:hover,
+    div.output_html .mne.ch-names-btn:hover,
+    .jp-RenderedHTML .mne-ch-names-btn:hover {
+        background-color: var(--mne-button-hover-bg-color);
+        text-decoration: underline;
+    }
+    .accordion-body .mne-ch-names-btn:focus-visible,
+    div.output_html .mne-ch-names-btn:focus-visible,
+    .jp-RenderedHTML .mne-ch-names-btn:focus-visible {
+        outline: 0.1875rem solid var(--mne-button-bg-color) !important;
+        outline-offset: 0.1875rem !important;
+    }
+}
+</style>
+
+
+
+<table class="table mne-repr-table">
+
+
+
+
+
+
+
+
+<tr class="mne-repr-section-header general-cbc45f3c-3e75-40d2-8927-47c62725f3ab"
+     title="Hide section"
+    onclick="toggleVisibility('general-cbc45f3c-3e75-40d2-8927-47c62725f3ab')">
+    <th class="mne-repr-section-toggle">
+        <button >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+        </button>
+    </th>
+    <th colspan="2">
+        <strong>General</strong>
+    </th>
+</tr>
+
+
+<tr class="repr-element general-cbc45f3c-3e75-40d2-8927-47c62725f3ab ">
+    <td class="mne-repr-section-toggle"></td>
+    <td>MNE object type</td>
+    <td>EpochsArray</td>
+</tr>
+<tr class="repr-element general-cbc45f3c-3e75-40d2-8927-47c62725f3ab ">
+    <td class="mne-repr-section-toggle"></td>
+    <td>Measurement date</td>
+
+    <td>2018-10-31 at 11:19:57 UTC</td>
+
+</tr>
+<tr class="repr-element general-cbc45f3c-3e75-40d2-8927-47c62725f3ab ">
+    <td class="mne-repr-section-toggle"></td>
+    <td>Participant</td>
+
+    <td>Unknown</td>
+
+</tr>
+<tr class="repr-element general-cbc45f3c-3e75-40d2-8927-47c62725f3ab ">
+    <td class="mne-repr-section-toggle"></td>
+    <td>Experimenter</td>
+
+    <td>Unknown</td>
+
+</tr>
+
+
+
+
+
+
+
+
+<tr class="mne-repr-section-header acquisition-5d4c8e33-513a-4031-99c0-9bcb12fce2a3"
+     title="Hide section"
+    onclick="toggleVisibility('acquisition-5d4c8e33-513a-4031-99c0-9bcb12fce2a3')">
+    <th class="mne-repr-section-toggle">
+        <button >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+        </button>
+    </th>
+    <th colspan="2">
+        <strong>Acquisition</strong>
+    </th>
+</tr>
+
+
+
+
+
+<tr class="repr-element acquisition-5d4c8e33-513a-4031-99c0-9bcb12fce2a3 ">
+    <td class="mne-repr-section-toggle"></td>
+    <td>Total number of events</td>
+    <td>100</td>
+</tr>
+
+
+<tr class="repr-element acquisition-5d4c8e33-513a-4031-99c0-9bcb12fce2a3 ">
+    <td class="mne-repr-section-toggle"></td>
+    <td>Events counts</td>
+
+    <td>
+
+        1: 100
+
+
+    </td>
+
+</tr>
+
+
+<tr class="repr-element acquisition-5d4c8e33-513a-4031-99c0-9bcb12fce2a3 ">
+    <td class="mne-repr-section-toggle"></td>
+    <td>Time range</td>
+    <td>-0.199 – 0.246 s</td>
+</tr>
+
+
+<tr class="repr-element acquisition-5d4c8e33-513a-4031-99c0-9bcb12fce2a3 ">
+    <td class="mne-repr-section-toggle"></td>
+    <td>Baseline</td>
+    <td>off</td>
+</tr>
+
+
+<tr class="repr-element acquisition-5d4c8e33-513a-4031-99c0-9bcb12fce2a3 ">
+    <td class="mne-repr-section-toggle"></td>
+    <td>Sampling frequency</td>
+    <td>256.00 Hz</td>
+</tr>
+
+
+<tr class="repr-element acquisition-5d4c8e33-513a-4031-99c0-9bcb12fce2a3 ">
+    <td class="mne-repr-section-toggle"></td>
+    <td>Time points</td>
+    <td>115</td>
+</tr>
+
+
+<tr class="repr-element acquisition-5d4c8e33-513a-4031-99c0-9bcb12fce2a3 ">
+    <td class="mne-repr-section-toggle"></td>
+    <td>Metadata</td>
+    <td>No metadata set</td>
+</tr>
+
+
+
+
+
+
+
+
+
+<tr class="mne-repr-section-header channels-e0aa8788-cd08-4625-99cb-0d073b5c2fc2"
+     title="Hide section"
+    onclick="toggleVisibility('channels-e0aa8788-cd08-4625-99cb-0d073b5c2fc2')">
+    <th class="mne-repr-section-toggle">
+        <button >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+        </button>
+    </th>
+    <th colspan="2">
+        <strong>Channels</strong>
+    </th>
+</tr>
+
+
+
+<tr class="repr-element channels-e0aa8788-cd08-4625-99cb-0d073b5c2fc2 ">
+    <td class="mne-repr-section-toggle"></td>
+    <td>EEG</td>
+    <td>
+        <button class="mne-ch-names-btn sd-sphinx-override sd-btn sd-btn-info sd-text-wrap sd-shadow-sm" onclick="alert('Good EEG:\n\nFp1, Fz, F3, F7, FT9, FC5, FC1, C3, T7, TP9, CP5, CP1, Pz, P3, P7, O1, Oz, O2, P4, P8, TP10, CP6, CP2, Cz, C4, T8, FT10, FC6, FC2, F4, F8, Fp2, AF7, AF3, AFz, F1, F5, FT7, FC3, C1, C5, TP7, CP3, P1, P5, PO7, PO3, POz, PO4, PO8, P6, P2, CPz, CP4, TP8, C6, C2, FC4, FT8, F6, AF8, AF4, F2, F9, AFF1h, FFC1h, FFC5h, FTT7h, FCC3h, CCP1h, CCP5h, TPP7h, P9, PPO9h, PO9, O9, OI1h, PPO1h, CPP3h, CPP4h, PPO2h, OI2h, O10, PO10, PPO10h, P10, TPP8h, CCP6h, CCP2h, FCC4h, FTT8h, FFC6h, FFC2h, AFF2h, F10, AFp1, AFF5h, FFT9h, FFT7h, FFC3h, FCC1h, FCC5h, FTT9h, TTP7h, CCP3h, CPP1h, CPP5h, TPP9h, POO9h, PPO5h, POO1, POO2, PPO6h, POO10h, TPP10h, CPP6h, CPP2h, CCP4h, TTP8h, FTT10h, FCC6h, FCC2h, FFC4h, FFT8h, FFT10h, AFF6h, AFp2, FCz')" title="(Click to open in popup)&#13;&#13;Fp1, Fz, F3, F7, FT9, FC5, FC1, C3, T7, TP9, CP5, CP1, Pz, P3, P7, O1, Oz, O2, P4, P8, TP10, CP6, CP2, Cz, C4, T8, FT10, FC6, FC2, F4, F8, Fp2, AF7, AF3, AFz, F1, F5, FT7, FC3, C1, C5, TP7, CP3, P1, P5, PO7, PO3, POz, PO4, PO8, P6, P2, CPz, CP4, TP8, C6, C2, FC4, FT8, F6, AF8, AF4, F2, F9, AFF1h, FFC1h, FFC5h, FTT7h, FCC3h, CCP1h, CCP5h, TPP7h, P9, PPO9h, PO9, O9, OI1h, PPO1h, CPP3h, CPP4h, PPO2h, OI2h, O10, PO10, PPO10h, P10, TPP8h, CCP6h, CCP2h, FCC4h, FTT8h, FFC6h, FFC2h, AFF2h, F10, AFp1, AFF5h, FFT9h, FFT7h, FFC3h, FCC1h, FCC5h, FTT9h, TTP7h, CCP3h, CPP1h, CPP5h, TPP9h, POO9h, PPO5h, POO1, POO2, PPO6h, POO10h, TPP10h, CPP6h, CPP2h, CCP4h, TTP8h, FTT10h, FCC6h, FCC2h, FFC4h, FFT8h, FFT10h, AFF6h, AFp2, FCz">
+            128
+        </button>
+
+
+    </td>
+</tr>
+
+
+<tr class="repr-element channels-e0aa8788-cd08-4625-99cb-0d073b5c2fc2 ">
+    <td class="mne-repr-section-toggle"></td>
+    <td>Head & sensor digitization</td>
+
+    <td>131 points</td>
+
+</tr>
+
+
+
+
+
+
+
+
+<tr class="mne-repr-section-header filters-c66ae845-4beb-4efa-bbb6-54b3f898386b"
+     title="Hide section"
+    onclick="toggleVisibility('filters-c66ae845-4beb-4efa-bbb6-54b3f898386b')">
+    <th class="mne-repr-section-toggle">
+        <button >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+        </button>
+    </th>
+    <th colspan="2">
+        <strong>Filters</strong>
+    </th>
+</tr>
+
+
+<tr class="repr-element filters-c66ae845-4beb-4efa-bbb6-54b3f898386b ">
+    <td class="mne-repr-section-toggle"></td>
+    <td>Highpass</td>
+    <td>1.00 Hz</td>
+</tr>
+
+
+<tr class="repr-element filters-c66ae845-4beb-4efa-bbb6-54b3f898386b ">
+    <td class="mne-repr-section-toggle"></td>
+    <td>Lowpass</td>
+    <td>40.00 Hz</td>
+</tr>
+
+
+<tr class="repr-element filters-c66ae845-4beb-4efa-bbb6-54b3f898386b ">
+    <td class="mne-repr-section-toggle"></td>
+    <td>Projections</td>
+    <td>
+
+        Average EEG reference (on)
+
+
+    </td>
+</tr>
+
+</table></div>
+</div>
+<p>This mimics standard EEG preprocessing pipelines.</p>
+</section>
+<section id="Creating-ground-truth-source-estimates">
+<h3>Creating ground truth source estimates<a class="headerlink" href="#Creating-ground-truth-source-estimates" title="Link to this heading">#</a></h3>
+<p>We construct source estimated (<code class="docutils literal notranslate"><span class="pre">stc</span></code>) corresponding to simulated activity:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_stc</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">add_simulated_epochs_to_stc</span><span class="p">(</span>
+    <span class="n">X_epochs</span><span class="o">=</span><span class="n">X_epochs</span><span class="p">,</span>
+    <span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span>
+    <span class="n">n_times</span><span class="o">=</span><span class="n">n_times</span><span class="p">,</span>
+    <span class="n">lf_subset_indices</span><span class="o">=</span><span class="n">leadfield_subset_indices</span><span class="p">,</span>
+    <span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span>
+    <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span>
+    <span class="n">subject</span><span class="o">=</span><span class="n">subject</span>
+<span class="p">)</span>
+
+<span class="c1"># sim_stc.plot(hemi=&quot;both&quot;)</span>
+</pre></div>
+</div>
+</div>
+<p>This serves as <strong>ground truth</strong> for later evaluation.</p>
+</section>
+<section id="Localization-Pipeline">
+<h3>Localization Pipeline<a class="headerlink" href="#Localization-Pipeline" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="Covariance-estimation">
+<h2>Covariance estimation<a class="headerlink" href="#Covariance-estimation" title="Link to this heading">#</a></h2>
+<p>We compute noise and data covariance matrices as these are essential inputs for beamforming.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">noise_cov</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">compute_covariance</span><span class="p">(</span>
+    <span class="n">sim_epochs</span><span class="p">,</span>
+    <span class="n">tmin</span><span class="o">=-</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">tmax</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;empirical&quot;</span>
+<span class="p">)</span>
+
+<span class="n">data_cov</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">compute_covariance</span><span class="p">(</span>
+    <span class="n">sim_epochs</span><span class="p">,</span>
+    <span class="n">tmin</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">tmax</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;empirical&quot;</span>
+<span class="p">)</span>
+
+<span class="n">sim_evoked</span> <span class="o">=</span> <span class="n">sim_epochs</span><span class="o">.</span><span class="n">average</span><span class="p">()</span>
+<span class="c1"># Subset signal for given time range</span>
+<span class="n">signal_sim</span> <span class="o">=</span> <span class="n">sim_evoked</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span>
+    <span class="n">tmin</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">tmax</span><span class="o">=</span><span class="mf">0.2</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+    Created an SSP operator (subspace dimension = 1)
+    Setting small EEG eigenvalues to zero (without PCA)
+Reducing data rank from 128 -&gt; 127
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 5200
+[done]
+    Created an SSP operator (subspace dimension = 1)
+    Setting small EEG eigenvalues to zero (without PCA)
+Reducing data rank from 128 -&gt; 127
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 3900
+[done]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Optional visualization</span>
+
+<span class="c1"># signal_sim.plot()</span>
+<span class="c1"># plt.show()</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Eigenvalue-spectrum-visualization">
+<h2>Eigenvalue spectrum visualization<a class="headerlink" href="#Eigenvalue-spectrum-visualization" title="Link to this heading">#</a></h2>
+<p>The eigenvalue spectrum of the whitened data covariance reveals the signal subspace structure:</p>
+<ul class="simple">
+<li><p>Large eigenvalues: Capture coherent brain signals</p></li>
+<li><p>Small eigenvalues: Dominated by noise</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">viz</span><span class="o">.</span><span class="n">plot_RN_eigenvalues</span><span class="p">(</span>
+    <span class="n">R</span><span class="o">=</span><span class="n">data_cov</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+    <span class="n">N</span><span class="o">=</span><span class="n">noise_cov</span><span class="o">.</span><span class="n">data</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulating_and_localizing_multi-source_EEG_activity_with_MVPURE_py_29_0.png" src="../_images/tutorials_simulating_and_localizing_multi-source_EEG_activity_with_MVPURE_py_29_0.png" />
+</div>
+</div>
+</section>
+<section id="Localization-across-ranks">
+<h2>Localization across ranks<a class="headerlink" href="#Localization-across-ranks" title="Link to this heading">#</a></h2>
+<p>We systematically evaluate beamformer performance for different rank values (1 to <code class="docutils literal notranslate"><span class="pre">n_sources</span></code>). For each rank, we:</p>
+<ol class="arabic simple">
+<li><p>Construct rank-<strong>k</strong> localizer.</p></li>
+<li><p>Compute localization metrics:</p>
+<ul class="simple">
+<li><p>number of correctly localized sources,</p></li>
+<li><p>distance error</p></li>
+</ul>
+</li>
+</ol>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">locs_results_summary</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">evaluate_localization_for_each_rank</span><span class="p">(</span>
+    <span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span>
+    <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">,</span>
+    <span class="n">n_sources</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">labels_to_use_poststimuli</span><span class="p">)</span><span class="o">*</span><span class="n">N_VERTICES_PER_ACTIVITY_LABEL</span><span class="p">,</span>
+    <span class="n">R</span><span class="o">=</span><span class="n">data_cov</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+    <span class="n">N</span><span class="o">=</span><span class="n">noise_cov</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+    <span class="n">forward</span><span class="o">=</span><span class="n">fwd</span><span class="p">,</span>
+    <span class="n">true_vertices</span><span class="o">=</span><span class="n">poststimuli_vertices</span><span class="p">,</span>
+    <span class="n">localizer_to_use</span><span class="o">=</span><span class="s2">&quot;mai_mvp&quot;</span><span class="p">,</span>
+    <span class="n">plot_sum_error_by_rank</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">plot_correct_sources_by_rank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">show_progress</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (index_max): [3175, 274, 2615, 3021, 2374, 2849]
+  Index max values: [0.78577935 1.13425896 1.37318353 1.44308371 1.513192   1.55822522]
+  Rank parameter (r): 1
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (index_max): [3175, 274, 591, 2615, 232, 3044]
+  Index max values: [0.78577935 1.55943631 1.86723207 2.17715898 2.46342582 2.77347779]
+  Rank parameter (r): 2
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (index_max): [3175, 274, 591, 232, 3044, 2615]
+  Index max values: [0.78577935 1.55943631 2.273855   2.62293093 2.97420034 3.33708565]
+  Rank parameter (r): 3
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (index_max): [3175, 274, 591, 232, 3044, 2615]
+  Index max values: [0.78577935 1.55943631 2.273855   3.0273721  3.46484468 3.83430257]
+  Rank parameter (r): 4
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (index_max): [3175, 274, 591, 232, 3044, 2615]
+  Index max values: [0.78577935 1.55943631 2.273855   3.0273721  3.7933396  4.2374138 ]
+  Rank parameter (r): 5
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (index_max): [3175, 274, 591, 232, 3044, 2615]
+  Index max values: [0.78577935 1.55943631 2.273855   3.0273721  3.7933396  4.55307297]
+  Rank parameter (r): 6
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulating_and_localizing_multi-source_EEG_activity_with_MVPURE_py_31_1.png" src="../_images/tutorials_simulating_and_localizing_multi-source_EEG_activity_with_MVPURE_py_31_1.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulating_and_localizing_multi-source_EEG_activity_with_MVPURE_py_31_2.png" src="../_images/tutorials_simulating_and_localizing_multi-source_EEG_activity_with_MVPURE_py_31_2.png" />
+</div>
+</div>
+<section id="Standard-LCMV-Beamformer-(for-comparison)">
+<h3>Standard LCMV Beamformer (for comparison)<a class="headerlink" href="#Standard-LCMV-Beamformer-(for-comparison)" title="Link to this heading">#</a></h3>
+<p>For comparison with the rank-reduced MVPURE approach, we can also apply MNE’s standard LCMV beamformer using <code class="docutils literal notranslate"><span class="pre">mne.beamformer.make_lcmv</span></code>. Strongest sources are identified based on peak NAI value.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">lcmv_top_vertices</span><span class="p">,</span>
+    <span class="n">lcmv_n_correctly_localized</span><span class="p">,</span>
+    <span class="n">lcmv_error_info</span>
+<span class="p">)</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">compare_with_strongest_sources_lcmv</span><span class="p">(</span>
+    <span class="n">signal</span><span class="o">=</span><span class="n">sim_evoked</span><span class="p">,</span>
+    <span class="n">n_sources</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">labels_to_use_poststimuli</span><span class="p">)</span><span class="o">*</span><span class="n">N_VERTICES_PER_ACTIVITY_LABEL</span><span class="p">,</span>
+    <span class="n">true_vertices</span><span class="o">=</span><span class="n">poststimuli_vertices</span><span class="p">,</span>
+    <span class="n">forward</span><span class="o">=</span><span class="n">fwd</span><span class="p">,</span>
+    <span class="n">R</span><span class="o">=</span><span class="n">data_cov</span><span class="p">,</span>
+    <span class="n">N</span><span class="o">=</span><span class="n">noise_cov</span><span class="p">,</span>
+    <span class="n">reg</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">pick_ori</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Computing rank from covariance with rank=None
+    Using tolerance 5.1e-13 (2.2e-16 eps * 128 dim * 18  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Computing rank from covariance with rank=None
+    Using tolerance 2.3e-13 (2.2e-16 eps * 128 dim * 8.2  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Making LCMV beamformer with rank {&#39;eeg&#39;: 127}
+Computing inverse operator with 128 channels.
+    128 out of 128 channels remain after picking
+Selected 128 channels
+Whitening the forward solution.
+    Created an SSP operator (subspace dimension = 1)
+Computing rank from covariance with rank={&#39;eeg&#39;: 127}
+    Setting small EEG eigenvalues to zero (without PCA)
+Creating the source covariance matrix
+Adjusting source covariance matrix.
+Computing beamformer filters for 5124 sources
+Filter computation complete
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of correctly localized sources using LCMV-NAI: </span><span class="si">{</span><span class="n">lcmv_n_correctly_localized</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean distance error using LCMV-NAI: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">lcmv_error_info</span><span class="p">[</span><span class="s1">&#39;mean_error&#39;</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> mm&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Number of correctly localized sources using LCMV-NAI: 3
+Mean distance error using LCMV-NAI: 16.52 mm
+</pre></div></div>
+</div>
+<p>This tutorial has shown a complete pipeline for:</p>
+<ol class="arabic simple">
+<li><p><strong>Simulating realistic EEG data</strong> with known ground truth sources</p></li>
+<li><p><strong>Controlling experimental parameters</strong> (SNR, coupling, spatial distribution)</p></li>
+<li><p><strong>Preprocessing</strong> sensor data using standard pipelines</p></li>
+<li><p><strong>Applying localization algorithm</strong> with the MVPURE framework</p></li>
+<li><p><strong>Quantitatively evaluating</strong> localization performance.</p></li>
+</ol>
+<p>To further explore source localization: test different SNRs, coupling strengths, or source configurations.</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="source_localization_and_reconstruction_on_data_from_oddball_paradigm.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Source localization and signal reconstruction - case study for oddball data</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Tutorial-overview">Tutorial overview</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Simulation-Configuration">Simulation Configuration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Anatomical-labeling-and-source-selection">Anatomical labeling and source selection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Temporal-dynamics-parameters">Temporal dynamics parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Signal-amplitude-and-SNR-control">Signal amplitude and SNR control</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Dataset-size">Dataset size</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Loading-real-data-for-sample-subject">Loading real data for sample subject</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Generating-source-locations">Generating source locations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Simulating-source-activity">Simulating source activity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Projecting-to-sensor-space">Projecting to sensor space</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Preprocessing">Preprocessing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Creating-ground-truth-source-estimates">Creating ground truth source estimates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Localization-Pipeline">Localization Pipeline</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Covariance-estimation">Covariance estimation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Eigenvalue-spectrum-visualization">Eigenvalue spectrum visualization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Localization-across-ranks">Localization across ranks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Standard-LCMV-Beamformer-(for-comparison)">Standard LCMV Beamformer (for comparison)</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorials/simulating_and_localizing_multi-source_EEG_activity_with_MVPURE_py.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Julia Jurkowska et al.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

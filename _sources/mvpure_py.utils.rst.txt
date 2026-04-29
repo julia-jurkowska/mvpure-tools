@@ -6,21 +6,21 @@ mvpure\_py.utils.algebra
 
 .. automodule:: mvpure_py.utils.algebra
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 mvpure\_py.utils.translation
 -----------------------------------
 
 .. automodule:: mvpure_py.utils.translation
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: mvpure_py.utils
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

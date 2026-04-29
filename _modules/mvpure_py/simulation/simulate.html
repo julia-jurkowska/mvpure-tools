@@ -1,0 +1,1076 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mvpure_py.simulation.simulate &#8212; mvpure_py 2.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=7be6d3a6"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/mvpure_py/simulation/simulate';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">mvpure_py</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">mvpure_py.simulation.simulate</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for mvpure_py.simulation.simulate</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Author: Julia Jurkowska</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">mne</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.ndimage</span><span class="w"> </span><span class="kn">import</span> <span class="n">gaussian_filter1d</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.distance</span><span class="w"> </span><span class="kn">import</span> <span class="n">euclidean</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
+
+
+<div class="viewcode-block" id="simulate_source_epochs">
+<a class="viewcode-back" href="../../../mvpure_py.simulation.html#mvpure_py.simulation.simulate.simulate_source_epochs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">simulate_source_epochs</span><span class="p">(</span>
+        <span class="n">n_epochs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">lf_subset_indices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">n_times</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">poststimuli_mask</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">poststimuli_lf_subset_indices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">lf_to_label</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+        <span class="n">sfreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">erp_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">snr_db</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span>
+        <span class="n">order_bg</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+        <span class="n">order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+        <span class="n">target_std_bg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10e-9</span><span class="p">,</span>
+        <span class="n">target_std</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">30e-9</span><span class="p">,</span>
+        <span class="n">coupling_bg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">coupling</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span>
+        <span class="n">noise_bg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">noise</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
+        <span class="n">gaussian_filter_sigma_bg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">gaussian_filter_sigma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span><span class="p">,</span>
+        <span class="n">n_dominant_eigvals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">seed</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simulate source-space EEG activity for multiple epochs (``n_epochs``).</span>
+
+<span class="sd">    The simulation generates background activity using a multivariate autoregressive (MVAR) process</span>
+<span class="sd">    and adds post-stimulus activity within a defined time window. Post-stimulus activity is generated</span>
+<span class="sd">    from a low-rank latent MVAR process and projected onto selected cortical sources.</span>
+
+<span class="sd">    Optionally, an ERP waveform (P1-N1-P2) can be added to the active sources with amplitude and latency jitter.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_epochs : int</span>
+<span class="sd">        Number of epochs to simulate.</span>
+<span class="sd">    lf_subset_indices : array-like</span>
+<span class="sd">        Leadfield indices corresponding to the simulated sources.</span>
+<span class="sd">    n_times : int</span>
+<span class="sd">        Number of time samples per epoch.</span>
+<span class="sd">    poststimuli_mask : ndarray (bool)</span>
+<span class="sd">        Boolean mask indicating the time window where stimulus-locked activity occurs.</span>
+<span class="sd">    poststimuli_lf_subset_indices : array-like</span>
+<span class="sd">        Leadfield indices of sources that should contain post-stimulus activity.</span>
+<span class="sd">    lf_to_label : dict</span>
+<span class="sd">        Mapping from leadfield index to anatomical label name.</span>
+<span class="sd">    sfreq : float</span>
+<span class="sd">        Sampling frequency in Hz.</span>
+<span class="sd">    erp_factor : float | None</span>
+<span class="sd">        Scaling factor for ERP waveform amplitude. If None, no ERP is added.</span>
+<span class="sd">    snr_db : float</span>
+<span class="sd">        Desired signal-to-noise ratio (in dB) between post-stimulus activity and background activity.</span>
+<span class="sd">    order_bg : int</span>
+<span class="sd">        MVAR order for background activity.</span>
+<span class="sd">    order : int</span>
+<span class="sd">        MVAR order for post-stimulus activity.</span>
+<span class="sd">    target_std_bg : float</span>
+<span class="sd">        Target standard deviation of background source activity (Am).</span>
+<span class="sd">    target_std : float</span>
+<span class="sd">        Target standard deviation of post-stimulus activity (Am).</span>
+<span class="sd">    coupling_bg : float</span>
+<span class="sd">        Cross-source coupling strength for background MVAR model.</span>
+<span class="sd">    coupling : float</span>
+<span class="sd">        Cross-source coupling strength for stimulus-driven MVAR model.</span>
+<span class="sd">    noise_bg : float</span>
+<span class="sd">        Innovation noise amplitude for background activity.</span>
+<span class="sd">    noise : float</span>
+<span class="sd">        Innovation noise amplitude for stimulus-driven activity.</span>
+<span class="sd">    gaussian_filter_sigma_bg : float</span>
+<span class="sd">        Temporal smoothing (Gaussian sigma) for background activity.</span>
+<span class="sd">    gaussian_filter_sigma : float</span>
+<span class="sd">        Temporal smoothing for stimulus activity.</span>
+<span class="sd">    n_dominant_eigvals :int</span>
+<span class="sd">        Dimensionality of latent sources used to generated correlated stimulus-locked activity.</span>
+<span class="sd">    seed : int | None</span>
+<span class="sd">        Random seed for reproducibility.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    X_epochs: ndarray, shape (n_epochs, n_sources, n_times)</span>
+<span class="sd">        Simulated source-space time series for all epochs.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">n_sources</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lf_subset_indices</span><span class="p">)</span>
+    <span class="n">X_epochs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_epochs</span><span class="p">,</span> <span class="n">n_sources</span><span class="p">,</span> <span class="n">n_times</span><span class="p">))</span>
+
+    <span class="n">U</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">poststimuli_lf_subset_indices</span><span class="p">),</span> <span class="n">n_dominant_eigvals</span><span class="p">))</span>
+    <span class="n">U</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_epochs</span><span class="p">):</span>
+        <span class="n">seed_bg</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mf">1e6</span><span class="p">)</span>
+        <span class="n">seed_act</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mf">1e6</span><span class="p">)</span>
+
+        <span class="c1"># Background activity</span>
+        <span class="n">X_bg</span> <span class="o">=</span> <span class="n">simulate_mvar_for_dipoles</span><span class="p">(</span>
+            <span class="n">n_sources</span><span class="o">=</span><span class="n">n_sources</span><span class="p">,</span>
+            <span class="n">n_samples</span><span class="o">=</span><span class="n">n_times</span><span class="p">,</span>
+            <span class="n">order</span><span class="o">=</span><span class="n">order_bg</span><span class="p">,</span>
+            <span class="n">target_std</span><span class="o">=</span><span class="n">target_std_bg</span><span class="p">,</span>
+            <span class="n">coupling_strength</span><span class="o">=</span><span class="n">coupling_bg</span><span class="p">,</span>
+            <span class="n">noise_level</span><span class="o">=</span><span class="n">noise_bg</span><span class="p">,</span>
+            <span class="n">gaussian_filter_sigma</span><span class="o">=</span><span class="n">gaussian_filter_sigma_bg</span><span class="p">,</span>
+            <span class="n">seed</span><span class="o">=</span><span class="n">seed_bg</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Poststimuli activity</span>
+        <span class="n">X_post</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_sources</span><span class="p">,</span> <span class="n">n_times</span><span class="p">))</span>
+
+        <span class="c1"># Modify target std and cross-source coupling of main activity to make it more diverse across epochs</span>
+        <span class="n">target_std_epoch</span> <span class="o">=</span> <span class="n">target_std</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
+        <span class="n">coupling_epoch</span> <span class="o">=</span> <span class="n">coupling</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
+
+        <span class="c1"># Simulate only for n_dominant_eigvals sources</span>
+        <span class="n">latent</span> <span class="o">=</span> <span class="n">simulate_mvar_for_dipoles</span><span class="p">(</span>
+            <span class="n">n_sources</span><span class="o">=</span><span class="n">n_dominant_eigvals</span><span class="p">,</span>
+            <span class="n">n_samples</span><span class="o">=</span><span class="n">poststimuli_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+            <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
+            <span class="n">target_std</span><span class="o">=</span><span class="n">target_std_epoch</span><span class="p">,</span>
+            <span class="n">coupling_strength</span><span class="o">=</span><span class="n">coupling_epoch</span><span class="p">,</span>
+            <span class="n">gaussian_filter_sigma</span><span class="o">=</span><span class="n">gaussian_filter_sigma</span><span class="p">,</span>
+            <span class="n">noise_level</span><span class="o">=</span><span class="n">noise</span><span class="p">,</span>
+            <span class="n">seed</span><span class="o">=</span><span class="n">seed_act</span>
+        <span class="p">)</span>
+        <span class="n">X_post_subset</span> <span class="o">=</span> <span class="n">U</span> <span class="o">@</span> <span class="n">latent</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">poststimuli_lf_subset_indices</span><span class="p">):</span>
+            <span class="n">X_post</span><span class="p">[</span><span class="n">lf_subset_indices</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="n">poststimuli_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_post_subset</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">erp_factor</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">poststimuli_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">/</span> <span class="n">sfreq</span>
+
+            <span class="n">latency_jitter_global</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">)</span>
+            <span class="n">erp_base</span> <span class="o">=</span> <span class="n">erp_waveform</span><span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="n">latency_jitter_global</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X_post_subset</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="n">amp_jitter</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+
+                <span class="c1"># Adding visual boost depending on label</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">lf_to_label</span><span class="p">[</span><span class="n">poststimuli_lf_subset_indices</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;cuneus&quot;</span><span class="p">,</span> <span class="s2">&quot;lateraloccipital&quot;</span><span class="p">,</span> <span class="s2">&quot;inferiorparietal&quot;</span><span class="p">]:</span>
+                    <span class="n">visual_boost</span> <span class="o">=</span> <span class="mf">1.6</span>
+                <span class="k">elif</span> <span class="n">label</span> <span class="o">==</span> <span class="s2">&quot;superiorparietal&quot;</span><span class="p">:</span>
+                    <span class="n">visual_boost</span> <span class="o">=</span> <span class="mf">1.3</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">visual_boost</span> <span class="o">=</span> <span class="mf">0.8</span>
+
+                <span class="n">src_idx</span> <span class="o">=</span> <span class="n">lf_subset_indices</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">(</span>
+                    <span class="n">poststimuli_lf_subset_indices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="n">X_post</span><span class="p">[</span><span class="n">src_idx</span><span class="p">,</span> <span class="n">poststimuli_mask</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span>
+                        <span class="n">visual_boost</span>
+                        <span class="o">*</span> <span class="n">erp_factor</span>
+                        <span class="o">*</span> <span class="n">amp_jitter</span>
+                        <span class="o">*</span> <span class="n">erp_base</span>
+                <span class="p">)</span>
+
+        <span class="c1"># SNR control</span>
+        <span class="n">bg_pow</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X_bg</span><span class="p">[:,</span> <span class="n">poststimuli_mask</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">act_pow</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X_post</span><span class="p">[:,</span> <span class="n">poststimuli_mask</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">X_post</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">bg_pow</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="n">snr_db</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">act_pow</span> <span class="o">+</span> <span class="mf">1e-15</span><span class="p">))</span>
+        <span class="n">X_epochs</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_bg</span> <span class="o">+</span> <span class="n">X_post</span>
+
+    <span class="k">return</span> <span class="n">X_epochs</span></div>
+
+
+
+<div class="viewcode-block" id="simulate_mvar_for_dipoles">
+<a class="viewcode-back" href="../../../mvpure_py.simulation.html#mvpure_py.simulation.simulate.simulate_mvar_for_dipoles">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">simulate_mvar_for_dipoles</span><span class="p">(</span>
+        <span class="n">n_sources</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+        <span class="n">target_std</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10e-9</span><span class="p">,</span>
+        <span class="n">coupling_strength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">noise_level</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">gaussian_filter_sigma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
+        <span class="n">seed</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simulate multivariate autoregresive (MVAR) signals for cortical dipoles.</span>
+
+<span class="sd">    A MVAR process is generated with random coeefficients and optional cross-source coupling.</span>
+<span class="sd">    The resulting time series are smoothed and scaled to a target physical amplitude.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_sources : int</span>
+<span class="sd">        Number of simulated sources.</span>
+<span class="sd">    n_samples : int</span>
+<span class="sd">        Number of time samples.</span>
+<span class="sd">    order : int</span>
+<span class="sd">        MVAR order</span>
+<span class="sd">    target_std : float</span>
+<span class="sd">        Target standard deviation of simulated signals.</span>
+<span class="sd">    coupling_strength : float</span>
+<span class="sd">        Scaling factor for cross-source coupling coefficients.</span>
+<span class="sd">    noise_level : float</span>
+<span class="sd">        Innovation noise amplitude.</span>
+<span class="sd">    gaussian_filter_sigma : float</span>
+<span class="sd">        Temporal smoothing applied to each source.</span>
+<span class="sd">    seed : int | None</span>
+<span class="sd">        Random seed.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    X: ndarray, shape (n_sources, n_samples)</span>
+<span class="sd">        Simulated source activity.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+    <span class="c1"># Generate random MVAR coefficients</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">n_sources</span><span class="p">,</span> <span class="n">n_sources</span><span class="p">))</span>
+
+    <span class="c1"># Add coupling structure</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sources</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sources</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">:</span>
+                    <span class="n">A</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">*=</span> <span class="n">coupling_strength</span>
+
+    <span class="c1"># Stabilize system (scale eigenvalues)</span>
+    <span class="n">companion</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">order</span> <span class="o">*</span> <span class="n">n_sources</span><span class="p">,</span> <span class="n">order</span> <span class="o">*</span> <span class="n">n_sources</span><span class="p">))</span>
+    <span class="n">companion</span><span class="p">[:</span><span class="n">n_sources</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+    <span class="n">companion</span><span class="p">[</span><span class="n">n_sources</span><span class="p">:,</span> <span class="p">:</span><span class="o">-</span><span class="n">n_sources</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">((</span><span class="n">order</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">n_sources</span><span class="p">)</span>
+
+    <span class="c1"># Stability margin</span>
+    <span class="n">max_ev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">companion</span><span class="p">)))</span>
+    <span class="n">target_radius</span> <span class="o">=</span> <span class="mf">0.9</span>
+    <span class="k">if</span> <span class="n">max_ev</span> <span class="o">&gt;=</span> <span class="n">target_radius</span><span class="p">:</span>
+        <span class="n">A</span> <span class="o">*=</span> <span class="n">target_radius</span> <span class="o">/</span> <span class="p">(</span><span class="n">max_ev</span> <span class="o">+</span> <span class="mf">1e-12</span><span class="p">)</span>
+
+    <span class="c1"># Generate innovations</span>
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="n">noise_level</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">n_sources</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">))</span>
+
+    <span class="c1"># Simulate MVAR process</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_sources</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">X</span><span class="p">[:,</span> <span class="n">t</span><span class="p">]</span> <span class="o">+=</span> <span class="n">A</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">t</span> <span class="o">-</span> <span class="n">k</span><span class="p">]</span>
+        <span class="n">X</span><span class="p">[:,</span> <span class="n">t</span><span class="p">]</span> <span class="o">+=</span> <span class="n">noise</span><span class="p">[:,</span> <span class="n">t</span><span class="p">]</span>
+
+    <span class="n">X</span> <span class="o">=</span> <span class="n">gaussian_filter1d</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">gaussian_filter_sigma</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Scale to target physical amplitude</span>
+    <span class="n">current_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">current_std</span><span class="p">[</span><span class="n">current_std</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span> <span class="o">/</span> <span class="n">current_std</span> <span class="o">*</span> <span class="n">target_std</span>
+
+    <span class="k">return</span> <span class="n">X</span></div>
+
+
+
+<div class="viewcode-block" id="simulate_sensor_epochs">
+<a class="viewcode-back" href="../../../mvpure_py.simulation.html#mvpure_py.simulation.simulate.simulate_sensor_epochs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">simulate_sensor_epochs</span><span class="p">(</span>
+        <span class="n">X_epochs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">leadfield</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">lf_subset_indices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">src</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">SourceSpaces</span><span class="p">,</span>
+        <span class="n">tmin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">sfreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">noise_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">info</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">Info</span> <span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">seed</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mne</span><span class="o">.</span><span class="n">EpochsArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Project simulated source activity to EEG sensors.</span>
+
+<span class="sd">    The function inserts simulated sources into the full cortical source space,</span>
+<span class="sd">    applied the forward model, and adds sensor noise and slow drift to produce EEG epochs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X_epochs : ndarray</span>
+<span class="sd">        Source-space activity with shape (n_epochs, n_sources, n_times)</span>
+<span class="sd">    leadfield : ndarray</span>
+<span class="sd">        Forward model matrix mapping sources to sensors.</span>
+<span class="sd">    lf_subset_indices : ndarray</span>
+<span class="sd">        Leadfield indices corresponding to the simulated sources.</span>
+<span class="sd">    src : mne.SourceSpaces</span>
+<span class="sd">        MNE source space used for the forward model.</span>
+<span class="sd">    tmin : float</span>
+<span class="sd">        Epoch start time in seconds.</span>
+<span class="sd">    sfreq : float</span>
+<span class="sd">        Sampling frequency.</span>
+<span class="sd">    noise_factor : float</span>
+<span class="sd">        Scaling factor controlling sensor noise amplitude.</span>
+<span class="sd">    info : mne.Info</span>
+<span class="sd">        MNE measurement info structure for creating EpochsArray.</span>
+<span class="sd">    seed : int | None</span>
+<span class="sd">        Random seed for reproducibility.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    sim_epochs: mne.EpochsArray</span>
+<span class="sd">        Simulated EEG sensor data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">n_epochs</span><span class="p">,</span> <span class="n">n_sources</span><span class="p">,</span> <span class="n">n_times</span> <span class="o">=</span> <span class="n">X_epochs</span><span class="o">.</span><span class="n">shape</span>
+    <span class="c1"># Number of all vertices for current subject</span>
+    <span class="n">n_vertices_total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;vertno&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">src</span><span class="p">)</span>
+
+    <span class="c1"># Placeholder for sensors activity</span>
+    <span class="n">Y_epochs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_epochs</span><span class="p">,</span> <span class="n">leadfield</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n_times</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_epochs</span><span class="p">):</span>
+        <span class="c1"># Map sources to full vertices from source space</span>
+        <span class="n">X_full</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_vertices_total</span><span class="p">,</span> <span class="n">n_times</span><span class="p">))</span>
+        <span class="n">X_full</span><span class="p">[</span><span class="n">lf_subset_indices</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">X_epochs</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span>
+
+        <span class="c1"># Project to sensors</span>
+        <span class="n">Y_clean</span> <span class="o">=</span> <span class="n">leadfield</span> <span class="o">@</span> <span class="n">X_full</span>
+
+        <span class="n">drift</span> <span class="o">=</span> <span class="n">gaussian_filter1d</span><span class="p">(</span>
+            <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">Y_clean</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span>
+            <span class="n">sigma</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span>
+            <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+        <span class="p">)</span>
+        <span class="n">drift</span> <span class="o">*=</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">Y_clean</span><span class="p">)</span>
+        <span class="n">Y_clean</span> <span class="o">=</span> <span class="n">Y_clean</span> <span class="o">+</span> <span class="n">drift</span>
+
+        <span class="c1"># Add Gaussian noise</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">Y_clean</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">noise</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">Y_clean</span><span class="p">)</span> <span class="o">*</span> <span class="n">noise_factor</span>
+
+        <span class="n">Y_epochs</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y_clean</span> <span class="o">+</span> <span class="n">noise</span>
+
+    <span class="n">sim_epochs</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">EpochsArray</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">Y_epochs</span><span class="p">,</span>
+        <span class="n">info</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">sim_epochs</span></div>
+
+
+
+<div class="viewcode-block" id="add_simulated_epochs_to_stc">
+<a class="viewcode-back" href="../../../mvpure_py.simulation.html#mvpure_py.simulation.simulate.add_simulated_epochs_to_stc">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_simulated_epochs_to_stc</span><span class="p">(</span>
+        <span class="n">X_epochs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">src</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">SourceSpaces</span><span class="p">,</span>
+        <span class="n">n_times</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">lf_subset_indices</span><span class="p">,</span>
+        <span class="n">tmin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">sfreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">subject</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mne</span><span class="o">.</span><span class="n">SourceEstimate</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert averaged simulated source activity to an MNE Source Estimate.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X_epochs : ndarray</span>
+<span class="sd">        Simulated source activity with shape (n_epochs, n_sources, n_times)</span>
+<span class="sd">    src : mne.SourceSpaces</span>
+<span class="sd">        Source space used in the forward model.</span>
+<span class="sd">    n_times : int</span>
+<span class="sd">        Number of time points.</span>
+<span class="sd">    lf_subset_indices : ndarray</span>
+<span class="sd">        Leadfield indices corresponding to simulated sources.</span>
+<span class="sd">    tmin : float</span>
+<span class="sd">        Start time of the data.</span>
+<span class="sd">    sfreq : float</span>
+<span class="sd">        Sampling frequency</span>
+<span class="sd">    subject : str</span>
+<span class="sd">        Subject name used by MNE.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    stc_evoked: mne.SourceEstimate</span>
+<span class="sd">        Source estimate containing the average simulated activity.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">X_avg</span> <span class="o">=</span> <span class="n">X_epochs</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">X_full_avg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;vertno&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">src</span><span class="p">),</span> <span class="n">n_times</span><span class="p">))</span>
+    <span class="n">X_full_avg</span><span class="p">[</span><span class="n">lf_subset_indices</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">X_avg</span>
+
+    <span class="n">stc_evoked</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">SourceEstimate</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">X_full_avg</span><span class="p">,</span>
+        <span class="n">vertices</span><span class="o">=</span><span class="p">[</span><span class="n">src</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;vertno&#39;</span><span class="p">],</span> <span class="n">src</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;vertno&#39;</span><span class="p">]],</span>
+        <span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span>
+        <span class="n">tstep</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">sfreq</span><span class="p">,</span>
+        <span class="n">subject</span><span class="o">=</span><span class="n">subject</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">stc_evoked</span></div>
+
+
+
+<div class="viewcode-block" id="erp_waveform">
+<a class="viewcode-back" href="../../../mvpure_py.simulation.html#mvpure_py.simulation.simulate.erp_waveform">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">erp_waveform</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a synthetic ERP waveform (P1-N1-P2 complex).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    t : ndarray</span>
+<span class="sd">        Time vector in seconds.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    waveform : ndarray</span>
+<span class="sd">        ERP waveform evaluated at times `t`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="mf">0.15</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">((</span><span class="n">t</span> <span class="o">-</span> <span class="mf">0.085</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">)</span> <span class="o">/</span> <span class="mf">0.025</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">n1</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">((</span><span class="n">t</span> <span class="o">-</span> <span class="mf">0.12</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">)</span> <span class="o">/</span> <span class="mf">0.03</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">p2</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">((</span><span class="n">t</span> <span class="o">-</span> <span class="mf">0.22</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">)</span> <span class="o">/</span> <span class="mf">0.06</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">p1</span> <span class="o">+</span> <span class="n">n1</span> <span class="o">+</span> <span class="n">p2</span></div>
+
+
+
+<div class="viewcode-block" id="split_vertices">
+<a class="viewcode-back" href="../../../mvpure_py.simulation.html#mvpure_py.simulation.simulate.split_vertices">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">split_vertices</span><span class="p">(</span>
+        <span class="n">labels_info</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+        <span class="n">poststimuli_labels</span><span class="p">:</span> <span class="n">List</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">List</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Separate vertices by hemisphere and by stimulus activity role.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    labels_info : dict</span>
+<span class="sd">        Dictionary describing labels and selected vertices.</span>
+<span class="sd">    poststimuli_labels : list</span>
+<span class="sd">        Labels designated as stimulus-active regions.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    all_vertices: list</span>
+<span class="sd">        Vertices from all labels split into left/right hemisphere.</span>
+<span class="sd">    post_vertices: list</span>
+<span class="sd">        Vertices belonging only to stimulus-active labels.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Placeholder for vertices</span>
+    <span class="n">lh_vertices_all</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">rh_vertices_all</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">lh_vertices_post</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">rh_vertices_post</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">labels_info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">verts</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;random_vertice&#39;</span><span class="p">]</span>
+        <span class="n">hemi</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">vert</span> <span class="ow">in</span> <span class="n">verts</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">hemi</span> <span class="o">==</span> <span class="s1">&#39;lh&#39;</span><span class="p">:</span>
+                <span class="n">lh_vertices_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vert</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">poststimuli_labels</span><span class="p">:</span>
+                    <span class="n">lh_vertices_post</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vert</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">rh_vertices_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vert</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">poststimuli_labels</span><span class="p">:</span>
+                    <span class="n">rh_vertices_post</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vert</span><span class="p">)</span>
+
+    <span class="n">all_vertices</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lh_vertices_all</span><span class="p">)),</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rh_vertices_all</span><span class="p">))]</span>
+    <span class="n">post_vertices</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lh_vertices_post</span><span class="p">)),</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rh_vertices_post</span><span class="p">))]</span>
+
+    <span class="k">return</span> <span class="n">all_vertices</span><span class="p">,</span> <span class="n">post_vertices</span></div>
+
+
+
+<div class="viewcode-block" id="get_random_vertices">
+<a class="viewcode-back" href="../../../mvpure_py.simulation.html#mvpure_py.simulation.simulate.get_random_vertices">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_random_vertices</span><span class="p">(</span>
+        <span class="n">n_vertices_per_label_bg</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">n_vertices_per_poststimuli_label</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">all_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span>
+        <span class="n">poststimuli_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span>
+        <span class="n">subject</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">subjects_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">src</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">SourceSpaces</span><span class="p">,</span>
+        <span class="n">find_close</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">max_distance_cm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
+        <span class="n">seed</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Randomly select cortical vertices from anatomical labels.</span>
+
+<span class="sd">    Vertices are drawn from FreeSurfer annotation labels and</span>
+<span class="sd">    filtered to include only those present in the current source space.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_vertices_per_label_bg : int</span>
+<span class="sd">        Number of vertices selected per background label.</span>
+<span class="sd">    n_vertices_per_poststimuli_label : int</span>
+<span class="sd">        Number of vertices selected per stimulus-active label.</span>
+<span class="sd">    all_labels : List</span>
+<span class="sd">        Labels used for activity.</span>
+<span class="sd">    poststimuli_labels : List</span>
+<span class="sd">        Labels generating stimulus-locked activity.</span>
+<span class="sd">    subject : str</span>
+<span class="sd">        Subject name.</span>
+<span class="sd">    subjects_dir : str</span>
+<span class="sd">        FreeSurfer SUBJECTS_DIR.</span>
+<span class="sd">    src : mne.SourceSpaces</span>
+<span class="sd">        Source space used for simulation.</span>
+<span class="sd">    find_close : bool</span>
+<span class="sd">        If True and `n_vertices_per_poststimuli_label` is at least 2, selected sources are within `max_distance_cm`.</span>
+<span class="sd">    max_distance_cm : float</span>
+<span class="sd">        Maximum allowed Euclidean distance in centimeters between the first randomly selected vertex</span>
+<span class="sd">        and all remaining vertices.</span>
+<span class="sd">    seed : int | None</span>
+<span class="sd">        Random seed for reproducibility.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    labels_info : dict</span>
+<span class="sd">        Dictionary containing selected vertices and metadata.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+    <span class="n">labels_info</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># Read current label</span>
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">all_labels</span><span class="p">)</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="n">poststimuli_labels</span><span class="p">)):</span>
+        <span class="n">labels_info</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># Read current label</span>
+        <span class="n">temp_label</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">read_labels_from_annot</span><span class="p">(</span>
+            <span class="n">subject</span><span class="p">,</span> <span class="n">regexp</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span>
+        <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Determine hemisphere</span>
+        <span class="n">hemi</span> <span class="o">=</span> <span class="n">temp_label</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">hemi</span> <span class="o">==</span> <span class="s2">&quot;lh&quot;</span><span class="p">:</span>
+            <span class="n">hemi_idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">hemi</span> <span class="o">==</span> <span class="s2">&quot;rh&quot;</span><span class="p">:</span>
+            <span class="n">hemi_idx</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Handling only left (&#39;lh&#39;) and right (&#39;rh&#39;) hemispheres.&quot;</span><span class="p">)</span>
+        <span class="n">subject_vertices</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">temp_label</span><span class="o">.</span><span class="n">vertices</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">src</span><span class="p">[</span><span class="n">hemi_idx</span><span class="p">][</span><span class="s1">&#39;vertno&#39;</span><span class="p">]</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Add marker if vertice should be used for stronger signal or just background activity - &quot;noise_only&quot;</span>
+        <span class="n">labels_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="s1">&#39;noise_only&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">poststimuli_labels</span>
+
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">poststimuli_labels</span><span class="p">:</span>
+            <span class="n">n_random_vertices</span> <span class="o">=</span> <span class="n">n_vertices_per_poststimuli_label</span>
+        <span class="k">elif</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">all_labels</span><span class="p">:</span>
+            <span class="n">n_random_vertices</span> <span class="o">=</span> <span class="n">n_vertices_per_label_bg</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown label: </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Randomly select vertices from current label</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">find_close</span>
+            <span class="ow">and</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">poststimuli_labels</span>
+            <span class="ow">and</span> <span class="n">n_random_vertices</span> <span class="o">&gt;=</span> <span class="mi">2</span>
+        <span class="p">):</span>
+            <span class="n">selected_vertices</span> <span class="o">=</span> <span class="n">_get_random_close_vertices</span><span class="p">(</span>
+                <span class="n">n_vertices</span><span class="o">=</span><span class="n">n_random_vertices</span><span class="p">,</span>
+                <span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span>
+                <span class="n">subject_vertices</span><span class="o">=</span><span class="n">subject_vertices</span><span class="p">,</span>
+                <span class="n">hemi_idx</span><span class="o">=</span><span class="n">hemi_idx</span><span class="p">,</span>
+                <span class="n">max_distance_cm</span><span class="o">=</span><span class="n">max_distance_cm</span><span class="p">,</span>
+                <span class="n">rng</span><span class="o">=</span><span class="n">rng</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">selected_vertices</span><span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+                <span class="n">subject_vertices</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_random_vertices</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="n">labels_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="s2">&quot;random_vertice&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">selected_vertices</span>
+
+    <span class="k">return</span> <span class="n">labels_info</span></div>
+
+
+
+<div class="viewcode-block" id="add_leadfield_indices_info">
+<a class="viewcode-back" href="../../../mvpure_py.simulation.html#mvpure_py.simulation.simulate.add_leadfield_indices_info">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_leadfield_indices_info</span><span class="p">(</span>
+    <span class="n">labels_info</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">lh_vert_to_lf</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">rh_vert_to_lf</span><span class="p">:</span> <span class="n">Dict</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add leadfield indices corresponding to selected vertices for each label.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    labels_info : dict</span>
+<span class="sd">        Dictionary describing selected vertices for each label.</span>
+<span class="sd">    lh_vert_to_lf : dict</span>
+<span class="sd">        Mapping from left-hemisphere vertex to leadfield index.</span>
+<span class="sd">    rh_vert_to_lf : dict</span>
+<span class="sd">        Mapping from right-hemisphere vertex to leadfield index</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    labels_info : dict</span>
+<span class="sd">        Updated dictionary where each label entry additionally contains</span>
+<span class="sd">        a ``&#39;leadfield_indices&#39;`` field listing the leadfield indices</span>
+<span class="sd">        corresponding to the selected vertices.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels_info</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;-lh&quot;</span><span class="p">):</span>
+            <span class="n">labels_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="s1">&#39;leadfield_indices&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">lh_vert_to_lf</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">labels_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="s1">&#39;random_vertice&#39;</span><span class="p">]]</span>
+        <span class="k">elif</span> <span class="n">label</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;-rh&quot;</span><span class="p">):</span>
+            <span class="n">labels_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="s1">&#39;leadfield_indices&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">rh_vert_to_lf</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">labels_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="s1">&#39;random_vertice&#39;</span><span class="p">]]</span>
+
+    <span class="k">return</span> <span class="n">labels_info</span></div>
+
+
+
+<div class="viewcode-block" id="assign_label_to_leadfield_index">
+<a class="viewcode-back" href="../../../mvpure_py.simulation.html#mvpure_py.simulation.simulate.assign_label_to_leadfield_index">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">assign_label_to_leadfield_index</span><span class="p">(</span>
+    <span class="n">labels_info</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">lh_vert_to_lf</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">rh_vert_to_lf</span><span class="p">:</span> <span class="n">Dict</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a mapping from leadfield indices to anatomical labels.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    labels_info : dict</span>
+<span class="sd">        Dictionary describing selected vertices for each label.</span>
+<span class="sd">    lh_vert_to_lf : dict</span>
+<span class="sd">        Mapping from left-hemisphere vertex to leadfield index.</span>
+<span class="sd">    rh_vert_to_lf : dict</span>
+<span class="sd">        Mapping from right-hemisphere vertex to leadfield index.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    lf_to_label : dict</span>
+<span class="sd">        Mapping from leadfield index to label name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lf_to_label</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels_info</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;-lh&quot;</span><span class="p">):</span>
+            <span class="n">vert_to_lf</span> <span class="o">=</span> <span class="n">lh_vert_to_lf</span>
+        <span class="k">elif</span> <span class="n">label</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;-rh&quot;</span><span class="p">):</span>
+            <span class="n">vert_to_lf</span> <span class="o">=</span> <span class="n">rh_vert_to_lf</span>
+
+        <span class="n">verts</span> <span class="o">=</span> <span class="n">labels_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="s1">&#39;random_vertice&#39;</span><span class="p">]</span>
+        <span class="n">lfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">vert_to_lf</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">verts</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">lf_idx</span> <span class="ow">in</span> <span class="n">lfs</span><span class="p">:</span>
+            <span class="n">lf_to_label</span><span class="p">[</span><span class="n">lf_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
+
+    <span class="k">return</span> <span class="n">lf_to_label</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_random_close_vertices</span><span class="p">(</span>
+        <span class="n">n_vertices</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">src</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">SourceSpaces</span><span class="p">,</span>
+        <span class="n">subject_vertices</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+        <span class="n">hemi_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">max_distance_cm</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">rng</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Randomly select source-space vertices located within a local neighbourhood.</span>
+
+<span class="sd">    The first vertex is randomly selected from the provided `subject_vertices`.</span>
+<span class="sd">    The remaining `n_vertices - 1` vertices are then randomly chosen from vertices which</span>
+<span class="sd">    Euclidean distance from the first vertex does not exceed `max_distance_cm`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_vertices : int</span>
+<span class="sd">        Total number of vertices to return.</span>
+<span class="sd">    src : mne.SourceSpaces</span>
+<span class="sd">        Source space containing vertex coordinates and indices.</span>
+<span class="sd">    subject_vertices : list</span>
+<span class="sd">        List of valid vertex indices available for selection within the current anatomical label and hemisphere.</span>
+<span class="sd">    hemi_idx : int</span>
+<span class="sd">        Hemisphere index in the source space:</span>
+<span class="sd">        `0` for left hemisphere, `1` for right hemisphere</span>
+<span class="sd">    max_distance_cm : float</span>
+<span class="sd">        Maximum allowed Euclidean distance in centimeters between the first randomly selected vertex</span>
+<span class="sd">        and all remaining vertices.</span>
+<span class="sd">    rng : np.random.Generator</span>
+<span class="sd">        NumPy random generator used for reproducible sampling.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        Sorted list of selected vertex indices of length `n_vertices`.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    -------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If no vertices are found within the specified distance threshold.</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If fewer than `n_vertices - 1` nearby vertices are available.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rr</span> <span class="o">=</span> <span class="n">src</span><span class="p">[</span><span class="n">hemi_idx</span><span class="p">][</span><span class="s1">&#39;rr&#39;</span><span class="p">]</span>
+    <span class="n">vertno</span> <span class="o">=</span> <span class="n">src</span><span class="p">[</span><span class="n">hemi_idx</span><span class="p">][</span><span class="s1">&#39;vertno&#39;</span><span class="p">]</span>
+
+    <span class="n">vertex_to_idx</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vertno</span><span class="p">)}</span>
+
+    <span class="c1"># Select first vertice randomly</span>
+    <span class="n">first_vertex</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">subject_vertices</span><span class="p">)</span>
+    <span class="n">first_coord</span> <span class="o">=</span> <span class="n">rr</span><span class="p">[</span><span class="n">vertex_to_idx</span><span class="p">[</span><span class="n">first_vertex</span><span class="p">]]</span>
+
+    <span class="c1"># Find vertices within distance threshold</span>
+    <span class="n">close_candidates</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">subject_vertices</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">first_vertex</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">euclidean</span><span class="p">(</span><span class="n">rr</span><span class="p">[</span><span class="n">vertex_to_idx</span><span class="p">[</span><span class="n">v</span><span class="p">]],</span> <span class="n">first_coord</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dist</span> <span class="o">&lt;=</span> <span class="n">max_distance_cm</span> <span class="o">/</span> <span class="mf">100.0</span><span class="p">:</span>
+            <span class="n">close_candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">close_candidates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;No vertices within </span><span class="si">{</span><span class="n">max_distance_cm</span><span class="si">}</span><span class="s2"> cm found in label&#39;&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Randomly choose all other vertices</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n_vertices</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">close_candidates</span><span class="p">):</span>
+        <span class="n">remain_vertices</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">close_candidates</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_vertices</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Too many vertices requested (</span><span class="si">{</span><span class="n">n_vertices</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot; Found only </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">close_candidates</span><span class="p">)</span><span class="si">}</span><span class="s2"> within </span><span class="si">{</span><span class="n">max_distance_cm</span><span class="si">}</span><span class="s2"> cm for label.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">first_vertex</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">remain_vertices</span><span class="p">])</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Julia Jurkowska et al.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,842 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mvpure_py.simulation.validate &#8212; mvpure_py 2.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=7be6d3a6"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/mvpure_py/simulation/validate';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">mvpure_py</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">mvpure_py.simulation.validate</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for mvpure_py.simulation.validate</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Validation of results achieved on synthetic data.&quot;&quot;&quot;</span>
+<span class="c1"># Author: Julia Jurkowska</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">mne</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.distance</span><span class="w"> </span><span class="kn">import</span> <span class="n">cdist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">linear_sum_assignment</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">vertices_to_coordinates</span><span class="p">,</span>
+    <span class="n">transform_leadfield_indices_to_vertices</span><span class="p">,</span>
+    <span class="n">subset_forward</span>
+<span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..localizer</span><span class="w"> </span><span class="kn">import</span> <span class="n">localize</span>
+
+
+<div class="viewcode-block" id="localization_error">
+<a class="viewcode-back" href="../../../mvpure_py.simulation.html#mvpure_py.simulation.validate.localization_error">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">localization_error</span><span class="p">(</span>
+        <span class="n">vertices_true</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
+        <span class="n">localized_vertices</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
+        <span class="n">src</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">SourceSpaces</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute localization error between true and estimated source vertices.</span>
+
+<span class="sd">    The function converts vertex indices to 3D coordinated using the provided source space and computes pairwise</span>
+<span class="sd">    Euclidean distances between true and localized sources. The Hungarian algorithm is used to determine the optimal</span>
+<span class="sd">    one-to-one assignment that minimizes total distance error.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    vertices_true : list[list[int]]</span>
+<span class="sd">        Ground-truth vertices for each hemisphere in the form ``[lh_vertices, rh_vertices]``</span>
+<span class="sd">    localized_vertices : list[list[int]]</span>
+<span class="sd">        Localized vertices for each hemisphere in the form ``[lh_vertices, rh_vertices]``</span>
+<span class="sd">    src : mne.SourceSpaces</span>
+<span class="sd">        Source space used to map vertices to 3D coordinates</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    results : dict</span>
+<span class="sd">        Dictionary containing localization error statistics:</span>
+
+<span class="sd">        - ``mean_error`` : float</span>
+<span class="sd">          Mean distance error (mm).</span>
+<span class="sd">        - ``median_error`` : float</span>
+<span class="sd">          Median distance error (mm).</span>
+<span class="sd">        - ``sum_error`` : float</span>
+<span class="sd">          Sum of all matched vertex errors (mm).</span>
+<span class="sd">        - ``max_error`` : float</span>
+<span class="sd">          Maximum error among matched vertices (mm).</span>
+<span class="sd">        - ``min_error`` : float</span>
+<span class="sd">          Minimum error among matched vertices (mm).</span>
+<span class="sd">        - ``errors_per_vertex`` : ndarray</span>
+<span class="sd">          Distance error for each matched vertex (mm).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pos_true</span> <span class="o">=</span> <span class="n">vertices_to_coordinates</span><span class="p">(</span><span class="n">vertices_true</span><span class="p">,</span> <span class="n">src</span><span class="p">)</span>
+    <span class="n">pos_loc</span> <span class="o">=</span> <span class="n">vertices_to_coordinates</span><span class="p">(</span><span class="n">localized_vertices</span><span class="p">,</span> <span class="n">src</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pos_true</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">pos_loc</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No active vertices found in ground truth or estimated set.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Pairwise distance matrix</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="n">pos_true</span><span class="p">,</span> <span class="n">pos_loc</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;euclidean&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Hungarian algorithm for optimal matching</span>
+    <span class="n">row_ind</span><span class="p">,</span> <span class="n">col_ind</span> <span class="o">=</span> <span class="n">linear_sum_assignment</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+    <span class="n">matched_distances</span> <span class="o">=</span> <span class="n">dist</span><span class="p">[</span><span class="n">row_ind</span><span class="p">,</span> <span class="n">col_ind</span><span class="p">]</span>
+    <span class="c1"># Unit conversion to mm</span>
+    <span class="n">matched_distances</span> <span class="o">=</span> <span class="n">matched_distances</span> <span class="o">*</span> <span class="mf">1000.0</span>
+
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;mean_error&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">matched_distances</span><span class="p">)),</span>
+        <span class="s2">&quot;median_error&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">matched_distances</span><span class="p">)),</span>
+        <span class="s2">&quot;sum_error&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">matched_distances</span><span class="p">)),</span>
+        <span class="s2">&quot;max_error&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">matched_distances</span><span class="p">)),</span>
+        <span class="s2">&quot;min_error&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">matched_distances</span><span class="p">)),</span>
+        <span class="s2">&quot;errors_per_vertex&quot;</span><span class="p">:</span> <span class="n">matched_distances</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">results</span></div>
+
+
+
+<div class="viewcode-block" id="evaluate_localization_for_each_rank">
+<a class="viewcode-back" href="../../../mvpure_py.simulation.html#mvpure_py.simulation.validate.evaluate_localization_for_each_rank">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate_localization_for_each_rank</span><span class="p">(</span>
+        <span class="n">subject</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">subjects_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">n_sources</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">R</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">Covariance</span><span class="p">,</span>
+        <span class="n">N</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">Covariance</span><span class="p">,</span>
+        <span class="n">forward</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">Forward</span><span class="p">,</span>
+        <span class="n">true_vertices</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
+        <span class="n">localizer_to_use</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">plot_correct_sources_by_rank</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">plot_sum_error_by_rank</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">plot_mean_error_by_rank</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">show_progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evaluate source localization performance for different rank parameters.</span>
+
+<span class="sd">    The function iteratively runs a source localization method for ranks ``1 ... n_sources`` and compared the localized</span>
+<span class="sd">    vertices with ground-truth vertices. For each rank, the number of correctly localized sources and localization error</span>
+<span class="sd">    metrics are computed.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    subject : str</span>
+<span class="sd">        Subject identifier the analysis is performed for</span>
+<span class="sd">    subjects_dir : str</span>
+<span class="sd">        Directory where ``subject`` folder is being stored</span>
+<span class="sd">    n_sources : int</span>
+<span class="sd">        Number of sources to localize</span>
+<span class="sd">    R : mne.Covariance</span>
+<span class="sd">        Data covariance matrix</span>
+<span class="sd">    N : mne.Covariance</span>
+<span class="sd">        Noise covariance matrix</span>
+<span class="sd">    forward : mne.Forward</span>
+<span class="sd">        Forward solution used for source localization.</span>
+<span class="sd">    true_vertices : list[list[int]]</span>
+<span class="sd">        Ground-truth vertices in the format ``[lh_vertices, rh_vertices]``.</span>
+<span class="sd">    localizer_to_use : list | str</span>
+<span class="sd">        Type of localizer index to use.</span>
+<span class="sd">        Options are: &#39;mai&#39;, &#39;mpz&#39;, &#39;mai_mvp&#39;, &#39;mpz_mvp&#39;.</span>
+<span class="sd">    plot_correct_sources_by_rank : bool, optional</span>
+<span class="sd">        Whether to plot the number of correctly localized sources per rank.</span>
+<span class="sd">        Default is True.</span>
+<span class="sd">    plot_sum_error_by_rank : bool, optional</span>
+<span class="sd">        Whether to plot the sum of localization errors per rank.</span>
+<span class="sd">        Default is False.</span>
+<span class="sd">    plot_mean_error_by_rank : bool, optional</span>
+<span class="sd">        Whether to plot the mean localization error per rank.</span>
+<span class="sd">        Default is True.</span>
+<span class="sd">    show_progress : bool, optional</span>
+<span class="sd">        Whether to display progress during localization. Default is True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    summary_dict : dict</span>
+<span class="sd">        Dictionary summarizing results for each rank. Each entry contains:</span>
+
+<span class="sd">        - ``localized`` : localization result object</span>
+<span class="sd">        - ``n_correctly_localized`` : int</span>
+<span class="sd">          Number of correctly identified vertices.</span>
+<span class="sd">        - ``correctly_localized`` : list[list[int]]</span>
+<span class="sd">          Intersection between estimated and true vertices.</span>
+<span class="sd">        - ``error_info`` : dict</span>
+<span class="sd">          Localization error statistics returned by</span>
+<span class="sd">          :func:`localization_error`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">summary_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_sources</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">rank_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;rank_</span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">summary_dict</span><span class="p">[</span><span class="n">rank_label</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># Localize for rank r</span>
+        <span class="n">locs_temp</span> <span class="o">=</span> <span class="n">localize</span><span class="p">(</span>
+            <span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span>
+            <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">,</span>
+            <span class="n">localizer_to_use</span><span class="o">=</span><span class="n">localizer_to_use</span><span class="p">,</span>
+            <span class="n">n_sources_to_localize</span><span class="o">=</span><span class="n">n_sources</span><span class="p">,</span>
+            <span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span>
+            <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span>
+            <span class="n">forward</span><span class="o">=</span><span class="n">forward</span><span class="p">,</span>
+            <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">,</span>
+            <span class="n">show_progress</span><span class="o">=</span><span class="n">show_progress</span>
+        <span class="p">)</span>
+        <span class="n">lh_vert</span><span class="p">,</span> <span class="n">lh_idx</span><span class="p">,</span> <span class="n">rh_vert</span><span class="p">,</span> <span class="n">rh_idx</span> <span class="o">=</span> <span class="n">transform_leadfield_indices_to_vertices</span><span class="p">(</span>
+            <span class="n">lf_idx</span><span class="o">=</span><span class="n">locs_temp</span><span class="p">[</span><span class="s2">&quot;sources&quot;</span><span class="p">],</span>
+            <span class="n">src</span><span class="o">=</span><span class="n">forward</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">],</span>
+            <span class="n">hemi</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+            <span class="n">include_mapping</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="n">locs_temp</span><span class="o">.</span><span class="n">add_vertices_info</span><span class="p">(</span>
+            <span class="n">lh_vertices</span><span class="o">=</span><span class="n">lh_vert</span><span class="p">,</span>
+            <span class="n">lh_indices</span><span class="o">=</span><span class="n">lh_idx</span><span class="p">,</span>
+            <span class="n">rh_vertices</span><span class="o">=</span><span class="n">rh_vert</span><span class="p">,</span>
+            <span class="n">rh_indices</span><span class="o">=</span><span class="n">rh_idx</span>
+        <span class="p">)</span>
+        <span class="n">summary_dict</span><span class="p">[</span><span class="n">rank_label</span><span class="p">][</span><span class="s1">&#39;localized&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">locs_temp</span>
+
+        <span class="n">lh_intersection</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">lh_vert</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">true_vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">rh_intersection</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">rh_vert</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">true_vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+        <span class="n">summary_dict</span><span class="p">[</span><span class="n">rank_label</span><span class="p">][</span><span class="s2">&quot;n_correctly_localized&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lh_intersection</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">rh_intersection</span><span class="p">)</span>
+        <span class="n">summary_dict</span><span class="p">[</span><span class="n">rank_label</span><span class="p">][</span><span class="s1">&#39;correctly_localized&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sorted</span><span class="p">(</span><span class="n">lh_intersection</span><span class="p">),</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">rh_intersection</span><span class="p">)]</span>
+        <span class="n">summary_dict</span><span class="p">[</span><span class="n">rank_label</span><span class="p">][</span><span class="s2">&quot;error_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">localization_error</span><span class="p">(</span>
+            <span class="n">vertices_true</span><span class="o">=</span><span class="n">true_vertices</span><span class="p">,</span>
+            <span class="n">localized_vertices</span><span class="o">=</span><span class="n">locs_temp</span><span class="p">[</span><span class="s1">&#39;vertno_in_use&#39;</span><span class="p">],</span>
+            <span class="n">src</span><span class="o">=</span><span class="n">forward</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">plot_correct_sources_by_rank</span><span class="p">:</span>
+        <span class="n">_plot_correct_sources_by_rank</span><span class="p">(</span><span class="n">summary_dict</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">plot_sum_error_by_rank</span><span class="p">:</span>
+        <span class="n">_plot_sum_error_by_rank</span><span class="p">(</span><span class="n">summary_dict</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">plot_mean_error_by_rank</span><span class="p">:</span>
+        <span class="n">_plot_mean_error_by_rank</span><span class="p">(</span><span class="n">summary_dict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">summary_dict</span></div>
+
+
+
+<div class="viewcode-block" id="evaluate_reconstruction">
+<a class="viewcode-back" href="../../../mvpure_py.simulation.html#mvpure_py.simulation.validate.evaluate_reconstruction">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate_reconstruction</span><span class="p">(</span><span class="n">summary_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+                            <span class="n">signal</span><span class="p">,</span>
+                            <span class="n">sim_stc</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">SourceEstimate</span><span class="p">,</span>
+                            <span class="n">fwd</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">Forward</span><span class="p">,</span>
+                            <span class="n">R</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">Covariance</span><span class="p">,</span>
+                            <span class="n">N</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">Covariance</span><span class="p">,</span>
+                            <span class="n">reg</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                            <span class="n">pick_ori</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">rank</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evaluate reconstruction quality using LCMV beamforming.</span>
+
+<span class="sd">    For each rank entr in the localization summary, two reconstructions are computed:</span>
+
+<span class="sd">    - LCMV using the full forward model</span>
+<span class="sd">    - LCMV using a forward model restricted to the localized sources.</span>
+
+<span class="sd">    Reconstruction performance is evaluated using the mean squared error (MSE)</span>
+<span class="sd">    between the simulated source activity and the reconstructed activity for</span>
+<span class="sd">    the correctly localized vertices.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    summary_dict : dict</span>
+<span class="sd">        Localization summary returned by</span>
+<span class="sd">        :func:`evaluate_localization_for_each_rank`.</span>
+<span class="sd">    signal : mne.Epochs</span>
+<span class="sd">        Sensor-space data used for beamforming.</span>
+<span class="sd">    sim_stc : mne.SourceEstimate</span>
+<span class="sd">        Simulated ground-truth source time course.</span>
+<span class="sd">    fwd : mne.Forward</span>
+<span class="sd">        Full forward solution.</span>
+<span class="sd">    R : mne.Covariance</span>
+<span class="sd">        Data covariance</span>
+<span class="sd">    N : mne.Covariance</span>
+<span class="sd">        Noise covariance</span>
+<span class="sd">    reg : float, optional</span>
+<span class="sd">        Regularization parameter for LCMV. Default is 0.05.</span>
+<span class="sd">    pick_ori : str | None, optional</span>
+<span class="sd">        Orientation selection for beamformer weights.</span>
+<span class="sd">    rank : int | None, optional</span>
+<span class="sd">        Rank used in beamformer computation.</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Additional arguments passed to ``mne.beamformer.make_lcmv``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">key_rank</span><span class="p">,</span> <span class="n">summary</span> <span class="ow">in</span> <span class="n">summary_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key_rank</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># LCMV on full (unchanged) mne.Forward</span>
+        <span class="n">lcmv_org</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">beamformer</span><span class="o">.</span><span class="n">make_lcmv</span><span class="p">(</span>
+            <span class="n">signal</span><span class="o">.</span><span class="n">info</span><span class="p">,</span>
+            <span class="n">fwd</span><span class="p">,</span>
+            <span class="n">data_cov</span><span class="o">=</span><span class="n">R</span><span class="p">,</span>
+            <span class="n">reg</span><span class="o">=</span><span class="n">reg</span><span class="p">,</span>
+            <span class="n">noise_cov</span><span class="o">=</span><span class="n">N</span><span class="p">,</span>
+            <span class="n">pick_ori</span><span class="o">=</span><span class="n">pick_ori</span><span class="p">,</span>
+            <span class="n">weight_norm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">rank</span><span class="o">=</span><span class="n">rank</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+
+        <span class="n">stc_lcmv_org</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">beamformer</span><span class="o">.</span><span class="n">apply_lcmv</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">lcmv_org</span><span class="p">)</span>
+
+        <span class="c1"># LCMV only on correctly localized sources</span>
+        <span class="n">new_fwd</span> <span class="o">=</span> <span class="n">subset_forward</span><span class="p">(</span>
+            <span class="n">old_fwd</span><span class="o">=</span><span class="n">fwd</span><span class="p">,</span>
+            <span class="n">localized</span><span class="o">=</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;localized&#39;</span><span class="p">],</span>
+            <span class="n">hemi</span><span class="o">=</span><span class="s2">&quot;both&quot;</span>
+        <span class="p">)</span>
+        <span class="n">lcmv_subset</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">beamformer</span><span class="o">.</span><span class="n">make_lcmv</span><span class="p">(</span>
+            <span class="n">signal</span><span class="o">.</span><span class="n">info</span><span class="p">,</span>
+            <span class="n">new_fwd</span><span class="p">,</span>
+            <span class="n">data_cov</span><span class="o">=</span><span class="n">R</span><span class="p">,</span>
+            <span class="n">reg</span><span class="o">=</span><span class="n">reg</span><span class="p">,</span>
+            <span class="n">noise_cov</span><span class="o">=</span><span class="n">N</span><span class="p">,</span>
+            <span class="n">pick_ori</span><span class="o">=</span><span class="n">pick_ori</span><span class="p">,</span>
+            <span class="n">weight_norm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">rank</span><span class="o">=</span><span class="n">rank</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+
+        <span class="n">stc_lcmv_subset</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">beamformer</span><span class="o">.</span><span class="n">apply_lcmv</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">lcmv_subset</span><span class="p">)</span>
+
+        <span class="c1"># Crop Source Estimate from simulation</span>
+        <span class="n">sim_stc_cropped</span> <span class="o">=</span> <span class="n">sim_stc</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">tmin</span><span class="o">=</span><span class="n">stc_lcmv_subset</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                              <span class="n">tmax</span><span class="o">=</span><span class="n">stc_lcmv_subset</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="c1"># check</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">stc_lcmv_subset</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">stc_lcmv_org</span><span class="o">.</span><span class="n">times</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">stc_lcmv_subset</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">sim_stc_cropped</span><span class="o">.</span><span class="n">times</span><span class="p">)</span>
+
+        <span class="n">sim_stc_soi</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_stc_data_for_vertices</span><span class="p">(</span><span class="n">sim_stc_cropped</span><span class="p">,</span> <span class="n">vertices</span><span class="o">=</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;correctly_localized&#39;</span><span class="p">])</span>
+        <span class="n">stc_lcmv_org_soi</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_stc_data_for_vertices</span><span class="p">(</span><span class="n">stc_lcmv_org</span><span class="p">,</span> <span class="n">vertices</span><span class="o">=</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;correctly_localized&#39;</span><span class="p">])</span>
+        <span class="n">stc_lcmv_subset_soi</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_stc_data_for_vertices</span><span class="p">(</span><span class="n">stc_lcmv_subset</span><span class="p">,</span> <span class="n">vertices</span><span class="o">=</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;correctly_localized&#39;</span><span class="p">])</span>
+
+        <span class="n">mse_sim_lcmv_org</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">sim_stc_soi</span><span class="p">,</span> <span class="n">stc_lcmv_org_soi</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MSE simulation &lt;-&gt; full LCMV: </span><span class="si">{</span><span class="n">mse_sim_lcmv_org</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">mse_sim_lcmv_subset</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">sim_stc_soi</span><span class="p">,</span> <span class="n">stc_lcmv_subset_soi</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MSE simulation &lt;-&gt; subset LCMV: </span><span class="si">{</span><span class="n">mse_sim_lcmv_subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_stc_data_for_vertices">
+<a class="viewcode-back" href="../../../mvpure_py.simulation.html#mvpure_py.simulation.validate.get_stc_data_for_vertices">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_stc_data_for_vertices</span><span class="p">(</span><span class="n">stc</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">SourceEstimate</span><span class="p">,</span>
+                              <span class="n">vertices</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract source time courses for specific vertices from a SourceEstimate.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    stc : mne.SourceEstimate</span>
+<span class="sd">        Source estimate containing source time courses.</span>
+<span class="sd">    vertices : [list[list[int]]</span>
+<span class="sd">        Vertices of interest in the format ``[lh_vertices, rh_vertices]``</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : ndarray</span>
+<span class="sd">        Source time courses corresponding to the selected vertices</span>
+<span class="sd">        with shape ``(n_vertices, n_times)``.</span>
+<span class="sd">    indices : ndarray</span>
+<span class="sd">        Indices of the selected vertices within ``stc.data``.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lh_vertices</span><span class="p">,</span> <span class="n">rh_vertices</span> <span class="o">=</span> <span class="n">vertices</span>
+
+    <span class="n">lh_vertno</span><span class="p">,</span> <span class="n">rh_vertno</span> <span class="o">=</span> <span class="n">stc</span><span class="o">.</span><span class="n">vertices</span>
+    <span class="n">lh_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lh_vertno</span><span class="p">)</span>
+
+    <span class="n">lh_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lh_vertno</span><span class="p">)}</span>
+    <span class="n">rh_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">lh_len</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rh_vertno</span><span class="p">)}</span>
+
+    <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">lh_vertices</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">lh_map</span><span class="p">:</span>
+            <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lh_map</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">rh_vertices</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">rh_map</span><span class="p">:</span>
+            <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rh_map</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">stc</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">indices</span><span class="p">],</span> <span class="n">indices</span></div>
+
+
+
+<div class="viewcode-block" id="compare_with_strongest_sources_lcmv">
+<a class="viewcode-back" href="../../../mvpure_py.simulation.html#mvpure_py.simulation.validate.compare_with_strongest_sources_lcmv">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compare_with_strongest_sources_lcmv</span><span class="p">(</span>
+        <span class="n">signal</span><span class="p">,</span>
+        <span class="n">n_sources</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">true_vertices</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
+        <span class="n">forward</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">Forward</span><span class="p">,</span>
+        <span class="n">R</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">Covariance</span><span class="p">,</span>
+        <span class="n">N</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">Covariance</span><span class="p">,</span>
+        <span class="n">reg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span>
+        <span class="n">pick_ori</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Identify the strongest sources based on LCMV reconstruction and compare them to ground-truth sources.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    signal :</span>
+<span class="sd">        Sensor space data</span>
+<span class="sd">    n_sources : int</span>
+<span class="sd">        Number of sources to localize.</span>
+<span class="sd">    true_vertices : list[list[int]]</span>
+<span class="sd">        Ground-truth vertices in the format ``[lh_vertices, rh_vertices]``.</span>
+<span class="sd">    forward : mne.Forward</span>
+<span class="sd">        Forward solution used for creating ground-truth data.</span>
+<span class="sd">    R : mne.Covariance</span>
+<span class="sd">        Data covariance matrix</span>
+<span class="sd">    N : mne.Covariance</span>
+<span class="sd">        Noise covariance matrix</span>
+<span class="sd">    reg : float</span>
+<span class="sd">        The regularization for the whitened data covariance. Default to 0.05.</span>
+<span class="sd">    pick_ori :</span>
+<span class="sd">        Orientation specification. Default to None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lcmv</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">beamformer</span><span class="o">.</span><span class="n">make_lcmv</span><span class="p">(</span>
+        <span class="n">signal</span><span class="o">.</span><span class="n">info</span><span class="p">,</span>
+        <span class="n">forward</span><span class="p">,</span>
+        <span class="n">R</span><span class="p">,</span>
+        <span class="n">reg</span><span class="o">=</span><span class="n">reg</span><span class="p">,</span>
+        <span class="n">noise_cov</span><span class="o">=</span><span class="n">N</span><span class="p">,</span>
+        <span class="n">pick_ori</span><span class="o">=</span><span class="n">pick_ori</span><span class="p">,</span>
+        <span class="n">weight_norm</span><span class="o">=</span><span class="s2">&quot;nai&quot;</span><span class="p">,</span>
+        <span class="n">rank</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">)</span>
+    <span class="n">stc</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">beamformer</span><span class="o">.</span><span class="n">apply_lcmv</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">lcmv</span><span class="p">)</span>
+
+    <span class="c1"># Maximum NAI value for each source across time</span>
+    <span class="n">peak_nai_per_source</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">stc</span><span class="o">.</span><span class="n">data</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># Indices of strongest sources</span>
+    <span class="n">top_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">peak_nai_per_source</span><span class="p">)[</span><span class="o">-</span><span class="n">n_sources</span><span class="p">:][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">top_vertices</span> <span class="o">=</span> <span class="p">[[],</span> <span class="p">[]]</span>  <span class="c1"># [[lh], [rh]]</span>
+    <span class="n">n_lh</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">stc</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">top_idx</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="n">n_lh</span><span class="p">:</span>
+            <span class="n">top_vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stc</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">idx</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">top_vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stc</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">idx</span> <span class="o">-</span> <span class="n">n_lh</span><span class="p">])</span>
+
+    <span class="n">lh_intersection</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">top_vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">true_vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">rh_intersection</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">top_vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">true_vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+    <span class="n">n_correctly_localized</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lh_intersection</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">rh_intersection</span><span class="p">)</span>
+    <span class="n">error_info</span> <span class="o">=</span> <span class="n">localization_error</span><span class="p">(</span>
+        <span class="n">vertices_true</span><span class="o">=</span><span class="n">true_vertices</span><span class="p">,</span>
+        <span class="n">localized_vertices</span><span class="o">=</span><span class="n">top_vertices</span><span class="p">,</span>
+        <span class="n">src</span><span class="o">=</span><span class="n">forward</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">top_vertices</span><span class="p">,</span> <span class="n">n_correctly_localized</span><span class="p">,</span> <span class="n">error_info</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_plot_correct_sources_by_rank</span><span class="p">(</span>
+        <span class="n">evaluation_summary_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;indigo&quot;</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot the number of correctly localized sources as a function of rank.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">correctly_localized</span> <span class="o">=</span> <span class="p">[</span><span class="n">evaluation_summary_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;n_correctly_localized&quot;</span><span class="p">]</span>
+                           <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">evaluation_summary_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">correctly_localized</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">correctly_localized</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="n">color</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">correctly_localized</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">correctly_localized</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+               <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">correctly_localized</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">correctly_localized</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">correctly_localized</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+               <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">correctly_localized</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Rank parameter&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Number of correctly localized sources&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_plot_sum_error_by_rank</span><span class="p">(</span>
+        <span class="n">evaluation_summary_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;indigo&quot;</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot the sum of localization errors as a function of rank.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">error_sum</span> <span class="o">=</span> <span class="p">[</span><span class="n">evaluation_summary_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;error_info&quot;</span><span class="p">][</span><span class="s2">&quot;sum_error&quot;</span><span class="p">]</span>
+                 <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">evaluation_summary_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">error_sum</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">error_sum</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="n">color</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">error_sum</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">error_sum</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+               <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">error_sum</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Rank parameter&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Sum of distance error [mm]&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_plot_mean_error_by_rank</span><span class="p">(</span>
+        <span class="n">evaluation_summary_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;indigo&quot;</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot the mean localization error as a function of rank.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mean_sum</span> <span class="o">=</span> <span class="p">[</span><span class="n">evaluation_summary_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;error_info&quot;</span><span class="p">][</span><span class="s2">&quot;mean_error&quot;</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">evaluation_summary_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">mean_sum</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">mean_sum</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="n">color</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">mean_sum</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">mean_sum</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+               <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">mean_sum</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Rank parameter&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Mean of distance error [mm]&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Julia Jurkowska et al.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

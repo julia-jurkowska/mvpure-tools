@@ -3,10 +3,10 @@ API Reference
 .. toctree::
    :maxdepth: 2
 
-   mvpure_py.beamformer
    mvpure_py.localizer
    mvpure_py.viz
    mvpure_py.utils
+   mvpure_py.simulation
 
 Tutorials
 =========
@@ -15,6 +15,7 @@ Tutorials
 
    tutorials/preprocessing_data_from_oddball_paradigm
    tutorials/source_localization_and_reconstruction_on_data_from_oddball_paradigm
+   tutorials/simulating_and_localizing_multi-source_EEG_activity_with_MVPURE_py
 
 
 

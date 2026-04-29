@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>mvpure_py.localizer &#8212; mvpure_py 1.0 documentation</title>
+    <title>mvpure_py.localizer &#8212; mvpure_py 2.0 documentation</title>
   
   
   
@@ -38,17 +38,15 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=d6b6a36a"></script>
-    <script src="_static/doctools.js?v=9bcbadda"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/documentation_options.js?v=7be6d3a6"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'mvpure_py.localizer';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="mvpure_py.viz" href="mvpure_py.viz.html" />
-    <link rel="prev" title="mvpure_py.beamformer" href="mvpure_py.beamformer.html" />
+    <link rel="prev" title="API Reference" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -211,8 +209,8 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="mvpure_py.beamformer.html">mvpure_py.beamformer</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">mvpure_py.localizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mvpure_py.simulation.html">mvpure_py.simulation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mvpure_py.utils.html">mvpure_py.utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mvpure_py.viz.html">mvpure_py.viz</a></li>
 </ul>
@@ -281,76 +279,12 @@
                   
   <section id="mvpure-py-localizer">
 <h1>mvpure_py.localizer<a class="headerlink" href="#mvpure-py-localizer" title="Link to this heading">#</a></h1>
-<section id="module-mvpure_py.localizer.localizer_utils">
-<span id="mvpure-py-localizer-localizer-utils"></span><h2>mvpure_py.localizer.localizer_utils<a class="headerlink" href="#module-mvpure_py.localizer.localizer_utils" title="Link to this heading">#</a></h2>
-<p>Functions used during sources localization.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="mvpure_py.localizer.localizer_utils.get_activity_index">
-<span class="sig-prename descclassname"><span class="pre">mvpure_py.localizer.localizer_utils.</span></span><span class="sig-name descname"><span class="pre">get_activity_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">localizer_to_use</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sources_to_localize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">16384</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/mvpure_py/localizer/localizer_utils.html#get_activity_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.localizer.localizer_utils.get_activity_index" title="Link to this definition">#</a></dt>
-<dd><p>Greedy source localization algorithm.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>localizer_to_use</strong> (<em>str</em>) – Which localizer to use: ‘mai’, ‘mpz’, ‘mai_mvp’, ‘mpz_mvp’.</p></li>
-<li><p><strong>H</strong> (<em>np.ndarray</em>) – Leadfield matrix (channels x sources).</p></li>
-<li><p><strong>R</strong> (<em>np.ndarray</em>) – Measurement covariance matrix.</p></li>
-<li><p><strong>N</strong> (<em>np.ndarray</em>) – Noise covariance matrix.</p></li>
-<li><p><strong>n_sources_to_localize</strong> (<em>int</em>) – Number of sources to select.</p></li>
-<li><p><strong>r</strong> (<em>int</em>) – Rank parameter.</p></li>
-<li><p><strong>batch_size</strong> (<em>int</em>) – Number of candidates processed per batch.</p></li>
-<li><p><strong>show_progress</strong> (<em>bool</em>) – Whether to show a progress bar.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>index_max</strong> (<em>List[int]</em>) – Indices of selected sources.</p></li>
-<li><p><strong>act_values</strong> (<em>np.ndarray</em>) – Activity index values for each selected source.</p></li>
-<li><p><strong>r</strong> (<em>int</em>) – Rank parameter (unchanged).</p></li>
-<li><p><strong>H_res</strong> (<em>np.ndarray</em>) – Selected columns of H.</p></li>
-</ul>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mvpure_py.localizer.localizer_utils.suggest_n_sources_and_rank">
-<span class="sig-prename descclassname"><span class="pre">mvpure_py.localizer.localizer_utils.</span></span><span class="sig-name descname"><span class="pre">suggest_n_sources_and_rank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sources_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/mvpure_py/localizer/localizer_utils.html#suggest_n_sources_and_rank"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.localizer.localizer_utils.suggest_n_sources_and_rank" title="Link to this definition">#</a></dt>
-<dd><p>Automatically propose number of sources to localize and rank based on Proposition 3 in <a class="footnote-reference brackets" href="#id4" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>R</strong> (<em>array-like</em>) – Data covariance matrix</p></li>
-<li><p><strong>N</strong> (<em>array-like</em>) – Noise covariance matrix</p></li>
-<li><p><strong>show_plot</strong> (<em>bool</em>) – Whether to display a graph of the eigenvalues of the <span class="math notranslate nohighlight">\(RN^{-1}\)</span> matrix.
-Default to True.</p></li>
-<li><p><strong>subject</strong> (<em>str</em>) – Subject name the analysis is performed for. Optional.</p></li>
-<li><p><strong>n_sources_threshold</strong> (<em>float</em>) – Number of eigenvalues of the <span class="math notranslate nohighlight">\(RN^{-1}\)</span> matrix below this threshold corresponds to the suggested
-number of sources to localize.
-Default to 1.0. For more details see Observation 1 in <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p></li>
-<li><p><strong>rank_threshold</strong> (<em>float</em>) – Number of eigenvalues of the <span class="math notranslate nohighlight">\(RN^{-1}\)</span> matrix below this threshold corresponds to the
-suggested rank optimization parameter.
-Default to 1.5. For more details see Proposition 3 in <a class="footnote-reference brackets" href="#id4" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>n_sources</strong> (<em>int</em>) – Suggested number of sources to localize.</p></li>
-<li><p><strong>rank</strong> (<em>int</em>) – Suggested rank optimization parameter.</p></li>
-</ul>
-</p>
-</dd>
-</dl>
-<p class="rubric">References</p>
-</dd></dl>
-
-</section>
 <section id="module-mvpure_py.localizer.mvpure_localizer">
 <span id="mvpure-py-localizer-mvpure-localizer"></span><h2>mvpure_py.localizer.mvpure_localizer<a class="headerlink" href="#module-mvpure_py.localizer.mvpure_localizer" title="Link to this heading">#</a></h2>
 <p>Localizing sources.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="mvpure_py.localizer.mvpure_localizer.Localized">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mvpure_py.localizer.mvpure_localizer.</span></span><span class="sig-name descname"><span class="pre">Localized</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subjects_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mvpure_py/localizer/mvpure_localizer.html#Localized"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.localizer.mvpure_localizer.Localized" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">mvpure_py.localizer.mvpure_localizer.</span></span><span class="sig-name descname"><span class="pre">Localized</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subjects_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mvpure_py/localizer/mvpure_localizer.html#Localized"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.localizer.mvpure_localizer.Localized" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
 <p>Class to handle localized sources.</p>
 <dl class="py method">
@@ -485,39 +419,8 @@ Needed only if ‘brain_region’ key is not present in Localized[‘vertices’
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mvpure_py.localizer.mvpure_localizer.localize">
-<span class="sig-prename descclassname"><span class="pre">mvpure_py.localizer.mvpure_localizer.</span></span><span class="sig-name descname"><span class="pre">localize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subjects_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">localizer_to_use</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sources_to_localize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forward</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Forward</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leadfield</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'full'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/mvpure_py/localizer/mvpure_localizer.html#localize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.localizer.mvpure_localizer.localize" title="Link to this definition">#</a></dt>
-<dd><p>Localize brain activity.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>subject</strong> (<em>str</em>) – Subject name the analysis is performed for</p></li>
-<li><p><strong>subjects_dir</strong> (<em>str</em>) – Directory where <code class="docutils literal notranslate"><span class="pre">subject</span></code> folder is being stored</p></li>
-<li><p><strong>localizer_to_use</strong> (<em>str</em><em> | </em><em>list</em>) – Type of localizer index to use.
-Options are: ‘mai’, ‘mpz’, ‘mai_mvp’, ‘mpz_mvp’.</p></li>
-<li><p><strong>n_sources_to_localize</strong> (<em>int</em>) – Number of sources to localize</p></li>
-<li><p><strong>R</strong> (<em>array-like</em>) – Data covariance matrix</p></li>
-<li><p><strong>N</strong> (<em>array-like</em>) – Noise covariance matrix</p></li>
-<li><p><strong>forward</strong> (<em>mne.Forward</em>) – The forward operator.
-Can be None if <code class="docutils literal notranslate"><span class="pre">leadfield</span></code> has valid value.</p></li>
-<li><p><strong>leadfield</strong> (<em>array-like</em>) – Leadfield matrix with shape (n_channels, n_sources).
-Can be None if <code class="docutils literal notranslate"><span class="pre">forward</span></code> has valid value.</p></li>
-<li><p><strong>r</strong> (<em>str</em><em> | </em><em>int</em>) – <p>Optimization parameter.</p>
-<ul>
-<li><p>If int, should be equal or less to <code class="docutils literal notranslate"><span class="pre">n_sources_to_localize</span></code>.</p></li>
-<li><p>If equal to <code class="docutils literal notranslate"><span class="pre">&quot;full&quot;</span></code>: <code class="docutils literal notranslate"><span class="pre">r</span></code> will be equal to <code class="docutils literal notranslate"><span class="pre">n_sources_to_localize</span></code>.</p></li>
-</ul>
-</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>mvpure_py.Localized</strong> (Instance of <code class="docutils literal notranslate"><span class="pre">mvpure_py.Localized</span></code> containing information of localizer type, localized)</p></li>
-<li><p><em>sources and their leadfield.</em></p></li>
-</ul>
-</p>
-</dd>
-</dl>
-</dd></dl>
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.localizer.mvpure_localizer.</span></span><span class="sig-name descname"><span class="pre">localize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subjects_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">localizer_to_use</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sources_to_localize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forward</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Forward</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leadfield</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'full'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mvpure_py/localizer/mvpure_localizer.html#localize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.localizer.mvpure_localizer.localize" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mvpure_py.localizer.mvpure_localizer.read_localized">
@@ -537,13 +440,74 @@ Can be None if <code class="docutils literal notranslate"><span class="pre">forw
 </dd></dl>
 
 </section>
+<section id="module-mvpure_py.localizer.localizer_utils">
+<span id="mvpure-py-localizer-localizer-utils"></span><h2>mvpure_py.localizer.localizer_utils<a class="headerlink" href="#module-mvpure_py.localizer.localizer_utils" title="Link to this heading">#</a></h2>
+<p>Functions used during sources localization.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mvpure_py.localizer.localizer_utils.PSDPinvApply">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">mvpure_py.localizer.localizer_utils.</span></span><span class="sig-name descname"><span class="pre">PSDPinvApply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">U</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mvpure_py/localizer/localizer_utils.html#PSDPinvApply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.localizer.localizer_utils.PSDPinvApply" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="simple">
+<dt>Robust pseudo-inverse operator for PSD (possibly low-rank) matrix A:</dt><dd><p>A^+ ≈ U diag(1/lam) U^T  (truncated eigenpairs)</p>
+</dd>
+</dl>
+<p>Use: op.apply(X) = A^+ &#64; X</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mvpure_py.localizer.localizer_utils.PSDPinvApply.U">
+<span class="sig-name descname"><span class="pre">U</span></span><a class="headerlink" href="#mvpure_py.localizer.localizer_utils.PSDPinvApply.U" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mvpure_py.localizer.localizer_utils.PSDPinvApply.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/mvpure_py/localizer/localizer_utils.html#PSDPinvApply.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.localizer.localizer_utils.PSDPinvApply.apply" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mvpure_py.localizer.localizer_utils.PSDPinvApply.cutoff">
+<span class="sig-name descname"><span class="pre">cutoff</span></span><a class="headerlink" href="#mvpure_py.localizer.localizer_utils.PSDPinvApply.cutoff" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mvpure_py.localizer.localizer_utils.PSDPinvApply.lam">
+<span class="sig-name descname"><span class="pre">lam</span></span><a class="headerlink" href="#mvpure_py.localizer.localizer_utils.PSDPinvApply.lam" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.localizer.localizer_utils.get_activity_index">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.localizer.localizer_utils.</span></span><span class="sig-name descname"><span class="pre">get_activity_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">localizer_to_use</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sources_to_localize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">16384</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/mvpure_py/localizer/localizer_utils.html#get_activity_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.localizer.localizer_utils.get_activity_index" title="Link to this definition">#</a></dt>
+<dd><p>Greedy source localization algorithm.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mvpure_py.localizer.localizer_utils.psd_pinv_operator">
+<span class="sig-prename descclassname"><span class="pre">mvpure_py.localizer.localizer_utils.</span></span><span class="sig-name descname"><span class="pre">psd_pinv_operator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps_rel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#mvpure_py.localizer.localizer_utils.PSDPinvApply" title="mvpure_py.localizer.localizer_utils.PSDPinvApply"><span class="pre">PSDPinvApply</span></a></span></span><a class="reference internal" href="_modules/mvpure_py/localizer/localizer_utils.html#psd_pinv_operator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvpure_py.localizer.localizer_utils.psd_pinv_operator" title="Link to this definition">#</a></dt>
+<dd><p>Build a robust pseudo-inverse <em>operator</em> for PSD A (low-rank supported).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A</strong> (<em>(</em><em>m</em><em>,</em><em>m</em><em>) </em><em>PSD matrix</em><em> (</em><em>may be singular</em><em>)</em>)</p></li>
+<li><p><strong>rmax</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – Keep at most rmax eigenpairs (largest).</p></li>
+<li><p><strong>eps_rel</strong> (<em>float</em>) – Keep eigenvalues &gt; eps_rel * max_eig.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>.apply(X) computes A^+ &#64; X</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#mvpure_py.localizer.localizer_utils.PSDPinvApply" title="mvpure_py.localizer.localizer_utils.PSDPinvApply">PSDPinvApply</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 <section id="module-mvpure_py.localizer">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mvpure_py.localizer" title="Link to this heading">#</a></h2>
 <p class="rubric">References</p>
 <aside class="footnote-list brackets">
-<aside class="footnote brackets" id="id4" role="doc-footnote">
+<aside class="footnote brackets" id="id1" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>,<a role="doc-backlink" href="#id3">3</a>)</span>
 <p>Jurkowska, J., Dreszer, J., Lewandowska, M., Tolpa, K., &amp; Piotrowski, T. J. (2025).
 Multi-Source Neural Activity Indices and Spatial Filters for EEG/MEG Inverse Problem: An Extension to MNE-Python. bioRxiv, 2025-09.</p>
 </aside>
@@ -562,12 +526,12 @@ Multi-Source Neural Activity Indices and Spatial Filters for EEG/MEG Inverse Pro
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="mvpure_py.beamformer.html"
+       href="index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">mvpure_py.beamformer</p>
+        <p class="prev-next-title">API Reference</p>
       </div>
     </a>
     <a class="right-next"
@@ -598,11 +562,6 @@ Multi-Source Neural Activity Indices and Spatial Filters for EEG/MEG Inverse Pro
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mvpure_py.localizer.localizer_utils">mvpure_py.localizer.localizer_utils</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.localizer.localizer_utils.get_activity_index"><code class="docutils literal notranslate"><span class="pre">get_activity_index()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.localizer.localizer_utils.suggest_n_sources_and_rank"><code class="docutils literal notranslate"><span class="pre">suggest_n_sources_and_rank()</span></code></a></li>
-</ul>
-</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mvpure_py.localizer.mvpure_localizer">mvpure_py.localizer.mvpure_localizer</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.localizer.mvpure_localizer.Localized"><code class="docutils literal notranslate"><span class="pre">Localized</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.localizer.mvpure_localizer.Localized.add_power_of_reconstructed"><code class="docutils literal notranslate"><span class="pre">Localized.add_power_of_reconstructed()</span></code></a></li>
@@ -618,6 +577,18 @@ Multi-Source Neural Activity Indices and Spatial Filters for EEG/MEG Inverse Pro
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.localizer.mvpure_localizer.localize"><code class="docutils literal notranslate"><span class="pre">localize()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.localizer.mvpure_localizer.read_localized"><code class="docutils literal notranslate"><span class="pre">read_localized()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mvpure_py.localizer.localizer_utils">mvpure_py.localizer.localizer_utils</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.localizer.localizer_utils.PSDPinvApply"><code class="docutils literal notranslate"><span class="pre">PSDPinvApply</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.localizer.localizer_utils.PSDPinvApply.U"><code class="docutils literal notranslate"><span class="pre">PSDPinvApply.U</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.localizer.localizer_utils.PSDPinvApply.apply"><code class="docutils literal notranslate"><span class="pre">PSDPinvApply.apply()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.localizer.localizer_utils.PSDPinvApply.cutoff"><code class="docutils literal notranslate"><span class="pre">PSDPinvApply.cutoff</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.localizer.localizer_utils.PSDPinvApply.lam"><code class="docutils literal notranslate"><span class="pre">PSDPinvApply.lam</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.localizer.localizer_utils.get_activity_index"><code class="docutils literal notranslate"><span class="pre">get_activity_index()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mvpure_py.localizer.localizer_utils.psd_pinv_operator"><code class="docutils literal notranslate"><span class="pre">psd_pinv_operator()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mvpure_py.localizer">Module contents</a></li>
@@ -658,7 +629,7 @@ Multi-Source Neural Activity Indices and Spatial Filters for EEG/MEG Inverse Pro
 
   <p class="copyright">
     
-      © Copyright 2025, Julia Jurkowska et al.
+      © Copyright 2026, Julia Jurkowska et al.
       <br/>
     
   </p>
@@ -667,7 +638,7 @@ Multi-Source Neural Activity Indices and Spatial Filters for EEG/MEG Inverse Pro
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Source localization and signal reconstruction - case study for oddball data &#8212; mvpure_py 1.0 documentation</title>
+    <title>Source localization and signal reconstruction - case study for oddball data &#8212; mvpure_py 2.0 documentation</title>
   
   
   
@@ -39,15 +39,16 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d6b6a36a"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/documentation_options.js?v=7be6d3a6"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/source_localization_and_reconstruction_on_data_from_oddball_paradigm';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Simulating and Localizing Multi-Source EEG Activity with MVPURE_py" href="simulating_and_localizing_multi-source_EEG_activity_with_MVPURE_py.html" />
     <link rel="prev" title="EEG Preprocessing for an Oddball Paradigm" href="preprocessing_data_from_oddball_paradigm.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -305,7 +306,7 @@ div.nboutput:not(:has(div.figure)) {
 
 <span class="n">mne</span><span class="o">.</span><span class="n">viz</span><span class="o">.</span><span class="n">set_3d_backend</span><span class="p">(</span><span class="s1">&#39;pyvistaqt&#39;</span><span class="p">)</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">mvpure_py</span><span class="w"> </span><span class="kn">import</span> <span class="n">localizer</span><span class="p">,</span> <span class="n">beamformer</span><span class="p">,</span> <span class="n">viz</span><span class="p">,</span> <span class="n">utils</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mvpure_py</span><span class="w"> </span><span class="kn">import</span> <span class="n">localizer</span><span class="p">,</span> <span class="n">viz</span><span class="p">,</span> <span class="n">utils</span>
 </pre></div>
 </div>
 </div>
@@ -345,7 +346,7 @@ Using pyvistaqt 3d backend.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Reading /Users/julia/Downloads/sample_subject/_eeg/_pre/sample_subject_oddball-epo.fif ...
+Reading /Volumes/UMK/oddball/subjects/sample_subject/_eeg/_pre/sample_subject_oddball-epo.fif ...
     Found the data of interest:
         t =    -199.22 ...     800.78 ms
         0 CTF compensation matrices available
@@ -391,7 +392,7 @@ SSP projectors applied...
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Reading forward solution from /Users/julia/Downloads/sample_subject/forward/sample_subject_ico4-fwd.fif...
+Reading forward solution from /Volumes/UMK/oddball/subjects/sample_subject/forward/sample_subject_ico4-fwd.fif...
     Reading a source space...
     [done]
     Reading a source space...
@@ -462,64 +463,62 @@ Number of samples used : 3042
 </div>
 <section id="RN^{-1}-eigenvalues-analysis">
 <h3><span class="math notranslate nohighlight">\(RN^{-1}\)</span> eigenvalues analysis<a class="headerlink" href="#RN^{-1}-eigenvalues-analysis" title="Link to this heading">#</a></h3>
-<p>Before attempting source localization, we need to decide <strong>how many sources</strong> to model and with what <strong>rank</strong>. Our proposition is to analyze the eigenvalues of the product of data covariance matrix <span class="math notranslate nohighlight">\(R\)</span> and the inverse of the noise covariance matrix <span class="math notranslate nohighlight">\(N\)</span>. For a detailed theoretical background, see <a class="reference external" href="https://www.biorxiv.org/content/10.1101/2025.09.15.676243v1">paper</a>.</p>
+<p>Before localization, we examine the eigenvalue spectrum of the whitened data covariance (RN⁻¹). Large eigenvalues indicate signal-dominated subspace; small ones reflect noise.</p>
+<p>The plot shows:</p>
+<ul class="simple">
+<li><p><strong>Eigenvalues vs. rank</strong>: Helps determine optimal number of sources</p></li>
+<li><p><strong>Signal/noise separation</strong>: Drop-off indicates transition between signal and noise eigenvalues</p></li>
+</ul>
+<p>For technical details on eigenvalue-based rank selection, see the <a class="reference external" href="https://arxiv.org/pdf/2509.14118">MVPURE paper</a>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sugg_n_sources</span><span class="p">,</span> <span class="n">sugg_rank</span> <span class="o">=</span> <span class="n">localizer</span><span class="o">.</span><span class="n">suggest_n_sources_and_rank</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig_RN</span> <span class="o">=</span> <span class="n">viz</span><span class="o">.</span><span class="n">plot_RN_eigenvalues</span><span class="p">(</span>
     <span class="n">R</span><span class="o">=</span><span class="n">data_cov_sen</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
     <span class="n">N</span><span class="o">=</span><span class="n">noise_cov</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-    <span class="n">show_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span>
     <span class="n">s</span><span class="o">=</span><span class="mi">14</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/tutorials_source_localization_and_reconstruction_on_data_from_oddball_paradigm_11_0.png" src="../_images/tutorials_source_localization_and_reconstruction_on_data_from_oddball_paradigm_11_0.png" />
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Suggested number of sources to localize: 62
-Suggested rank is: 42
-</pre></div></div>
-</div>
 </section>
 <section id="Localize">
 <h3>Localize<a class="headerlink" href="#Localize" title="Link to this heading">#</a></h3>
-<p>Based on the eigenvalue spectrum above, we will localize <strong>62 sources</strong> using <strong>rank of 42</strong>. We will use function <code class="docutils literal notranslate"><span class="pre">mvpure_py.localizer.localize</span></code>, which performs the actual source localization. The main parameters are:</p>
+<p>Based on the eigenvalue spectrum above, we will localize <span class="math notranslate nohighlight">\(l_0=5\)</span> sources. We will use function <code class="docutils literal notranslate"><span class="pre">mvpure_py.localizer.localize</span></code>, which performs the actual source localization. The main parameters are:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">subject</span></code>: the subject ID (here: <code class="docutils literal notranslate"><span class="pre">&quot;sample_subject&quot;</span></code>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">subjects_dir</span></code>: directory containing the subject folders.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">localizer_to_use</span></code>: the algorithm variant. Here we choose <code class="docutils literal notranslate"><span class="pre">&quot;mpz_mvp&quot;</span></code> because it provides the highest spacial resolution. Other possible options include: <code class="docutils literal notranslate"><span class="pre">&quot;mai&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;mpz&quot;</span></code>, and <code class="docutils literal notranslate"><span class="pre">&quot;mai_mvp&quot;</span></code>. For details, see <a class="reference external" href="https://www.biorxiv.org/content/10.1101/2025.09.15.676243v1">paper</a> or the function documentation.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">n_sources_to_localize</span></code>: number of sources to localize. We will use the suggested number of sources from <span class="math notranslate nohighlight">\(RN^{-1}\)</span> analysis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">localizer_to_use</span></code>: the algorithm variant. Here we choose <code class="docutils literal notranslate"><span class="pre">&quot;mai_mvp&quot;</span></code>. For details, see <a class="reference external" href="https://arxiv.org/pdf/2509.14118">paper</a> or the function documentation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_sources_to_localize</span></code>: number of sources to localize.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">R</span></code>: data covariance matrix</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">N</span></code>: noise covariance matrix</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">forward</span></code>: the <code class="docutils literal notranslate"><span class="pre">mne.Forward</span></code> object for this subject</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">r</span></code>: optimization rank parameter. We use the suggested value from the eigenvalues analysis, but it can be any integer smaller than <code class="docutils literal notranslate"><span class="pre">number_of_sources_to_localize</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">r</span></code>: optimization rank parameter. We will use list of ranks, therefore finally localized sources will be vertices localized in at least one iteration.</p></li>
 </ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">locs_sen</span> <span class="o">=</span> <span class="n">localizer</span><span class="o">.</span><span class="n">localize</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">l_0</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="n">locs_sen</span> <span class="o">=</span> <span class="n">localizer</span><span class="o">.</span><span class="n">localize</span><span class="p">(</span>
     <span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span>
     <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">,</span>
-    <span class="n">localizer_to_use</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mpz_mvp&quot;</span><span class="p">],</span>
-    <span class="n">n_sources_to_localize</span><span class="o">=</span><span class="n">sugg_n_sources</span><span class="p">,</span>
+    <span class="n">localizer_to_use</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mai_mvp&quot;</span><span class="p">],</span>
+    <span class="n">n_sources_to_localize</span><span class="o">=</span><span class="n">l_0</span><span class="p">,</span>
     <span class="n">R</span><span class="o">=</span><span class="n">data_cov_sen</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
     <span class="n">N</span><span class="o">=</span><span class="n">noise_cov</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
     <span class="n">forward</span><span class="o">=</span><span class="n">fwd</span><span class="p">,</span>
-    <span class="n">r</span><span class="o">=</span><span class="n">sugg_rank</span>
+    <span class="n">r</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>  <span class="n">l_0</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -529,7 +528,8 @@ Suggested rank is: 42
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-cyan-fg">Calculating activity index for localizer: mpz_mvp</span>
+Rank: 1
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -537,68 +537,11 @@ Suggested rank is: 42
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-iter 1/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 423647.03it/s]
-iter 2/62: 100%|██████████| 5124/5124 [00:01&lt;00:00, 4461.26it/s]
-iter 3/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 20542.92it/s]
-iter 4/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15067.32it/s]
-iter 5/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 9346.17it/s]
-iter 6/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17252.65it/s]
-iter 7/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17195.34it/s]
-iter 8/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17197.16it/s]
-iter 9/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17262.65it/s]
-iter 10/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17166.69it/s]
-iter 11/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17104.62it/s]
-iter 12/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17166.92it/s]
-iter 13/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16736.83it/s]
-iter 14/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16414.33it/s]
-iter 15/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16632.03it/s]
-iter 16/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16591.77it/s]
-iter 17/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15826.14it/s]
-iter 18/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15567.52it/s]
-iter 19/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16543.60it/s]
-iter 20/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16031.49it/s]
-iter 21/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13900.64it/s]
-iter 22/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15342.41it/s]
-iter 23/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14940.08it/s]
-iter 24/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14864.54it/s]
-iter 25/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14544.34it/s]
-iter 26/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14058.61it/s]
-iter 27/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14471.83it/s]
-iter 28/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 12013.64it/s]
-iter 29/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13561.26it/s]
-iter 30/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 11235.68it/s]
-iter 31/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 11895.04it/s]
-iter 32/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13627.63it/s]
-iter 33/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 12838.50it/s]
-iter 34/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 11983.22it/s]
-iter 35/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 9649.29it/s]
-iter 36/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 12125.74it/s]
-iter 37/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 10649.22it/s]
-iter 38/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 8756.48it/s]
-iter 39/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 11141.04it/s]
-iter 40/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 11042.17it/s]
-iter 41/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 8941.58it/s]
-iter 42/62: 100%|██████████| 5124/5124 [00:00&lt;00:00, 10850.30it/s]
-iter 43/62: 100%|██████████| 5124/5124 [00:03&lt;00:00, 1637.60it/s]
-iter 44/62: 100%|██████████| 5124/5124 [00:03&lt;00:00, 1537.59it/s]
-iter 45/62: 100%|██████████| 5124/5124 [00:03&lt;00:00, 1461.97it/s]
-iter 46/62: 100%|██████████| 5124/5124 [00:03&lt;00:00, 1399.30it/s]
-iter 47/62: 100%|██████████| 5124/5124 [00:03&lt;00:00, 1341.83it/s]
-iter 48/62: 100%|██████████| 5124/5124 [00:03&lt;00:00, 1335.81it/s]
-iter 49/62: 100%|██████████| 5124/5124 [00:04&lt;00:00, 1248.97it/s]
-iter 50/62: 100%|██████████| 5124/5124 [00:04&lt;00:00, 1197.41it/s]
-iter 51/62: 100%|██████████| 5124/5124 [00:04&lt;00:00, 1160.37it/s]
-iter 52/62: 100%|██████████| 5124/5124 [00:04&lt;00:00, 1145.77it/s]
-iter 53/62: 100%|██████████| 5124/5124 [00:04&lt;00:00, 1115.01it/s]
-iter 54/62: 100%|██████████| 5124/5124 [00:05&lt;00:00, 949.00it/s]
-iter 55/62: 100%|██████████| 5124/5124 [00:05&lt;00:00, 1002.33it/s]
-iter 56/62: 100%|██████████| 5124/5124 [00:05&lt;00:00, 998.51it/s]
-iter 57/62: 100%|██████████| 5124/5124 [00:05&lt;00:00, 969.23it/s]
-iter 58/62: 100%|██████████| 5124/5124 [00:05&lt;00:00, 921.80it/s]
-iter 59/62: 100%|██████████| 5124/5124 [00:05&lt;00:00, 858.80it/s]
-iter 60/62: 100%|██████████| 5124/5124 [00:05&lt;00:00, 867.44it/s]
-iter 61/62: 100%|██████████| 5124/5124 [00:06&lt;00:00, 846.61it/s]
-iter 62/62: 100%|██████████| 5124/5124 [00:06&lt;00:00, 814.71it/s]
+iter 1/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 479413.19it/s]
+iter 2/5: 100%|██████████| 5124/5124 [00:01&lt;00:00, 4112.89it/s]
+iter 3/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 19994.08it/s]
+iter 4/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14975.41it/s]
+iter 5/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 10730.55it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -608,8 +551,117 @@ iter 62/62: 100%|██████████| 5124/5124 [00:06&lt;00:00, 814.
 <div class="highlight"><pre>
 
 [Activity Index Result]
-  Selected indices (index_max): [31, 3557, 795, 1213, 1690, 2506, 2697, 2602, 1225, 83, 1966, 2085, 994, 2850, 2212, 4404, 4304, 4882, 608, 2522, 2325, 1876, 6, 3255, 1860, 3714, 4804, 2690, 84, 371, 2454, 3624, 5108, 1971, 265, 650, 992, 2727, 42, 4698, 329, 2574, 1258, 4002, 3368, 4920, 3, 33, 1405, 2887, 2333, 2771, 4604, 3333, 302, 306, 4422, 2597, 2580, 16, 4266, 3815]
-  Rank parameter (r): 42
+  Selected indices (index_max): [31, 2697, 2042, 2747, 2554]
+  Index max values: [1.21021186 1.45630239 1.65413543 1.8810501  1.98695636]
+  Rank parameter (r): 1
+
+Rank: 2
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+iter 1/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 845128.34it/s]
+iter 2/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 27581.60it/s]
+iter 3/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 21427.87it/s]
+iter 4/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16075.76it/s]
+iter 5/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 11429.69it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+[Activity Index Result]
+  Selected indices (index_max): [31, 2597, 4765, 2029, 2779]
+  Index max values: [1.21021186 2.22236888 2.50811308 2.7559683  2.98024038]
+  Rank parameter (r): 2
+
+Rank: 3
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+iter 1/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 1129888.74it/s]
+iter 2/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 24005.06it/s]
+iter 3/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 22550.21it/s]
+iter 4/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16554.30it/s]
+iter 5/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 12871.72it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+[Activity Index Result]
+  Selected indices (index_max): [31, 2597, 1837, 4836, 1622]
+  Index max values: [1.21021186 2.22236888 3.19893305 3.49029219 3.76719894]
+  Rank parameter (r): 3
+
+Rank: 4
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+iter 1/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 1131614.03it/s]
+iter 2/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 27869.82it/s]
+iter 3/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 24393.85it/s]
+iter 4/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 20931.20it/s]
+iter 5/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14458.82it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+[Activity Index Result]
+  Selected indices (index_max): [31, 2597, 1837, 3557, 2042]
+  Index max values: [1.21021186 2.22236888 3.19893305 4.14451814 4.49089945]
+  Rank parameter (r): 4
+
+Rank: 5
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+iter 1/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 1318665.71it/s]
+iter 2/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 23803.80it/s]
+iter 3/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 22486.72it/s]
+iter 4/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 19943.57it/s]
+iter 5/5: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15790.73it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+[Activity Index Result]
+  Selected indices (index_max): [31, 2597, 1837, 3557, 1966]
+  Index max values: [1.21021186 2.22236888 3.19893305 4.14451814 5.04837914]
+  Rank parameter (r): 5
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -624,47 +676,26 @@ iter 62/62: 100%|██████████| 5124/5124 [00:06&lt;00:00, 814.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Transform leadfield indices to vertices</span>
-<span class="n">lh_vert_sen</span><span class="p">,</span> <span class="n">lh_idx_sen</span><span class="p">,</span> <span class="n">rh_vert_sen</span><span class="p">,</span> <span class="n">rh_idx_sen</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">transform_leadfield_indices_to_vertices</span><span class="p">(</span>
-    <span class="n">lf_idx</span><span class="o">=</span><span class="n">locs_sen</span><span class="p">[</span><span class="s2">&quot;sources&quot;</span><span class="p">],</span>
-    <span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span>
-    <span class="n">hemi</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
-    <span class="n">include_mapping</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Optional visualization</span>
 
-<span class="n">locs_sen</span><span class="o">.</span><span class="n">add_vertices_info</span><span class="p">(</span>
-    <span class="n">lh_vertices</span><span class="o">=</span><span class="n">lh_vert_sen</span><span class="p">,</span>
-    <span class="n">lh_indices</span><span class="o">=</span><span class="n">lh_idx_sen</span><span class="p">,</span>
-    <span class="n">rh_vertices</span><span class="o">=</span><span class="n">rh_vert_sen</span><span class="p">,</span>
-    <span class="n">rh_indices</span><span class="o">=</span><span class="n">rh_idx_sen</span>
-<span class="p">)</span>
+<span class="c1"># locs_sen.plot_localized_sources()</span>
 </pre></div>
 </div>
 </div>
-<p>Optionally, we can plot the localized sources on the brain surface:</p>
+</section>
+<section id="Signal-reconstruction">
+<h3>Signal reconstruction<a class="headerlink" href="#Signal-reconstruction" title="Link to this heading">#</a></h3>
+<p>With sources localized, we reconstruct their time courses using LCMV beamforming:</p>
+<ol class="arabic simple">
+<li><p><strong>Restrict forward model</strong> to localized vertices only</p></li>
+<li><p><strong>Build LCMV filters</strong> using unit-noise-gain normalization</p></li>
+<li><p><strong>Apply filters</strong> to evoked data</p></li>
+</ol>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># locs_sen.plot_localized_sources()</span>
-</pre></div>
-</div>
-</div>
-<p>Here, the size and color of the markers indicate the order of localization:</p>
-<ul class="simple">
-<li><p>large, red foci: sources localized earlier</p></li>
-<li><p>small, white foci: sources localized later</p></li>
-</ul>
-</section>
-<section id="Reconstruct">
-<h3>Reconstruct<a class="headerlink" href="#Reconstruct" title="Link to this heading">#</a></h3>
-<p>Now that we have localized sources of interest, the next sgtep is to <strong>reconstruct their activity</strong>. First, we restrict the original forward model to only include the localized sources. This reduces the forward solution to the relevant subspace:|</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Subset mne.Forward</span>
-<span class="n">new_fwd_sen</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">subset_forward</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_fwd</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">subset_forward</span><span class="p">(</span>
     <span class="n">old_fwd</span><span class="o">=</span><span class="n">fwd</span><span class="p">,</span>
     <span class="n">localized</span><span class="o">=</span><span class="n">locs_sen</span><span class="p">,</span>
     <span class="n">hemi</span><span class="o">=</span><span class="s2">&quot;both&quot;</span>
@@ -672,42 +703,21 @@ iter 62/62: 100%|██████████| 5124/5124 [00:06&lt;00:00, 814.
 </pre></div>
 </div>
 </div>
-<p>To compute the filters, we will use <code class="docutils literal notranslate"><span class="pre">beamformer.make_filter</span></code>.</p>
-<p>This function works similarly to <code class="docutils literal notranslate"><span class="pre">mne.beamformer.make_lcmv</span></code>, but with additional parameters specific to MVPURE.</p>
-<p>We provide these in a dictionary called <code class="docutils literal notranslate"><span class="pre">mvpure_params</span></code>:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">filter_type</span></code>: type of the beamformer to use. Options are: <code class="docutils literal notranslate"><span class="pre">MVP_R</span></code> and <code class="docutils literal notranslate"><span class="pre">MVP_N</span></code>. In this case, we will use <code class="docutils literal notranslate"><span class="pre">MVP_R</span></code> as it is generalization of commonly used LCMV filter.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">filter_rank</span></code>: optimization rank parameter. For best performance, we use the same rank as in the localization step.</p></li>
-</ul>
-<p>Note: setting <code class="docutils literal notranslate"><span class="pre">filter_rank=&quot;ful&quot;</span></code> reduces the method to a standard LCMV filter. For theoretical details see <a class="reference external" href="https://www.biorxiv.org/content/10.1101/2025.09.15.676243v1">paper</a>.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># MVPURE filter parameters</span>
-<span class="n">mvpure_params</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;filter_type&#39;</span><span class="p">:</span> <span class="s1">&#39;MVP_R&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;filter_rank&#39;</span><span class="p">:</span> <span class="n">sugg_rank</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Build beamformer filter (similar to LCMV but with MVPURE options)</span>
-<span class="n">filter_sen</span> <span class="o">=</span> <span class="n">beamformer</span><span class="o">.</span><span class="n">make_filter</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lcmv</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">beamformer</span><span class="o">.</span><span class="n">make_lcmv</span><span class="p">(</span>
     <span class="n">signal_sen</span><span class="o">.</span><span class="n">info</span><span class="p">,</span>
-    <span class="n">new_fwd_sen</span><span class="p">,</span>
+    <span class="n">new_fwd</span><span class="p">,</span>
     <span class="n">data_cov_sen</span><span class="p">,</span>
     <span class="n">reg</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
     <span class="n">noise_cov</span><span class="o">=</span><span class="n">noise_cov</span><span class="p">,</span>
     <span class="n">pick_ori</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># not needed with fixed orientation forward</span>
-    <span class="n">weight_norm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">rank</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">mvpure_params</span><span class="o">=</span><span class="n">mvpure_params</span>
+    <span class="n">weight_norm</span><span class="o">=</span><span class="s2">&quot;nai&quot;</span><span class="p">,</span>
+    <span class="n">rank</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">)</span>
+<span class="n">stc_lcmv</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">beamformer</span><span class="o">.</span><span class="n">apply_lcmv</span><span class="p">(</span><span class="n">signal_sen</span><span class="p">,</span> <span class="n">lcmv</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -724,7 +734,7 @@ Computing rank from covariance with rank=None
     Using tolerance 3.6e-13 (2.2e-16 eps * 128 dim * 13  max singular value)
     Estimated rank (eeg): 86
     EEG: rank 86 computed from 128 data channels with 1 projector
-Making MVP_R beamformer with rank {&#39;eeg&#39;: 86} (note: MNE-Python rank)
+Making LCMV beamformer with rank {&#39;eeg&#39;: 86}
 Computing inverse operator with 128 channels.
     128 out of 128 channels remain after picking
 Selected 128 channels
@@ -734,39 +744,19 @@ Computing rank from covariance with rank={&#39;eeg&#39;: 86}
     Setting small EEG eigenvalues to zero (without PCA)
 Creating the source covariance matrix
 Adjusting source covariance matrix.
-Computing beamformer filters for 62 sources
-MVP_R computation - in progress...
-Filter rank: 42
+Computing beamformer filters for 14 sources
 Filter computation complete
 </pre></div></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply filter to cropped evoked response</span>
-<span class="n">stc_sen</span> <span class="o">=</span> <span class="n">beamformer</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="n">signal_sen</span><span class="p">,</span> <span class="n">filter_sen</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
 <p>Then we attach the resulting <code class="docutils literal notranslate"><span class="pre">mne.SourceEstimate</span></code> to the localized sources object, making it easier to visualize:</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add reconstructed source time course</span>
-<span class="n">locs_sen</span><span class="o">.</span><span class="n">add_stc</span><span class="p">(</span><span class="n">stc_sen</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
 <p>Finally, let’s plot the localized sources with their reconstructed activity:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">viz</span><span class="o">.</span><span class="n">plot_sources_with_activity</span><span class="p">(</span>
     <span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span>
-    <span class="n">stc</span><span class="o">=</span><span class="n">stc_sen</span>
+    <span class="n">stc</span><span class="o">=</span><span class="n">stc_lcmv</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -776,16 +766,16 @@ Filter computation complete
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Using control points [2.91332758e-09 3.43983961e-09 7.89233742e-09]
+Using control points [0.92516798 1.13740896 1.58862482]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;mne.viz._brain._brain.Brain at 0x145ca1010&gt;
+&lt;mne.viz._brain._brain.Brain at 0x128b33380&gt;
 </pre></div></div>
 </div>
 </section>
@@ -800,7 +790,7 @@ Using control points [2.91332758e-09 3.43983961e-09 7.89233742e-09]
 <li><p>Subset the evoked signal to this time range.</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute data covariance for range corresponding to sensory processing</span>
@@ -840,55 +830,45 @@ Number of samples used : 5070
 <ul class="simple">
 <li><p>analyze eigenvalues of <span class="math notranslate nohighlight">\(RN^{-1}\)</span>,</p></li>
 <li><p>localize sources,</p></li>
-<li><p>reconstruct signals with MVPURE filters,</p></li>
+<li><p>reconstruct signals with LCMV-NAI beamformer,</p></li>
 <li><p>and finally visualize the results.</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Suggest number of sources to localize</span>
-<span class="c1"># and optimization parameter to use for both localization and reconstruction</span>
-<span class="n">sugg_n_sources</span><span class="p">,</span> <span class="n">sugg_rank</span> <span class="o">=</span> <span class="n">localizer</span><span class="o">.</span><span class="n">suggest_n_sources_and_rank</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig_RN_task</span> <span class="o">=</span> <span class="n">viz</span><span class="o">.</span><span class="n">plot_RN_eigenvalues</span><span class="p">(</span>
     <span class="n">R</span><span class="o">=</span><span class="n">data_cov_task</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
     <span class="n">N</span><span class="o">=</span><span class="n">noise_cov</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-    <span class="n">show_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span>
     <span class="n">s</span><span class="o">=</span><span class="mi">14</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/tutorials_source_localization_and_reconstruction_on_data_from_oddball_paradigm_31_0.png" src="../_images/tutorials_source_localization_and_reconstruction_on_data_from_oddball_paradigm_31_0.png" />
-</div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<div class="highlight"><pre>
-Suggested number of sources to localize: 69
-Suggested rank is: 50
-</pre></div></div>
+<img alt="../_images/tutorials_source_localization_and_reconstruction_on_data_from_oddball_paradigm_24_0.png" src="../_images/tutorials_source_localization_and_reconstruction_on_data_from_oddball_paradigm_24_0.png" />
+</div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Localize</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">l_0</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="c1"># Localize</span>
 <span class="n">locs_task</span> <span class="o">=</span> <span class="n">localizer</span><span class="o">.</span><span class="n">localize</span><span class="p">(</span>
     <span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span>
     <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">,</span>
-    <span class="n">localizer_to_use</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mpz_mvp&quot;</span><span class="p">],</span>
-    <span class="n">n_sources_to_localize</span><span class="o">=</span><span class="n">sugg_n_sources</span><span class="p">,</span>
+    <span class="n">localizer_to_use</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mai_mvp&quot;</span><span class="p">],</span>
+    <span class="n">n_sources_to_localize</span><span class="o">=</span><span class="n">l_0</span><span class="p">,</span>
     <span class="n">R</span><span class="o">=</span><span class="n">data_cov_task</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
     <span class="n">N</span><span class="o">=</span><span class="n">noise_cov</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
     <span class="n">forward</span><span class="o">=</span><span class="n">fwd</span><span class="p">,</span>
-    <span class="n">r</span><span class="o">=</span><span class="n">sugg_rank</span><span class="p">,</span>
+    <span class="n">r</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">l_0</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)),</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -898,7 +878,8 @@ Suggested rank is: 50
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-cyan-fg">Calculating activity index for localizer: mpz_mvp</span>
+Rank: 1
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -906,75 +887,16 @@ Suggested rank is: 50
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-iter 1/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 673148.55it/s]
-iter 2/69: 100%|██████████| 5124/5124 [00:01&lt;00:00, 3447.51it/s]
-iter 3/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17790.01it/s]
-iter 4/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13533.68it/s]
-iter 5/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 6630.55it/s]
-iter 6/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13777.58it/s]
-iter 7/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13743.67it/s]
-iter 8/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13652.64it/s]
-iter 9/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16777.56it/s]
-iter 10/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17439.25it/s]
-iter 11/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17217.11it/s]
-iter 12/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17288.15it/s]
-iter 13/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15111.29it/s]
-iter 14/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15579.35it/s]
-iter 15/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16393.45it/s]
-iter 16/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16664.49it/s]
-iter 17/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15762.28it/s]
-iter 18/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14986.45it/s]
-iter 19/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15905.99it/s]
-iter 20/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 12813.01it/s]
-iter 21/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14890.67it/s]
-iter 22/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15474.94it/s]
-iter 23/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13959.68it/s]
-iter 24/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 12913.37it/s]
-iter 25/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13516.01it/s]
-iter 26/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14048.63it/s]
-iter 27/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13181.55it/s]
-iter 28/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 12684.84it/s]
-iter 29/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13859.17it/s]
-iter 30/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 11456.32it/s]
-iter 31/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13169.45it/s]
-iter 32/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13019.41it/s]
-iter 33/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 5513.26it/s]
-iter 34/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 6869.02it/s]
-iter 35/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 8471.36it/s]
-iter 36/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 7948.14it/s]
-iter 37/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 7309.58it/s]
-iter 38/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 8317.20it/s]
-iter 39/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 9949.81it/s]
-iter 40/69: 100%|██████████| 5124/5124 [00:01&lt;00:00, 2762.50it/s]
-iter 41/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 5185.08it/s]
-iter 42/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 8541.85it/s]
-iter 43/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 7091.39it/s]
-iter 44/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 7988.27it/s]
-iter 45/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 7147.67it/s]
-iter 46/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 6498.89it/s]
-iter 47/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 5899.57it/s]
-iter 48/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 6188.39it/s]
-iter 49/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 6344.22it/s]
-iter 50/69: 100%|██████████| 5124/5124 [00:00&lt;00:00, 5948.13it/s]
-iter 51/69: 100%|██████████| 5124/5124 [00:04&lt;00:00, 1078.99it/s]
-iter 52/69: 100%|██████████| 5124/5124 [00:04&lt;00:00, 1077.08it/s]
-iter 53/69: 100%|██████████| 5124/5124 [00:04&lt;00:00, 1033.61it/s]
-iter 54/69: 100%|██████████| 5124/5124 [00:05&lt;00:00, 982.79it/s]
-iter 55/69: 100%|██████████| 5124/5124 [00:05&lt;00:00, 938.43it/s]
-iter 56/69: 100%|██████████| 5124/5124 [00:05&lt;00:00, 957.84it/s]
-iter 57/69: 100%|██████████| 5124/5124 [00:05&lt;00:00, 898.29it/s]
-iter 58/69: 100%|██████████| 5124/5124 [00:05&lt;00:00, 879.83it/s]
-iter 59/69: 100%|██████████| 5124/5124 [00:06&lt;00:00, 830.73it/s]
-iter 60/69: 100%|██████████| 5124/5124 [00:06&lt;00:00, 778.66it/s]
-iter 61/69: 100%|██████████| 5124/5124 [00:10&lt;00:00, 494.61it/s]
-iter 62/69: 100%|██████████| 5124/5124 [00:11&lt;00:00, 461.76it/s]
-iter 63/69: 100%|██████████| 5124/5124 [00:07&lt;00:00, 720.94it/s]
-iter 64/69: 100%|██████████| 5124/5124 [00:07&lt;00:00, 649.19it/s]
-iter 65/69: 100%|██████████| 5124/5124 [00:08&lt;00:00, 615.75it/s]
-iter 66/69: 100%|██████████| 5124/5124 [00:08&lt;00:00, 617.40it/s]
-iter 67/69: 100%|██████████| 5124/5124 [00:08&lt;00:00, 638.77it/s]
-iter 68/69: 100%|██████████| 5124/5124 [00:09&lt;00:00, 566.07it/s]
-iter 69/69: 100%|██████████| 5124/5124 [00:08&lt;00:00, 587.54it/s]
+iter 1/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 1398920.37it/s]
+iter 2/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 26092.25it/s]
+iter 3/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 22952.69it/s]
+iter 4/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17649.48it/s]
+iter 5/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 11690.40it/s]
+iter 6/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14129.99it/s]
+iter 7/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14855.50it/s]
+iter 8/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15328.18it/s]
+iter 9/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15037.90it/s]
+iter 10/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 12554.05it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -984,8 +906,307 @@ iter 69/69: 100%|██████████| 5124/5124 [00:08&lt;00:00, 587.
 <div class="highlight"><pre>
 
 [Activity Index Result]
-  Selected indices (index_max): [1689, 1291, 1489, 2159, 4405, 5051, 2039, 800, 2020, 3224, 1792, 4998, 821, 1865, 3762, 4165, 2372, 2471, 4817, 495, 1755, 2548, 3334, 1572, 2322, 2008, 4379, 3733, 4426, 2527, 2230, 2362, 4774, 356, 2545, 902, 108, 3720, 211, 481, 64, 2740, 2303, 4641, 148, 170, 1460, 3454, 68, 4850, 1732, 641, 2310, 4678, 764, 669, 1376, 3730, 2856, 4542, 4680, 2932, 3896, 600, 3172, 2564, 2631, 4982, 1342]
-  Rank parameter (r): 50
+  Selected indices (index_max): [2160, 4755, 419, 1240, 996, 1546, 3978, 3790, 3861, 441]
+  Index max values: [1.77758988 2.25869353 2.55953156 2.85677162 2.98744644 3.06891462
+ 3.13975703 3.20066062 3.3391399  3.48255084]
+  Rank parameter (r): 1
+
+Rank: 2
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+iter 1/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 1290322.63it/s]
+iter 2/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 29927.44it/s]
+iter 3/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 22786.09it/s]
+iter 4/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17669.58it/s]
+iter 5/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 10787.93it/s]
+iter 6/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14084.09it/s]
+iter 7/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16000.86it/s]
+iter 8/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15841.17it/s]
+iter 9/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14362.72it/s]
+iter 10/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13824.29it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+[Activity Index Result]
+  Selected indices (index_max): [2160, 2300, 4897, 4755, 419, 1808, 2461, 1240, 2248, 2834]
+  Index max values: [1.77758988 3.2754443  4.04566418 4.46424172 4.79131535 5.08992702
+ 5.34796421 5.62534082 5.86618604 6.15678146]
+  Rank parameter (r): 2
+
+Rank: 3
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+iter 1/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 1318342.15it/s]
+iter 2/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 30156.09it/s]
+iter 3/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 25243.12it/s]
+iter 4/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 18347.57it/s]
+iter 5/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 11680.45it/s]
+iter 6/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13050.75it/s]
+iter 7/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16531.26it/s]
+iter 8/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15271.53it/s]
+iter 9/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15387.84it/s]
+iter 10/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14017.08it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+[Activity Index Result]
+  Selected indices (index_max): [2160, 2300, 4755, 1368, 4897, 2224, 1832, 1843, 419, 769]
+  Index max values: [1.77758988 3.2754443  4.85038569 5.52222705 6.10691151 6.45017419
+ 6.99421624 7.34994298 7.64392056 7.89816082]
+  Rank parameter (r): 3
+
+Rank: 4
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+iter 1/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 1288775.11it/s]
+iter 2/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 28193.23it/s]
+iter 3/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 24188.51it/s]
+iter 4/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 20781.53it/s]
+iter 5/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13432.43it/s]
+iter 6/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 12201.63it/s]
+iter 7/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 16610.36it/s]
+iter 8/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15166.58it/s]
+iter 9/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15733.61it/s]
+iter 10/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14419.99it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+[Activity Index Result]
+  Selected indices (index_max): [2160, 2300, 4755, 1368, 4897, 1986, 419, 1843, 2554, 4147]
+  Index max values: [1.77758988 3.2754443  4.85038569 6.4063041  7.08410596 7.67033714
+ 8.09155456 8.48531314 8.94506573 9.48490676]
+  Rank parameter (r): 4
+
+Rank: 5
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+iter 1/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 1238566.95it/s]
+iter 2/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 27543.78it/s]
+iter 3/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 26964.42it/s]
+iter 4/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 21451.46it/s]
+iter 5/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14266.38it/s]
+iter 6/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14343.18it/s]
+iter 7/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15498.01it/s]
+iter 8/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15476.16it/s]
+iter 9/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 11943.20it/s]
+iter 10/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13247.12it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+[Activity Index Result]
+  Selected indices (index_max): [2160, 2300, 4755, 1368, 1689, 4897, 1967, 2037, 1121, 4587]
+  Index max values: [ 1.77758988  3.2754443   4.85038569  6.4063041   7.90005161  8.56096489
+  9.15113909  9.62022658 10.09576615 10.54620627]
+  Rank parameter (r): 5
+
+Rank: 6
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+iter 1/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 1384858.15it/s]
+iter 2/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 25059.66it/s]
+iter 3/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 26754.96it/s]
+iter 4/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 19804.36it/s]
+iter 5/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14374.15it/s]
+iter 6/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13349.69it/s]
+iter 7/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14841.41it/s]
+iter 8/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15119.90it/s]
+iter 9/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15401.17it/s]
+iter 10/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13402.91it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+[Activity Index Result]
+  Selected indices (index_max): [2160, 2300, 4755, 1368, 1689, 1835, 3842, 1875, 4794, 5079]
+  Index max values: [ 1.77758988  3.2754443   4.85038569  6.4063041   7.90005161  9.38758629
+ 10.06701259 10.68034168 11.27555351 11.83302435]
+  Rank parameter (r): 6
+
+Rank: 7
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+iter 1/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 1282621.97it/s]
+iter 2/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 28315.81it/s]
+iter 3/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 26370.21it/s]
+iter 4/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 19804.58it/s]
+iter 5/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14620.66it/s]
+iter 6/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 11802.51it/s]
+iter 7/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 13690.46it/s]
+iter 8/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15859.95it/s]
+iter 9/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14875.32it/s]
+iter 10/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14385.86it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+[Activity Index Result]
+  Selected indices (index_max): [2160, 2300, 4755, 1368, 1689, 1835, 1875, 3842, 4973, 4569]
+  Index max values: [ 1.77758988  3.2754443   4.85038569  6.4063041   7.90005161  9.38758629
+ 10.84390766 11.57196752 12.18799488 12.76289158]
+  Rank parameter (r): 7
+
+Rank: 8
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+iter 1/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 1420088.13it/s]
+iter 2/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 29760.60it/s]
+iter 3/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 26513.51it/s]
+iter 4/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 21573.57it/s]
+iter 5/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14838.80it/s]
+iter 6/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17835.51it/s]
+iter 7/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17899.82it/s]
+iter 8/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 18068.07it/s]
+iter 9/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15488.18it/s]
+iter 10/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14755.60it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+[Activity Index Result]
+  Selected indices (index_max): [2160, 2300, 4755, 1368, 1689, 1835, 1875, 4405, 4701, 4231]
+  Index max values: [ 1.77758988  3.2754443   4.85038569  6.4063041   7.90005161  9.38758629
+ 10.84390766 12.2470246  12.9417525  13.68085168]
+  Rank parameter (r): 8
+
+Rank: 9
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+iter 1/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 1431342.90it/s]
+iter 2/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 30005.24it/s]
+iter 3/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 25700.17it/s]
+iter 4/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 21395.55it/s]
+iter 5/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 15245.24it/s]
+iter 6/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17435.22it/s]
+iter 7/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17953.06it/s]
+iter 8/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 18029.39it/s]
+iter 9/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 18032.46it/s]
+iter 10/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14883.10it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+[Activity Index Result]
+  Selected indices (index_max): [2160, 2300, 4755, 1368, 1689, 1835, 1875, 4405, 600, 4701]
+  Index max values: [ 1.77758988  3.2754443   4.85038569  6.4063041   7.90005161  9.38758629
+ 10.84390766 12.2470246  13.62102771 14.3351125 ]
+  Rank parameter (r): 9
+
+Rank: 10
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+iter 1/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 1349806.16it/s]
+iter 2/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 29845.53it/s]
+iter 3/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 26349.61it/s]
+iter 4/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 21515.11it/s]
+iter 5/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 14505.31it/s]
+iter 6/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 18068.79it/s]
+iter 7/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 18032.36it/s]
+iter 8/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17917.79it/s]
+iter 9/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17947.14it/s]
+iter 10/10: 100%|██████████| 5124/5124 [00:00&lt;00:00, 17827.32it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+[Activity Index Result]
+  Selected indices (index_max): [2160, 2300, 4755, 1368, 1689, 1835, 1875, 4405, 600, 2431]
+  Index max values: [ 1.77758988  3.2754443   4.85038569  6.4063041   7.90005161  9.38758629
+ 10.84390766 12.2470246  13.62102771 14.93465609]
+  Rank parameter (r): 10
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -997,28 +1218,16 @@ iter 69/69: 100%|██████████| 5124/5124 [00:08&lt;00:00, 587.
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Transform leadfield indices to vertices</span>
-<span class="n">lh_vert_task</span><span class="p">,</span> <span class="n">lh_idx_task</span><span class="p">,</span> <span class="n">rh_vert_task</span><span class="p">,</span> <span class="n">rh_idx_task</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">transform_leadfield_indices_to_vertices</span><span class="p">(</span>
-    <span class="n">lf_idx</span><span class="o">=</span><span class="n">locs_task</span><span class="p">[</span><span class="s2">&quot;sources&quot;</span><span class="p">],</span>
-    <span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span>
-    <span class="n">hemi</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
-    <span class="n">include_mapping</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-
-<span class="n">locs_task</span><span class="o">.</span><span class="n">add_vertices_info</span><span class="p">(</span>
-    <span class="n">lh_vertices</span><span class="o">=</span><span class="n">lh_vert_task</span><span class="p">,</span>
-    <span class="n">lh_indices</span><span class="o">=</span><span class="n">lh_idx_task</span><span class="p">,</span>
-    <span class="n">rh_vertices</span><span class="o">=</span><span class="n">rh_vert_task</span><span class="p">,</span>
-    <span class="n">rh_indices</span><span class="o">=</span><span class="n">rh_idx_task</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Optional visualization of localized sources</span>
+<span class="c1"># locs_task.plot_localized_sources(hemi=&quot;both&quot;, scale_factor=0.7, scale_mapping=False)</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_fwd_task</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">subset_forward</span><span class="p">(</span>
@@ -1026,29 +1235,17 @@ iter 69/69: 100%|██████████| 5124/5124 [00:08&lt;00:00, 587.
     <span class="n">localized</span><span class="o">=</span><span class="n">locs_task</span><span class="p">,</span>
     <span class="n">hemi</span><span class="o">=</span><span class="s2">&quot;both&quot;</span>
 <span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mcmv_params</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;filter_rank&#39;</span><span class="p">:</span> <span class="n">sugg_rank</span><span class="p">,</span>
-    <span class="s2">&quot;filter_type&quot;</span><span class="p">:</span> <span class="s2">&quot;MVP_R&quot;</span>
-<span class="p">}</span>
-
-<span class="n">filter_task</span> <span class="o">=</span> <span class="n">beamformer</span><span class="o">.</span><span class="n">make_filter</span><span class="p">(</span>
+<span class="n">lcmv_task</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">beamformer</span><span class="o">.</span><span class="n">make_lcmv</span><span class="p">(</span>
     <span class="n">signal_task</span><span class="o">.</span><span class="n">info</span><span class="p">,</span>
     <span class="n">new_fwd_task</span><span class="p">,</span>
     <span class="n">data_cov_task</span><span class="p">,</span>
     <span class="n">reg</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
     <span class="n">noise_cov</span><span class="o">=</span><span class="n">noise_cov</span><span class="p">,</span>
-    <span class="n">pick_ori</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># because scalar forward</span>
-    <span class="n">weight_norm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">rank</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">mvpure_params</span><span class="o">=</span><span class="n">mcmv_params</span>
+    <span class="n">pick_ori</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># not needed with fixed orientation forward</span>
+    <span class="n">weight_norm</span><span class="o">=</span><span class="s2">&quot;nai&quot;</span><span class="p">,</span>
+    <span class="n">rank</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">)</span>
+<span class="n">stc_lcmv_task</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">beamformer</span><span class="o">.</span><span class="n">apply_lcmv</span><span class="p">(</span><span class="n">signal_task</span><span class="p">,</span> <span class="n">lcmv_task</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1065,7 +1262,7 @@ Computing rank from covariance with rank=None
     Using tolerance 3.6e-13 (2.2e-16 eps * 128 dim * 13  max singular value)
     Estimated rank (eeg): 86
     EEG: rank 86 computed from 128 data channels with 1 projector
-Making MVP_R beamformer with rank {&#39;eeg&#39;: 86} (note: MNE-Python rank)
+Making LCMV beamformer with rank {&#39;eeg&#39;: 86}
 Computing inverse operator with 128 channels.
     128 out of 128 channels remain after picking
 Selected 128 channels
@@ -1075,25 +1272,18 @@ Computing rank from covariance with rank={&#39;eeg&#39;: 86}
     Setting small EEG eigenvalues to zero (without PCA)
 Creating the source covariance matrix
 Adjusting source covariance matrix.
-Computing beamformer filters for 69 sources
-MVP_R computation - in progress...
-Filter rank: 50
+Computing beamformer filters for 41 sources
 Filter computation complete
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stc_task</span> <span class="o">=</span> <span class="n">beamformer</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="n">signal_task</span><span class="p">,</span> <span class="n">filter_task</span><span class="p">)</span>
-
-<span class="c1"># Add source estimate to mvpure_py.Localized object</span>
-<span class="n">locs_task</span><span class="o">.</span><span class="n">add_stc</span><span class="p">(</span><span class="n">stc_task</span><span class="p">)</span>
-
-<span class="c1"># Plot</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot localized sources with reconstructed activity</span>
 <span class="n">viz</span><span class="o">.</span><span class="n">plot_sources_with_activity</span><span class="p">(</span>
     <span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span>
-    <span class="n">stc</span><span class="o">=</span><span class="n">stc_task</span><span class="p">,</span>
+    <span class="n">stc</span><span class="o">=</span><span class="n">stc_lcmv_task</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -1103,16 +1293,16 @@ Filter computation complete
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Using control points [2.84206626e-09 3.11743662e-09 5.08812233e-09]
+Using control points [0.59890943 0.65281948 1.00913456]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;mne.viz._brain._brain.Brain at 0x1459b1810&gt;
+&lt;mne.viz._brain._brain.Brain at 0x137249810&gt;
 </pre></div></div>
 </div>
 </section>
@@ -1137,6 +1327,15 @@ Using control points [2.84206626e-09 3.11743662e-09 5.08812233e-09]
         <p class="prev-next-title">EEG Preprocessing for an Oddball Paradigm</p>
       </div>
     </a>
+    <a class="right-next"
+       href="simulating_and_localizing_multi-source_EEG_activity_with_MVPURE_py.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Simulating and Localizing Multi-Source EEG Activity with MVPURE_py</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -1160,7 +1359,7 @@ Using control points [2.84206626e-09 3.11743662e-09 5.08812233e-09]
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#%22Sensory%22-processing">“Sensory” processing</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#RN^{-1}-eigenvalues-analysis"><span class="math notranslate nohighlight">\(RN^{-1}\)</span> eigenvalues analysis</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Localize">Localize</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Reconstruct">Reconstruct</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Signal-reconstruction">Signal reconstruction</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#%22Cognitive%22-task">“Cognitive” task</a></li>
@@ -1201,7 +1400,7 @@ Using control points [2.84206626e-09 3.11743662e-09 5.08812233e-09]
 
   <p class="copyright">
     
-      © Copyright 2025, Julia Jurkowska et al.
+      © Copyright 2026, Julia Jurkowska et al.
       <br/>
     
   </p>
@@ -1210,7 +1409,7 @@ Using control points [2.84206626e-09 3.11743662e-09 5.08812233e-09]
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
