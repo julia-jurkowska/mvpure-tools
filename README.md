@@ -3,9 +3,9 @@
 <img width="256" height="256" alt="mvpure_py logo" src="https://github.com/user-attachments/assets/ee880cfc-bb19-486b-be65-8c59f61c9e87" />
 </div>
 
-EEG/MEG Multi-Source Spatial Filters with **mvpure-py**  
+EEG/MEG Multi-Source Localizers with **mvpure-py**  
 Extends **MNE-Python** with multi-source neural activity indices and spatial filters.  
-Based on *“Multi-Source Neural Activity Indices and Spatial Filters for EEG/MEG Inverse Problem: An Extension to MNE-Python”*.
+Based on *“Multi-Source Neural Activity Indices for EEG/MEG Localization: A Two-Stage Spatial Filtering Framework and Extension to MNE-Python”*.
 
 **Repository:** [GitHub](https://github.com/julia-jurkowska/mvpure-tools) \
 **Tutorial & online docs:** [mvpure_py documentation](https://julia-jurkowska.github.io/mvpure-tools)
@@ -24,22 +24,19 @@ Based on *“Multi-Source Neural Activity Indices and Spatial Filters for EEG/ME
 ---
 ## Overview
 
-The **mvpure-tools** package implements multi-source neural activity indices and spatial filters for EEG / MEG source localization, extending MNE-Python’s API. It enables improved reconstruction when sources may be correlated, overcoming limitations of single-source beamforming methods (e.g. LCMV) in certain settings.
+The **mvpure-tools** package implements multi-source neural activity indices for EEG / MEG source localization, extending MNE-Python’s API. It enables improved reconstruction when sources may be correlated, overcoming limitations of single-source beamforming methods (e.g. LCMV) in certain settings.
 
 Key contributions include:
 
-- Algebraic, compact forms for multi-source spatial filters and neural activity indices
-- Automated parameter selection (e.g. suggested number of sources, rank estimation) based on eigenvalue spectra
+- Algebraic, compact forms for multi-source neural activity indices
 - Seamless integration into MNE-Python workflows (covariance, forward/inverse handling, visualization)
-- A step-by-step tutorial using real EEG data (oddball paradigm)
+- A step-by-step tutorial using real EEG data (oddball paradigm, synthetic data)
 
 ---
 
 ## Features
 
-- Estimation of number of active sources and optimal rank via eigenvalue spectra
-- Neural activity indices (MAI_MVP, MPZ_MVP) in the multi-source setting
-- Spatial filters of reduced rank for reconstruction
+- Neural activity indices (MAI_MVP) in the multi-source setting
 - Iterative localization algorithms compatible with large candidate source sets
 - Built on top of MNE-Python, so you can combine it with standard EEG / MEG toolchains
 - Tutorial and example scripts included  
@@ -90,7 +87,7 @@ pip install -e .
 
 ```python
 import mvpure_py
-from mvpure_py import localizer, beamformer
+from mvpure_py import localizer
 ```
 ---
 ## Tutorial & Examples
