@@ -12,6 +12,7 @@ def simulate_source_epochs(
         lf_subset_indices: np.ndarray,
         n_times: int,
         poststimuli_mask: np.ndarray,
+        bg_lf_subset_indices: np.ndarray,
         poststimuli_lf_subset_indices: np.ndarray,
         lf_to_label: Dict,
         sfreq: float,
@@ -49,6 +50,8 @@ def simulate_source_epochs(
         Number of time samples per epoch.
     poststimuli_mask : ndarray (bool)
         Boolean mask indicating the time window where stimulus-locked activity occurs.
+    bg_lf_subset_indices : ndarray
+        Leadfield indices of sources that should contain background activity.
     poststimuli_lf_subset_indices : array-like
         Leadfield indices of sources that should contain post-stimulus activity.
     lf_to_label : dict
@@ -102,8 +105,9 @@ def simulate_source_epochs(
         seed_act = rng.integers(1e6)
 
         # Background activity
-        X_bg = simulate_mvar_for_dipoles(
-            n_sources=n_sources,
+        X_bg = np.zeros((n_sources, n_times))
+        X_bg_subset = simulate_mvar_for_dipoles(
+            n_sources=len(bg_lf_subset_indices),
             n_samples=n_times,
             order=order_bg,
             target_std=target_std_bg,
@@ -112,6 +116,10 @@ def simulate_source_epochs(
             gaussian_filter_sigma=gaussian_filter_sigma_bg,
             seed=seed_bg
         )
+
+        for i, idx in enumerate(bg_lf_subset_indices):
+            src_idx = lf_subset_indices.tolist().index(idx)
+            X_bg[src_idx] = X_bg_subset[i]
 
         # Poststimuli activity
         X_post = np.zeros((n_sources, n_times))
@@ -425,14 +433,13 @@ def split_vertices(
 
     Returns
     -------
-    all_vertices: list
-        Vertices from all labels split into left/right hemisphere.
+    noise_vertices with noise activity split into left/right hemisphere.
     post_vertices: list
         Vertices belonging only to stimulus-active labels.
     """
     # Placeholder for vertices
-    lh_vertices_all = []
-    rh_vertices_all = []
+    lh_vertices_noise = []
+    rh_vertices_noise = []
     lh_vertices_post = []
     rh_vertices_post = []
 
@@ -441,25 +448,26 @@ def split_vertices(
         hemi = label.split('-')[1]
         for vert in verts:
             if hemi == 'lh':
-                lh_vertices_all.append(vert)
-                if label in poststimuli_labels:
+                if info['poststimuli']:
                     lh_vertices_post.append(vert)
-
+                if info['noise']:
+                    lh_vertices_noise.append(vert)
             else:
-                rh_vertices_all.append(vert)
-                if label in poststimuli_labels:
+                if info['poststimuli']:
                     rh_vertices_post.append(vert)
+                if info['noise']:
+                    rh_vertices_noise.append(vert)
 
-    all_vertices = [sorted(np.array(lh_vertices_all)), sorted(np.array(rh_vertices_all))]
+    noise_vertices = [sorted(np.array(lh_vertices_noise)), sorted(np.array(rh_vertices_noise))]
     post_vertices = [sorted(np.array(lh_vertices_post)), sorted(np.array(rh_vertices_post))]
 
-    return all_vertices, post_vertices
+    return noise_vertices, post_vertices
 
 
 def get_random_vertices(
         n_vertices_per_label_bg: int,
         n_vertices_per_poststimuli_label: int,
-        all_labels: List,
+        noise_labels: List,
         poststimuli_labels: List,
         subject: str,
         subjects_dir: str,
@@ -480,7 +488,7 @@ def get_random_vertices(
         Number of vertices selected per background label.
     n_vertices_per_poststimuli_label : int
         Number of vertices selected per stimulus-active label.
-    all_labels : List
+    noise_labels : List
         Labels used for activity.
     poststimuli_labels : List
         Labels generating stimulus-locked activity.
@@ -507,7 +515,7 @@ def get_random_vertices(
 
     labels_info = {}
     # Read current label
-    for label in list(set(all_labels) | set(poststimuli_labels)):
+    for label in list(set(noise_labels) | set(poststimuli_labels)):
         labels_info[label] = {}
         # Read current label
         temp_label = mne.read_labels_from_annot(
@@ -526,21 +534,26 @@ def get_random_vertices(
             v for v in temp_label.vertices if v in src[hemi_idx]['vertno']
         ]
 
-        # Add marker if vertice should be used for stronger signal or just background activity - "noise_only"
-        labels_info[label]['noise_only'] = label not in poststimuli_labels
-
-        if label in poststimuli_labels:
+        if label in noise_labels and label in poststimuli_labels:
             n_random_vertices = n_vertices_per_poststimuli_label
-        elif label in all_labels:
+            labels_info[label]['noise'] = True
+            labels_info[label]['poststimuli'] = True
+        elif label in poststimuli_labels and label not in noise_labels:
+            n_random_vertices = n_vertices_per_poststimuli_label
+            labels_info[label]['noise'] = False
+            labels_info[label]['poststimuli'] = True
+        elif label in noise_labels and label not in poststimuli_labels:
             n_random_vertices = n_vertices_per_label_bg
+            labels_info[label]['noise'] = True
+            labels_info[label]['poststimuli'] = False
         else:
             raise ValueError(f"Unknown label: {label}")
 
         # Randomly select vertices from current label
         if (
-            find_close
-            and label in poststimuli_labels
-            and n_random_vertices >= 2
+                find_close
+                and label in poststimuli_labels
+                and n_random_vertices >= 2
         ):
             selected_vertices = _get_random_close_vertices(
                 n_vertices=n_random_vertices,
@@ -561,9 +574,9 @@ def get_random_vertices(
 
 
 def add_leadfield_indices_info(
-    labels_info: Dict,
-    lh_vert_to_lf: Dict,
-    rh_vert_to_lf: Dict
+        labels_info: Dict,
+        lh_vert_to_lf: Dict,
+        rh_vert_to_lf: Dict
 ) -> Dict:
     """
     Add leadfield indices corresponding to selected vertices for each label.
@@ -594,9 +607,9 @@ def add_leadfield_indices_info(
 
 
 def assign_label_to_leadfield_index(
-    labels_info: Dict,
-    lh_vert_to_lf: Dict,
-    rh_vert_to_lf: Dict
+        labels_info: Dict,
+        lh_vert_to_lf: Dict,
+        rh_vert_to_lf: Dict
 ) -> Dict:
     """
     Create a mapping from leadfield indices to anatomical labels.
