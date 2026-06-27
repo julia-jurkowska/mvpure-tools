@@ -16,11 +16,3 @@ mvpure\_py.localizer.localizer\_utils
    :members:
    :show-inheritance:
    :undoc-members:
-
-Module contents
----------------
-
-.. automodule:: mvpure_py.localizer
-   :members:
-   :show-inheritance:
-   :undoc-members:

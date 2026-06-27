@@ -17,10 +17,3 @@ mvpure\_py.simulation.validate
    :show-inheritance:
    :undoc-members:
 
-Module contents
----------------
-
-.. automodule:: mvpure_py.simulation
-   :members:
-   :show-inheritance:
-   :undoc-members:

@@ -17,10 +17,3 @@ mvpure\_py.utils.translation
    :show-inheritance:
    :undoc-members:
 
-Module contents
----------------
-
-.. automodule:: mvpure_py.utils
-   :members:
-   :show-inheritance:
-   :undoc-members:

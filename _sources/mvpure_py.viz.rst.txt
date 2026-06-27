@@ -17,10 +17,3 @@ mvpure\_py.viz.viz
    :show-inheritance:
    :undoc-members:
 
-Module contents
----------------
-
-.. automodule:: mvpure_py.viz
-   :members:
-   :show-inheritance:
-   :undoc-members:

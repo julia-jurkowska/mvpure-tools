@@ -12,10 +12,3 @@ Subpackages
    mvpure_py.utils
    mvpure_py.viz
 
-Module contents
----------------
-
-.. automodule:: mvpure_py
-   :members:
-   :show-inheritance:
-   :undoc-members:

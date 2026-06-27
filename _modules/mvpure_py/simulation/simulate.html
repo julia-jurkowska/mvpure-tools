@@ -280,6 +280,7 @@
         <span class="n">lf_subset_indices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">n_times</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">poststimuli_mask</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">bg_lf_subset_indices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">poststimuli_lf_subset_indices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">lf_to_label</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
         <span class="n">sfreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -317,6 +318,8 @@
 <span class="sd">        Number of time samples per epoch.</span>
 <span class="sd">    poststimuli_mask : ndarray (bool)</span>
 <span class="sd">        Boolean mask indicating the time window where stimulus-locked activity occurs.</span>
+<span class="sd">    bg_lf_subset_indices : ndarray</span>
+<span class="sd">        Leadfield indices of sources that should contain background activity.</span>
 <span class="sd">    poststimuli_lf_subset_indices : array-like</span>
 <span class="sd">        Leadfield indices of sources that should contain post-stimulus activity.</span>
 <span class="sd">    lf_to_label : dict</span>
@@ -370,8 +373,9 @@
         <span class="n">seed_act</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mf">1e6</span><span class="p">)</span>
 
         <span class="c1"># Background activity</span>
-        <span class="n">X_bg</span> <span class="o">=</span> <span class="n">simulate_mvar_for_dipoles</span><span class="p">(</span>
-            <span class="n">n_sources</span><span class="o">=</span><span class="n">n_sources</span><span class="p">,</span>
+        <span class="n">X_bg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_sources</span><span class="p">,</span> <span class="n">n_times</span><span class="p">))</span>
+        <span class="n">X_bg_subset</span> <span class="o">=</span> <span class="n">simulate_mvar_for_dipoles</span><span class="p">(</span>
+            <span class="n">n_sources</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">bg_lf_subset_indices</span><span class="p">),</span>
             <span class="n">n_samples</span><span class="o">=</span><span class="n">n_times</span><span class="p">,</span>
             <span class="n">order</span><span class="o">=</span><span class="n">order_bg</span><span class="p">,</span>
             <span class="n">target_std</span><span class="o">=</span><span class="n">target_std_bg</span><span class="p">,</span>
@@ -380,6 +384,10 @@
             <span class="n">gaussian_filter_sigma</span><span class="o">=</span><span class="n">gaussian_filter_sigma_bg</span><span class="p">,</span>
             <span class="n">seed</span><span class="o">=</span><span class="n">seed_bg</span>
         <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bg_lf_subset_indices</span><span class="p">):</span>
+            <span class="n">src_idx</span> <span class="o">=</span> <span class="n">lf_subset_indices</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+            <span class="n">X_bg</span><span class="p">[</span><span class="n">src_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_bg_subset</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
         <span class="c1"># Poststimuli activity</span>
         <span class="n">X_post</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_sources</span><span class="p">,</span> <span class="n">n_times</span><span class="p">))</span>
@@ -708,14 +716,13 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    all_vertices: list</span>
-<span class="sd">        Vertices from all labels split into left/right hemisphere.</span>
+<span class="sd">    noise_vertices with noise activity split into left/right hemisphere.</span>
 <span class="sd">    post_vertices: list</span>
 <span class="sd">        Vertices belonging only to stimulus-active labels.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Placeholder for vertices</span>
-    <span class="n">lh_vertices_all</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">rh_vertices_all</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">lh_vertices_noise</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">rh_vertices_noise</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">lh_vertices_post</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">rh_vertices_post</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -724,19 +731,20 @@
         <span class="n">hemi</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">vert</span> <span class="ow">in</span> <span class="n">verts</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">hemi</span> <span class="o">==</span> <span class="s1">&#39;lh&#39;</span><span class="p">:</span>
-                <span class="n">lh_vertices_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vert</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">poststimuli_labels</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;poststimuli&#39;</span><span class="p">]:</span>
                     <span class="n">lh_vertices_post</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vert</span><span class="p">)</span>
-
+                <span class="k">if</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;noise&#39;</span><span class="p">]:</span>
+                    <span class="n">lh_vertices_noise</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vert</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">rh_vertices_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vert</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">poststimuli_labels</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;poststimuli&#39;</span><span class="p">]:</span>
                     <span class="n">rh_vertices_post</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vert</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;noise&#39;</span><span class="p">]:</span>
+                    <span class="n">rh_vertices_noise</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vert</span><span class="p">)</span>
 
-    <span class="n">all_vertices</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lh_vertices_all</span><span class="p">)),</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rh_vertices_all</span><span class="p">))]</span>
+    <span class="n">noise_vertices</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lh_vertices_noise</span><span class="p">)),</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rh_vertices_noise</span><span class="p">))]</span>
     <span class="n">post_vertices</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lh_vertices_post</span><span class="p">)),</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rh_vertices_post</span><span class="p">))]</span>
 
-    <span class="k">return</span> <span class="n">all_vertices</span><span class="p">,</span> <span class="n">post_vertices</span></div>
+    <span class="k">return</span> <span class="n">noise_vertices</span><span class="p">,</span> <span class="n">post_vertices</span></div>
 
 
 
@@ -745,7 +753,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">get_random_vertices</span><span class="p">(</span>
         <span class="n">n_vertices_per_label_bg</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">n_vertices_per_poststimuli_label</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">all_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span>
+        <span class="n">noise_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span>
         <span class="n">poststimuli_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span>
         <span class="n">subject</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">subjects_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -766,7 +774,7 @@
 <span class="sd">        Number of vertices selected per background label.</span>
 <span class="sd">    n_vertices_per_poststimuli_label : int</span>
 <span class="sd">        Number of vertices selected per stimulus-active label.</span>
-<span class="sd">    all_labels : List</span>
+<span class="sd">    noise_labels : List</span>
 <span class="sd">        Labels used for activity.</span>
 <span class="sd">    poststimuli_labels : List</span>
 <span class="sd">        Labels generating stimulus-locked activity.</span>
@@ -793,7 +801,7 @@
 
     <span class="n">labels_info</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="c1"># Read current label</span>
-    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">all_labels</span><span class="p">)</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="n">poststimuli_labels</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">noise_labels</span><span class="p">)</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="n">poststimuli_labels</span><span class="p">)):</span>
         <span class="n">labels_info</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="c1"># Read current label</span>
         <span class="n">temp_label</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">read_labels_from_annot</span><span class="p">(</span>
@@ -812,21 +820,26 @@
             <span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">temp_label</span><span class="o">.</span><span class="n">vertices</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">src</span><span class="p">[</span><span class="n">hemi_idx</span><span class="p">][</span><span class="s1">&#39;vertno&#39;</span><span class="p">]</span>
         <span class="p">]</span>
 
-        <span class="c1"># Add marker if vertice should be used for stronger signal or just background activity - &quot;noise_only&quot;</span>
-        <span class="n">labels_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="s1">&#39;noise_only&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">poststimuli_labels</span>
-
-        <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">poststimuli_labels</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">noise_labels</span> <span class="ow">and</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">poststimuli_labels</span><span class="p">:</span>
             <span class="n">n_random_vertices</span> <span class="o">=</span> <span class="n">n_vertices_per_poststimuli_label</span>
-        <span class="k">elif</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">all_labels</span><span class="p">:</span>
+            <span class="n">labels_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="s1">&#39;noise&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">labels_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="s1">&#39;poststimuli&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">poststimuli_labels</span> <span class="ow">and</span> <span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">noise_labels</span><span class="p">:</span>
+            <span class="n">n_random_vertices</span> <span class="o">=</span> <span class="n">n_vertices_per_poststimuli_label</span>
+            <span class="n">labels_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="s1">&#39;noise&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">labels_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="s1">&#39;poststimuli&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">noise_labels</span> <span class="ow">and</span> <span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">poststimuli_labels</span><span class="p">:</span>
             <span class="n">n_random_vertices</span> <span class="o">=</span> <span class="n">n_vertices_per_label_bg</span>
+            <span class="n">labels_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="s1">&#39;noise&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">labels_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="s1">&#39;poststimuli&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown label: </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="c1"># Randomly select vertices from current label</span>
         <span class="k">if</span> <span class="p">(</span>
-            <span class="n">find_close</span>
-            <span class="ow">and</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">poststimuli_labels</span>
-            <span class="ow">and</span> <span class="n">n_random_vertices</span> <span class="o">&gt;=</span> <span class="mi">2</span>
+                <span class="n">find_close</span>
+                <span class="ow">and</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">poststimuli_labels</span>
+                <span class="ow">and</span> <span class="n">n_random_vertices</span> <span class="o">&gt;=</span> <span class="mi">2</span>
         <span class="p">):</span>
             <span class="n">selected_vertices</span> <span class="o">=</span> <span class="n">_get_random_close_vertices</span><span class="p">(</span>
                 <span class="n">n_vertices</span><span class="o">=</span><span class="n">n_random_vertices</span><span class="p">,</span>
@@ -850,9 +863,9 @@
 <div class="viewcode-block" id="add_leadfield_indices_info">
 <a class="viewcode-back" href="../../../mvpure_py.simulation.html#mvpure_py.simulation.simulate.add_leadfield_indices_info">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_leadfield_indices_info</span><span class="p">(</span>
-    <span class="n">labels_info</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
-    <span class="n">lh_vert_to_lf</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
-    <span class="n">rh_vert_to_lf</span><span class="p">:</span> <span class="n">Dict</span>
+        <span class="n">labels_info</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+        <span class="n">lh_vert_to_lf</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+        <span class="n">rh_vert_to_lf</span><span class="p">:</span> <span class="n">Dict</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Add leadfield indices corresponding to selected vertices for each label.</span>
@@ -886,9 +899,9 @@
 <div class="viewcode-block" id="assign_label_to_leadfield_index">
 <a class="viewcode-back" href="../../../mvpure_py.simulation.html#mvpure_py.simulation.simulate.assign_label_to_leadfield_index">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">assign_label_to_leadfield_index</span><span class="p">(</span>
-    <span class="n">labels_info</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
-    <span class="n">lh_vert_to_lf</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
-    <span class="n">rh_vert_to_lf</span><span class="p">:</span> <span class="n">Dict</span>
+        <span class="n">labels_info</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+        <span class="n">lh_vert_to_lf</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+        <span class="n">rh_vert_to_lf</span><span class="p">:</span> <span class="n">Dict</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a mapping from leadfield indices to anatomical labels.</span>

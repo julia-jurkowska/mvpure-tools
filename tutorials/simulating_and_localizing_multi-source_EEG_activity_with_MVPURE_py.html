@@ -403,12 +403,11 @@ Using pyvistaqt 3d backend.
 <span class="p">]</span>
 
 <span class="n">labels_to_use_poststimuli</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;cuneus-lh&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;cuneus-rh&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;lateraloccipital-lh&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;lateraloccipital-rh&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;inferiorparietal-lh&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;inferiorparietal-rh&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;lateraloccipital-rh&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;superiorfrontal-rh&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;caudalanteriorcingulate-lh&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;caudalmiddlefrontal-lh&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;lateraloccipital-lh&#39;</span>
 <span class="p">]</span>
 </pre></div>
 </div>
@@ -538,32 +537,36 @@ Reading forward solution from /Volumes/UMK/oddball/subjects/sample_subject/forwa
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels_info</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">get_random_vertices</span><span class="p">(</span>
     <span class="n">n_vertices_per_label_bg</span><span class="o">=</span><span class="n">N_VERTICES_PER_BG_LABEL</span><span class="p">,</span>
     <span class="n">n_vertices_per_poststimuli_label</span><span class="o">=</span><span class="n">N_VERTICES_PER_ACTIVITY_LABEL</span><span class="p">,</span>
-    <span class="n">all_labels</span><span class="o">=</span><span class="n">labels_to_use</span><span class="p">,</span>
+    <span class="n">noise_labels</span><span class="o">=</span><span class="n">labels_to_use</span><span class="p">,</span>
     <span class="n">poststimuli_labels</span><span class="o">=</span><span class="n">labels_to_use_poststimuli</span><span class="p">,</span>
     <span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span>
     <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">,</span>
     <span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">all_vertices</span><span class="p">,</span> <span class="n">poststimuli_vertices</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">split_vertices</span><span class="p">(</span><span class="n">labels_info</span><span class="p">,</span> <span class="n">labels_to_use_poststimuli</span><span class="p">)</span>
+
+<span class="n">noise_vertices</span><span class="p">,</span> <span class="n">poststimuli_vertices</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">split_vertices</span><span class="p">(</span><span class="n">labels_info</span><span class="p">,</span> <span class="n">labels_to_use_poststimuli</span><span class="p">)</span>
 
 <span class="c1"># Mapping to leadfield space</span>
-<span class="n">leadfield_subset_indices</span><span class="p">,</span> <span class="n">lh_vert_to_lf</span><span class="p">,</span> <span class="n">rh_vert_to_lf</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">translation</span><span class="o">.</span><span class="n">transform_vertices_to_leadfield_indices</span><span class="p">(</span>
-    <span class="n">vertices</span><span class="o">=</span><span class="n">all_vertices</span><span class="p">,</span>
+<span class="n">leadfield_subset_indices_noise</span><span class="p">,</span> <span class="n">lh_vert_to_lf_noise</span><span class="p">,</span> <span class="n">rh_vert_to_lf_noise</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">translation</span><span class="o">.</span><span class="n">transform_vertices_to_leadfield_indices</span><span class="p">(</span>
+    <span class="n">vertices</span><span class="o">=</span><span class="n">noise_vertices</span><span class="p">,</span>
     <span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span>
     <span class="n">hemi</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
     <span class="n">include_mapping</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">)</span>
 
-<span class="n">leadfield_subset_poststimuli_indices</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">translation</span><span class="o">.</span><span class="n">transform_vertices_to_leadfield_indices</span><span class="p">(</span>
+<span class="n">leadfield_subset_poststimuli_indices</span><span class="p">,</span> <span class="n">lh_vert_to_lf_stimuli</span><span class="p">,</span> <span class="n">rh_vert_to_lf_stimuli</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">translation</span><span class="o">.</span><span class="n">transform_vertices_to_leadfield_indices</span><span class="p">(</span>
     <span class="n">vertices</span><span class="o">=</span><span class="n">poststimuli_vertices</span><span class="p">,</span>
     <span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span>
-    <span class="n">hemi</span><span class="o">=</span><span class="s2">&quot;both&quot;</span>
+    <span class="n">hemi</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+    <span class="n">include_mapping</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
+
+<span class="n">leadfield_subset_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">leadfield_subset_indices_noise</span><span class="p">,</span> <span class="n">leadfield_subset_poststimuli_indices</span><span class="p">)))</span>
 
 <span class="n">leadfield_to_label_mapping</span>  <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">assign_label_to_leadfield_index</span><span class="p">(</span>
     <span class="n">labels_info</span><span class="o">=</span><span class="n">labels_info</span><span class="p">,</span>
-    <span class="n">lh_vert_to_lf</span><span class="o">=</span><span class="n">lh_vert_to_lf</span><span class="p">,</span>
-    <span class="n">rh_vert_to_lf</span><span class="o">=</span><span class="n">rh_vert_to_lf</span>
+    <span class="n">lh_vert_to_lf</span><span class="o">=</span><span class="n">lh_vert_to_lf_noise</span> <span class="o">|</span> <span class="n">lh_vert_to_lf_stimuli</span><span class="p">,</span>
+    <span class="n">rh_vert_to_lf</span><span class="o">=</span><span class="n">rh_vert_to_lf_noise</span> <span class="o">|</span> <span class="n">rh_vert_to_lf_stimuli</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -574,15 +577,6 @@ Reading forward solution from /Volumes/UMK/oddball/subjects/sample_subject/forwa
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Reading labels from parcellation...
-   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
-   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
-Reading labels from parcellation...
-   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
-   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
-Reading labels from parcellation...
-   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
-   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
-Reading labels from parcellation...
    read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
    read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
 Reading labels from parcellation...
@@ -591,18 +585,6 @@ Reading labels from parcellation...
 Reading labels from parcellation...
    read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
    read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
-Reading labels from parcellation...
-   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
-   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
-Reading labels from parcellation...
-   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
-   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
-Reading labels from parcellation...
-   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
-   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
-Reading labels from parcellation...
-   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
-   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
 Reading labels from parcellation...
    read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
    read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
@@ -627,6 +609,30 @@ Reading labels from parcellation...
 Reading labels from parcellation...
    read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
    read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
 </pre></div></div>
 </div>
 </section>
@@ -661,6 +667,7 @@ Reading labels from parcellation...
     <span class="n">n_epochs</span><span class="o">=</span><span class="n">N_EPOCHS</span><span class="p">,</span>
     <span class="n">lf_subset_indices</span><span class="o">=</span><span class="n">leadfield_subset_indices</span><span class="p">,</span>
     <span class="n">n_times</span><span class="o">=</span><span class="n">n_times</span><span class="p">,</span>
+    <span class="n">bg_lf_subset_indices</span><span class="o">=</span><span class="n">leadfield_subset_indices_noise</span><span class="p">,</span>
     <span class="n">poststimuli_mask</span><span class="o">=</span><span class="n">post_mask</span><span class="p">,</span>
     <span class="n">poststimuli_lf_subset_indices</span><span class="o">=</span><span class="n">leadfield_subset_poststimuli_indices</span><span class="p">,</span>
     <span class="n">lf_to_label</span><span class="o">=</span><span class="n">leadfield_to_label_mapping</span><span class="p">,</span>
@@ -675,6 +682,8 @@ Reading labels from parcellation...
     <span class="n">coupling</span><span class="o">=</span><span class="n">COUPLING</span><span class="p">,</span>
     <span class="n">noise_bg</span><span class="o">=</span><span class="n">NOISE_BG</span><span class="p">,</span>
     <span class="n">noise</span><span class="o">=</span><span class="n">NOISE</span><span class="p">,</span>
+    <span class="n">gaussian_filter_sigma</span><span class="o">=</span><span class="n">GAUSSIAN_FILTER_SIGMA</span><span class="p">,</span>
+    <span class="n">gaussian_filter_sigma_bg</span><span class="o">=</span><span class="n">GAUSSIAN_FILTER_SIGMA_BG</span><span class="p">,</span>
     <span class="n">n_dominant_eigvals</span><span class="o">=</span><span class="n">N_DOMINANT_EIGVALS</span><span class="p">,</span>
     <span class="n">seed</span><span class="o">=</span><span class="mi">42</span>
 <span class="p">)</span>
@@ -906,9 +915,9 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="mne-repr-section-header general-cbc45f3c-3e75-40d2-8927-47c62725f3ab"
+<tr class="mne-repr-section-header general-1e0643c8-f52f-4176-930a-2a96748ae434"
      title="Hide section"
-    onclick="toggleVisibility('general-cbc45f3c-3e75-40d2-8927-47c62725f3ab')">
+    onclick="toggleVisibility('general-1e0643c8-f52f-4176-930a-2a96748ae434')">
     <th class="mne-repr-section-toggle">
         <button >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
@@ -920,26 +929,26 @@ this file apply (plus whatever default styling the IDE applies).
 </tr>
 
 
-<tr class="repr-element general-cbc45f3c-3e75-40d2-8927-47c62725f3ab ">
+<tr class="repr-element general-1e0643c8-f52f-4176-930a-2a96748ae434 ">
     <td class="mne-repr-section-toggle"></td>
     <td>MNE object type</td>
     <td>EpochsArray</td>
 </tr>
-<tr class="repr-element general-cbc45f3c-3e75-40d2-8927-47c62725f3ab ">
+<tr class="repr-element general-1e0643c8-f52f-4176-930a-2a96748ae434 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Measurement date</td>
 
     <td>2018-10-31 at 11:19:57 UTC</td>
 
 </tr>
-<tr class="repr-element general-cbc45f3c-3e75-40d2-8927-47c62725f3ab ">
+<tr class="repr-element general-1e0643c8-f52f-4176-930a-2a96748ae434 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Participant</td>
 
     <td>Unknown</td>
 
 </tr>
-<tr class="repr-element general-cbc45f3c-3e75-40d2-8927-47c62725f3ab ">
+<tr class="repr-element general-1e0643c8-f52f-4176-930a-2a96748ae434 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Experimenter</td>
 
@@ -954,9 +963,9 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="mne-repr-section-header acquisition-5d4c8e33-513a-4031-99c0-9bcb12fce2a3"
+<tr class="mne-repr-section-header acquisition-f3e57612-8a67-46e1-ad07-80ff75dc6cc9"
      title="Hide section"
-    onclick="toggleVisibility('acquisition-5d4c8e33-513a-4031-99c0-9bcb12fce2a3')">
+    onclick="toggleVisibility('acquisition-f3e57612-8a67-46e1-ad07-80ff75dc6cc9')">
     <th class="mne-repr-section-toggle">
         <button >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
@@ -971,14 +980,14 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="repr-element acquisition-5d4c8e33-513a-4031-99c0-9bcb12fce2a3 ">
+<tr class="repr-element acquisition-f3e57612-8a67-46e1-ad07-80ff75dc6cc9 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Total number of events</td>
     <td>100</td>
 </tr>
 
 
-<tr class="repr-element acquisition-5d4c8e33-513a-4031-99c0-9bcb12fce2a3 ">
+<tr class="repr-element acquisition-f3e57612-8a67-46e1-ad07-80ff75dc6cc9 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Events counts</td>
 
@@ -992,35 +1001,35 @@ this file apply (plus whatever default styling the IDE applies).
 </tr>
 
 
-<tr class="repr-element acquisition-5d4c8e33-513a-4031-99c0-9bcb12fce2a3 ">
+<tr class="repr-element acquisition-f3e57612-8a67-46e1-ad07-80ff75dc6cc9 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Time range</td>
     <td>-0.199 – 0.246 s</td>
 </tr>
 
 
-<tr class="repr-element acquisition-5d4c8e33-513a-4031-99c0-9bcb12fce2a3 ">
+<tr class="repr-element acquisition-f3e57612-8a67-46e1-ad07-80ff75dc6cc9 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Baseline</td>
     <td>off</td>
 </tr>
 
 
-<tr class="repr-element acquisition-5d4c8e33-513a-4031-99c0-9bcb12fce2a3 ">
+<tr class="repr-element acquisition-f3e57612-8a67-46e1-ad07-80ff75dc6cc9 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Sampling frequency</td>
     <td>256.00 Hz</td>
 </tr>
 
 
-<tr class="repr-element acquisition-5d4c8e33-513a-4031-99c0-9bcb12fce2a3 ">
+<tr class="repr-element acquisition-f3e57612-8a67-46e1-ad07-80ff75dc6cc9 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Time points</td>
     <td>115</td>
 </tr>
 
 
-<tr class="repr-element acquisition-5d4c8e33-513a-4031-99c0-9bcb12fce2a3 ">
+<tr class="repr-element acquisition-f3e57612-8a67-46e1-ad07-80ff75dc6cc9 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Metadata</td>
     <td>No metadata set</td>
@@ -1034,9 +1043,9 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="mne-repr-section-header channels-e0aa8788-cd08-4625-99cb-0d073b5c2fc2"
+<tr class="mne-repr-section-header channels-86c81198-f39f-489d-a62d-d2b49dae6076"
      title="Hide section"
-    onclick="toggleVisibility('channels-e0aa8788-cd08-4625-99cb-0d073b5c2fc2')">
+    onclick="toggleVisibility('channels-86c81198-f39f-489d-a62d-d2b49dae6076')">
     <th class="mne-repr-section-toggle">
         <button >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
@@ -1049,7 +1058,7 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="repr-element channels-e0aa8788-cd08-4625-99cb-0d073b5c2fc2 ">
+<tr class="repr-element channels-86c81198-f39f-489d-a62d-d2b49dae6076 ">
     <td class="mne-repr-section-toggle"></td>
     <td>EEG</td>
     <td>
@@ -1062,7 +1071,7 @@ this file apply (plus whatever default styling the IDE applies).
 </tr>
 
 
-<tr class="repr-element channels-e0aa8788-cd08-4625-99cb-0d073b5c2fc2 ">
+<tr class="repr-element channels-86c81198-f39f-489d-a62d-d2b49dae6076 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Head & sensor digitization</td>
 
@@ -1077,9 +1086,9 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="mne-repr-section-header filters-c66ae845-4beb-4efa-bbb6-54b3f898386b"
+<tr class="mne-repr-section-header filters-db934792-ced1-4e92-9eca-a2acebe4df01"
      title="Hide section"
-    onclick="toggleVisibility('filters-c66ae845-4beb-4efa-bbb6-54b3f898386b')">
+    onclick="toggleVisibility('filters-db934792-ced1-4e92-9eca-a2acebe4df01')">
     <th class="mne-repr-section-toggle">
         <button >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
@@ -1091,21 +1100,21 @@ this file apply (plus whatever default styling the IDE applies).
 </tr>
 
 
-<tr class="repr-element filters-c66ae845-4beb-4efa-bbb6-54b3f898386b ">
+<tr class="repr-element filters-db934792-ced1-4e92-9eca-a2acebe4df01 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Highpass</td>
     <td>1.00 Hz</td>
 </tr>
 
 
-<tr class="repr-element filters-c66ae845-4beb-4efa-bbb6-54b3f898386b ">
+<tr class="repr-element filters-db934792-ced1-4e92-9eca-a2acebe4df01 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Lowpass</td>
     <td>40.00 Hz</td>
 </tr>
 
 
-<tr class="repr-element filters-c66ae845-4beb-4efa-bbb6-54b3f898386b ">
+<tr class="repr-element filters-db934792-ced1-4e92-9eca-a2acebe4df01 ">
     <td class="mne-repr-section-toggle"></td>
     <td>Projections</td>
     <td>
@@ -1170,7 +1179,7 @@ this file apply (plus whatever default styling the IDE applies).
 
 <span class="n">sim_evoked</span> <span class="o">=</span> <span class="n">sim_epochs</span><span class="o">.</span><span class="n">average</span><span class="p">()</span>
 <span class="c1"># Subset signal for given time range</span>
-<span class="n">signal_sim</span> <span class="o">=</span> <span class="n">sim_evoked</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span>
+<span class="n">signal_sim</span> <span class="o">=</span> <span class="n">sim_evoked</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span>
     <span class="n">tmin</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
     <span class="n">tmax</span><span class="o">=</span><span class="mf">0.2</span>
 <span class="p">)</span>
@@ -1277,39 +1286,37 @@ Number of samples used : 3900
 <span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
 
 [Activity Index Result]
-  Selected indices (index_max): [3175, 274, 2615, 3021, 2374, 2849]
-  Index max values: [0.78577935 1.13425896 1.37318353 1.44308371 1.513192   1.55822522]
+  Selected indices (index_max): [1913, 2178, 1248, 2783, 3290]
+  Index max values: [3.847179   4.40560165 4.56822079 4.71270861 4.83707129]
   Rank parameter (r): 1
+
 <span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
 
 [Activity Index Result]
-  Selected indices (index_max): [3175, 274, 591, 2615, 232, 3044]
-  Index max values: [0.78577935 1.55943631 1.86723207 2.17715898 2.46342582 2.77347779]
+  Selected indices (index_max): [1913, 2178, 2783, 3290, 4359]
+  Index max values: [3.847179   4.74318399 5.28592942 5.5143203  5.78097535]
   Rank parameter (r): 2
+
 <span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
 
 [Activity Index Result]
-  Selected indices (index_max): [3175, 274, 591, 232, 3044, 2615]
-  Index max values: [0.78577935 1.55943631 2.273855   2.62293093 2.97420034 3.33708565]
+  Selected indices (index_max): [1913, 2178, 2783, 27, 3290]
+  Index max values: [3.847179   4.74318399 5.53240386 6.07573153 6.36922522]
   Rank parameter (r): 3
+
 <span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
 
 [Activity Index Result]
-  Selected indices (index_max): [3175, 274, 591, 232, 3044, 2615]
-  Index max values: [0.78577935 1.55943631 2.273855   3.0273721  3.46484468 3.83430257]
+  Selected indices (index_max): [1913, 2178, 2783, 27, 4530]
+  Index max values: [3.847179   4.74318399 5.53240386 6.29491264 6.84870992]
   Rank parameter (r): 4
+
 <span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
 
 [Activity Index Result]
-  Selected indices (index_max): [3175, 274, 591, 232, 3044, 2615]
-  Index max values: [0.78577935 1.55943631 2.273855   3.0273721  3.7933396  4.2374138 ]
+  Selected indices (index_max): [1913, 2178, 2783, 27, 4530]
+  Index max values: [3.847179   4.74318399 5.53240386 6.29491264 7.04857874]
   Rank parameter (r): 5
-<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
-
-[Activity Index Result]
-  Selected indices (index_max): [3175, 274, 591, 232, 3044, 2615]
-  Index max values: [0.78577935 1.55943631 2.273855   3.0273721  3.7933396  4.55307297]
-  Rank parameter (r): 6
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -1356,11 +1363,11 @@ Number of samples used : 3900
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Computing rank from covariance with rank=None
-    Using tolerance 5.1e-13 (2.2e-16 eps * 128 dim * 18  max singular value)
+    Using tolerance 6e-13 (2.2e-16 eps * 128 dim * 21  max singular value)
     Estimated rank (eeg): 127
     EEG: rank 127 computed from 128 data channels with 1 projector
 Computing rank from covariance with rank=None
-    Using tolerance 2.3e-13 (2.2e-16 eps * 128 dim * 8.2  max singular value)
+    Using tolerance 3.3e-13 (2.2e-16 eps * 128 dim * 11  max singular value)
     Estimated rank (eeg): 127
     EEG: rank 127 computed from 128 data channels with 1 projector
 Making LCMV beamformer with rank {&#39;eeg&#39;: 127}
@@ -1391,8 +1398,8 @@ Filter computation complete
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Number of correctly localized sources using LCMV-NAI: 3
-Mean distance error using LCMV-NAI: 16.52 mm
+Number of correctly localized sources using LCMV-NAI: 1
+Mean distance error using LCMV-NAI: 58.1 mm
 </pre></div></div>
 </div>
 <p>This tutorial has shown a complete pipeline for:</p>

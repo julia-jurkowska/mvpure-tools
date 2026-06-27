@@ -33,6 +33,7 @@
     "3. Analysis of $RN^{-1}$ eigenvalues to guide the number of sources to localize and select an appropriate optimization parameter.\n",
     "4. Localizing the specified number of sources.\n",
     "5. Reconstructing source signals for vertices of interest and plotting the results.\n",
+    "6. Comparing the results with standard LCMV beamformer and sLORETA methods.\n",
     "\n",
     "All steps will be repeated for two time frames: \"sensory\" (50-200 ms after stimuli) and \"cognitive\" (350-600 ms after stimuli).\n",
     "\n",
@@ -58,6 +59,7 @@
    "source": [
     "import mne\n",
     "import os\n",
+    "import numpy as np\n",
     "\n",
     "mne.viz.set_3d_backend('pyvistaqt')\n",
     "\n",
@@ -66,8 +68,8 @@
    "metadata": {
     "collapsed": false,
     "ExecuteTime": {
-     "end_time": "2026-04-29T21:16:01.058681Z",
-     "start_time": "2026-04-29T21:15:57.232806Z"
+     "end_time": "2026-06-27T19:21:33.876502Z",
+     "start_time": "2026-06-27T19:21:30.098256Z"
     }
    },
    "id": "cccde4627289188e"
@@ -128,8 +130,8 @@
    "metadata": {
     "collapsed": false,
     "ExecuteTime": {
-     "end_time": "2026-04-29T21:16:05.116390Z",
-     "start_time": "2026-04-29T21:16:03.889245Z"
+     "end_time": "2026-06-27T19:22:01.587047Z",
+     "start_time": "2026-06-27T19:22:00.343264Z"
     }
    },
    "id": "4ea0b442e5c104c3"
@@ -189,8 +191,8 @@
    "metadata": {
     "collapsed": false,
     "ExecuteTime": {
-     "end_time": "2026-04-29T21:16:12.498457Z",
-     "start_time": "2026-04-29T21:16:12.380202Z"
+     "end_time": "2026-06-27T19:22:08.387Z",
+     "start_time": "2026-06-27T19:22:08.243904Z"
     }
    },
    "id": "924bcc8322c22de1"
@@ -253,7 +255,7 @@
     ")\n",
     "\n",
     "# Subset signal for given time range\n",
-    "signal_sen = sel_evoked.crop(\n",
+    "signal_sen = sel_evoked.copy().crop(\n",
     "    tmin=0.05,\n",
     "    tmax=0.2\n",
     ")"
@@ -261,8 +263,8 @@
    "metadata": {
     "collapsed": false,
     "ExecuteTime": {
-     "end_time": "2026-04-29T21:16:14.245420Z",
-     "start_time": "2026-04-29T21:16:13.969969Z"
+     "end_time": "2026-06-27T19:22:22.448666Z",
+     "start_time": "2026-06-27T19:22:22.153627Z"
     }
    },
    "id": "d1c9366013218b82"
@@ -277,7 +279,7 @@
     "- **Eigenvalues vs. rank**: Helps determine optimal number of sources\n",
     "- **Signal/noise separation**: Drop-off indicates transition between signal and noise eigenvalues\n",
     "\n",
-    "For technical details on eigenvalue-based rank selection, see the [MVPURE paper](https://arxiv.org/abs/2509.14118)."
+    "For technical details on eigenvalue-based rank selection, see the [MVPURE paper](https://arxiv.org/pdf/2509.14118)."
    ],
    "metadata": {
     "collapsed": false
@@ -308,8 +310,8 @@
    "metadata": {
     "collapsed": false,
     "ExecuteTime": {
-     "end_time": "2026-04-29T21:16:17.228734Z",
-     "start_time": "2026-04-29T21:16:16.963794Z"
+     "end_time": "2026-06-27T19:22:29.152189Z",
+     "start_time": "2026-06-27T19:22:28.854652Z"
     }
    },
    "id": "37881de806459c46"
@@ -323,7 +325,7 @@
     "The main parameters are: \n",
     "- ``subject``: the subject ID (here: ``\"sample_subject\"``)\n",
     "- ``subjects_dir``: directory containing the subject folders.\n",
-    "- ``localizer_to_use``: the algorithm variant. Here we choose ``\"mai_mvp\"``. For details, see [paper](https://arxiv.org/abs/2509.14118) or the function documentation.\n",
+    "- ``localizer_to_use``: the algorithm variant. Here we choose ``\"mai_mvp\"``. For details, see [paper](https://arxiv.org/pdf/2509.14118) or the function documentation.\n",
     "- ``n_sources_to_localize``: number of sources to localize.\n",
     "- ``R``: data covariance matrix\n",
     "- ``N``: noise covariance matrix\n",
@@ -351,11 +353,11 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "iter 1/5: 100%|██████████| 5124/5124 [00:00<00:00, 479413.19it/s]\n",
-      "iter 2/5: 100%|██████████| 5124/5124 [00:01<00:00, 4112.89it/s]\n",
-      "iter 3/5: 100%|██████████| 5124/5124 [00:00<00:00, 19994.08it/s]\n",
-      "iter 4/5: 100%|██████████| 5124/5124 [00:00<00:00, 14975.41it/s]\n",
-      "iter 5/5: 100%|██████████| 5124/5124 [00:00<00:00, 10730.55it/s]\n"
+      "iter 1/5: 100%|██████████| 5124/5124 [00:00<00:00, 411866.65it/s]\n",
+      "iter 2/5: 100%|██████████| 5124/5124 [00:02<00:00, 2470.25it/s]\n",
+      "iter 3/5: 100%|██████████| 5124/5124 [00:00<00:00, 10469.17it/s]\n",
+      "iter 4/5: 100%|██████████| 5124/5124 [00:00<00:00, 11825.36it/s]\n",
+      "iter 5/5: 100%|██████████| 5124/5124 [00:00<00:00, 11814.32it/s]\n"
      ]
     },
     {
@@ -376,11 +378,11 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "iter 1/5: 100%|██████████| 5124/5124 [00:00<00:00, 845128.34it/s]\n",
-      "iter 2/5: 100%|██████████| 5124/5124 [00:00<00:00, 27581.60it/s]\n",
-      "iter 3/5: 100%|██████████| 5124/5124 [00:00<00:00, 21427.87it/s]\n",
-      "iter 4/5: 100%|██████████| 5124/5124 [00:00<00:00, 16075.76it/s]\n",
-      "iter 5/5: 100%|██████████| 5124/5124 [00:00<00:00, 11429.69it/s]\n"
+      "iter 1/5: 100%|██████████| 5124/5124 [00:00<00:00, 804778.64it/s]\n",
+      "iter 2/5: 100%|██████████| 5124/5124 [00:00<00:00, 23801.55it/s]\n",
+      "iter 3/5: 100%|██████████| 5124/5124 [00:00<00:00, 18281.06it/s]\n",
+      "iter 4/5: 100%|██████████| 5124/5124 [00:00<00:00, 12398.25it/s]\n",
+      "iter 5/5: 100%|██████████| 5124/5124 [00:00<00:00, 9120.26it/s]\n"
      ]
     },
     {
@@ -401,11 +403,11 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "iter 1/5: 100%|██████████| 5124/5124 [00:00<00:00, 1129888.74it/s]\n",
-      "iter 2/5: 100%|██████████| 5124/5124 [00:00<00:00, 24005.06it/s]\n",
-      "iter 3/5: 100%|██████████| 5124/5124 [00:00<00:00, 22550.21it/s]\n",
-      "iter 4/5: 100%|██████████| 5124/5124 [00:00<00:00, 16554.30it/s]\n",
-      "iter 5/5: 100%|██████████| 5124/5124 [00:00<00:00, 12871.72it/s]\n"
+      "iter 1/5: 100%|██████████| 5124/5124 [00:00<00:00, 1167451.45it/s]\n",
+      "iter 2/5: 100%|██████████| 5124/5124 [00:00<00:00, 25179.68it/s]\n",
+      "iter 3/5: 100%|██████████| 5124/5124 [00:00<00:00, 24026.24it/s]\n",
+      "iter 4/5: 100%|██████████| 5124/5124 [00:00<00:00, 13863.52it/s]\n",
+      "iter 5/5: 100%|██████████| 5124/5124 [00:00<00:00, 11024.90it/s]\n"
      ]
     },
     {
@@ -426,11 +428,11 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "iter 1/5: 100%|██████████| 5124/5124 [00:00<00:00, 1131614.03it/s]\n",
-      "iter 2/5: 100%|██████████| 5124/5124 [00:00<00:00, 27869.82it/s]\n",
-      "iter 3/5: 100%|██████████| 5124/5124 [00:00<00:00, 24393.85it/s]\n",
-      "iter 4/5: 100%|██████████| 5124/5124 [00:00<00:00, 20931.20it/s]\n",
-      "iter 5/5: 100%|██████████| 5124/5124 [00:00<00:00, 14458.82it/s]\n"
+      "iter 1/5: 100%|██████████| 5124/5124 [00:00<00:00, 1070139.61it/s]\n",
+      "iter 2/5: 100%|██████████| 5124/5124 [00:00<00:00, 24746.92it/s]\n",
+      "iter 3/5: 100%|██████████| 5124/5124 [00:00<00:00, 23731.77it/s]\n",
+      "iter 4/5: 100%|██████████| 5124/5124 [00:00<00:00, 18485.44it/s]\n",
+      "iter 5/5: 100%|██████████| 5124/5124 [00:00<00:00, 9089.94it/s]\n"
      ]
     },
     {
@@ -451,11 +453,11 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "iter 1/5: 100%|██████████| 5124/5124 [00:00<00:00, 1318665.71it/s]\n",
-      "iter 2/5: 100%|██████████| 5124/5124 [00:00<00:00, 23803.80it/s]\n",
-      "iter 3/5: 100%|██████████| 5124/5124 [00:00<00:00, 22486.72it/s]\n",
-      "iter 4/5: 100%|██████████| 5124/5124 [00:00<00:00, 19943.57it/s]\n",
-      "iter 5/5: 100%|██████████| 5124/5124 [00:00<00:00, 15790.73it/s]"
+      "iter 1/5: 100%|██████████| 5124/5124 [00:00<00:00, 1166374.35it/s]\n",
+      "iter 2/5: 100%|██████████| 5124/5124 [00:00<00:00, 19519.41it/s]\n",
+      "iter 3/5: 100%|██████████| 5124/5124 [00:00<00:00, 21474.82it/s]\n",
+      "iter 4/5: 100%|██████████| 5124/5124 [00:00<00:00, 16581.93it/s]\n",
+      "iter 5/5: 100%|██████████| 5124/5124 [00:00<00:00, 12651.29it/s]"
      ]
     },
     {
@@ -494,8 +496,8 @@
    "metadata": {
     "collapsed": false,
     "ExecuteTime": {
-     "end_time": "2026-04-29T21:16:27.193306Z",
-     "start_time": "2026-04-29T21:16:20.299895Z"
+     "end_time": "2026-06-27T19:22:40.162176Z",
+     "start_time": "2026-06-27T19:22:31.287829Z"
     }
    },
    "id": "ac6f21364bbc3f08"
@@ -512,8 +514,8 @@
    "metadata": {
     "collapsed": false,
     "ExecuteTime": {
-     "end_time": "2026-04-29T21:16:33.979091Z",
-     "start_time": "2026-04-29T21:16:33.975914Z"
+     "end_time": "2026-06-27T19:22:41.866863Z",
+     "start_time": "2026-06-27T19:22:41.855627Z"
     }
    },
    "id": "dacd10a778a3d0b8"
@@ -548,8 +550,8 @@
    "metadata": {
     "collapsed": false,
     "ExecuteTime": {
-     "end_time": "2026-04-29T21:16:36.369795Z",
-     "start_time": "2026-04-29T21:16:36.346554Z"
+     "end_time": "2026-06-27T19:22:51.301915Z",
+     "start_time": "2026-06-27T19:22:51.288733Z"
     }
    },
    "id": "32439ce8e266cf77"
@@ -601,21 +603,11 @@
    "metadata": {
     "collapsed": false,
     "ExecuteTime": {
-     "end_time": "2026-04-29T21:16:37.592045Z",
-     "start_time": "2026-04-29T21:16:37.447257Z"
+     "end_time": "2026-06-27T19:22:53.118769Z",
+     "start_time": "2026-06-27T19:22:52.956658Z"
     }
    },
    "id": "c47ed14d7529027e"
-  },
-  {
-   "cell_type": "markdown",
-   "source": [
-    "Then we attach the resulting ``mne.SourceEstimate`` to the localized sources object, making it easier to visualize:"
-   ],
-   "metadata": {
-    "collapsed": false
-   },
-   "id": "d5d1a62c564e44a"
   },
   {
    "cell_type": "markdown",
@@ -640,7 +632,7 @@
     },
     {
      "data": {
-      "text/plain": "<mne.viz._brain._brain.Brain at 0x128b33380>"
+      "text/plain": "<mne.viz._brain._brain.Brain at 0x128da7380>"
      },
      "execution_count": 10,
      "metadata": {},
@@ -656,11 +648,249 @@
    "metadata": {
     "collapsed": false,
     "ExecuteTime": {
-     "end_time": "2026-04-29T21:16:46.248963Z",
-     "start_time": "2026-04-29T21:16:42.755362Z"
+     "end_time": "2026-06-27T19:23:02.818161Z",
+     "start_time": "2026-06-27T19:22:59.316151Z"
     }
    },
    "id": "c0dd032cd6283f1e"
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "#### Comparison with standard LCMV beamformer and sLORETA\n",
+    "We can also compare the results of our MVPURE-based localization and reconstruction with standard LCMV beamformer and sLORETA methods."
+   ],
+   "metadata": {
+    "collapsed": false
+   },
+   "id": "6ce967f224a1f3a6"
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "##### Standard LCMV beamformer"
+   ],
+   "metadata": {
+    "collapsed": false
+   },
+   "id": "2d820490f03ef964"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Computing rank from covariance with rank=None\n",
+      "    Using tolerance 4.4e-13 (2.2e-16 eps * 128 dim * 15  max singular value)\n",
+      "    Estimated rank (eeg): 86\n",
+      "    EEG: rank 86 computed from 128 data channels with 1 projector\n",
+      "Computing rank from covariance with rank=None\n",
+      "    Using tolerance 3.6e-13 (2.2e-16 eps * 128 dim * 13  max singular value)\n",
+      "    Estimated rank (eeg): 86\n",
+      "    EEG: rank 86 computed from 128 data channels with 1 projector\n",
+      "Making LCMV beamformer with rank {'eeg': 86}\n",
+      "Computing inverse operator with 128 channels.\n",
+      "    128 out of 128 channels remain after picking\n",
+      "Selected 128 channels\n",
+      "Whitening the forward solution.\n",
+      "    Created an SSP operator (subspace dimension = 1)\n",
+      "Computing rank from covariance with rank={'eeg': 86}\n",
+      "    Setting small EEG eigenvalues to zero (without PCA)\n",
+      "Creating the source covariance matrix\n",
+      "Adjusting source covariance matrix.\n",
+      "Computing beamformer filters for 5124 sources\n",
+      "Filter computation complete\n",
+      "Using control points [0.44643495 0.51855953 1.26190296]\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": "<mne.viz._brain._brain.Brain at 0x1368ff390>"
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "standard_lcmv_sen = mne.beamformer.make_lcmv(\n",
+    "    signal_sen.info,\n",
+    "    fwd,\n",
+    "    data_cov_sen,\n",
+    "    reg=0.05,\n",
+    "    noise_cov=noise_cov,\n",
+    "    pick_ori=None,\n",
+    "    weight_norm=\"nai\",\n",
+    "    rank=None\n",
+    ")\n",
+    "stc_standard_lcmv_sen = mne.beamformer.apply_lcmv(signal_sen, standard_lcmv_sen)\n",
+    "\n",
+    "# Optional plot\n",
+    "stc_standard_lcmv_sen.plot(hemi=\"both\")"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2026-06-27T19:23:26.654323Z",
+     "start_time": "2026-06-27T19:23:24.045227Z"
+    }
+   },
+   "id": "8d60cafbdfb254cb"
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "##### sLORETA\n",
+    "To use sLORETA, we need to compute the inverse operator first:"
+   ],
+   "metadata": {
+    "collapsed": false
+   },
+   "id": "1aba673a15dbea95"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Computing inverse operator with 128 channels.\n",
+      "    128 out of 128 channels remain after picking\n",
+      "Selected 128 channels\n",
+      "Whitening the forward solution.\n",
+      "    Created an SSP operator (subspace dimension = 1)\n",
+      "Computing rank from covariance with rank=None\n",
+      "    Using tolerance 3.6e-13 (2.2e-16 eps * 128 dim * 13  max singular value)\n",
+      "    Estimated rank (eeg): 86\n",
+      "    EEG: rank 86 computed from 128 data channels with 1 projector\n",
+      "    Setting small EEG eigenvalues to zero (without PCA)\n",
+      "Creating the source covariance matrix\n",
+      "Adjusting source covariance matrix.\n",
+      "Computing SVD of whitened and weighted lead field matrix.\n",
+      "    largest singular value = 3.46898\n",
+      "    scaling factor to adjust the trace = 1.46719e+20 (nchan = 128 nzero = 42)\n"
+     ]
+    }
+   ],
+   "source": [
+    "inv_op_sen = mne.minimum_norm.make_inverse_operator(\n",
+    "    info=signal_sen.info,\n",
+    "    forward=fwd,\n",
+    "    noise_cov=noise_cov,\n",
+    "    loose=0.0,  # forward with fixed orientation\n",
+    "    depth=None\n",
+    ")"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2026-06-27T19:24:24.439730Z",
+     "start_time": "2026-06-27T19:24:24.267689Z"
+    }
+   },
+   "id": "8e6a83184bfe6fb2"
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "To obtain a data-driven regularization parameter, the SNR was estimated as the ratio of the RMS signal amplitude during the response window to the baseline standard deviation. The inverse regularization parameter was then computed as ``lambda2 = 1 / snr**2``, following the convention used in MNE-Pyhton."
+   ],
+   "metadata": {
+    "collapsed": false
+   },
+   "id": "947c8e7116329c02"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "SNR: 2.55\n"
+     ]
+    }
+   ],
+   "source": [
+    "baseline = sel_evoked.copy().crop(tmin=sel_epoched.tmin, tmax=0)\n",
+    "active = sel_evoked.copy().crop(tmin=0.05, tmax=0.2)\n",
+    "\n",
+    "noise_std = np.std(baseline.data)\n",
+    "signal_rms = np.sqrt(np.mean(active.data**2))\n",
+    "\n",
+    "snr_est = np.round(signal_rms / noise_std, 2)\n",
+    "print(f\"SNR: {snr_est}\")"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2026-06-27T19:24:37.745989Z",
+     "start_time": "2026-06-27T19:24:37.729357Z"
+    }
+   },
+   "id": "c55fd56389667546"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Preparing the inverse operator for use...\n",
+      "    Scaled noise and source covariance from nave = 1 to nave = 78\n",
+      "    Created the regularized inverter\n",
+      "    Created an SSP operator (subspace dimension = 1)\n",
+      "    Created the whitener using a noise covariance matrix with rank 86 (42 small eigenvalues omitted)\n",
+      "    Computing noise-normalization factors (sLORETA)...\n",
+      "[done]\n",
+      "Applying inverse operator to \"target\"...\n",
+      "    Picked 128 channels from the data\n",
+      "    Computing inverse...\n",
+      "    Eigenleads need to be weighted ...\n",
+      "    Computing residual...\n",
+      "    Explained  81.1% variance\n",
+      "    sLORETA...\n",
+      "[done]\n",
+      "Using control points [2.08870182 2.46848157 5.19074348]\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": "<mne.viz._brain._brain.Brain at 0x1368c2990>"
+     },
+     "execution_count": 15,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Compute sLORETA source estimate\n",
+    "stc_sloreta_sen = mne.minimum_norm.apply_inverse(\n",
+    "    signal_sen,\n",
+    "    inv_op_sen,\n",
+    "    lambda2=1.0 / snr_est ** 2,\n",
+    "    method=\"sLORETA\"\n",
+    ")\n",
+    "\n",
+    "# Optional plot\n",
+    "stc_sloreta_sen.plot(hemi=\"both\")"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2026-06-27T19:24:48.056893Z",
+     "start_time": "2026-06-27T19:24:45.533863Z"
+    }
+   },
+   "id": "8d6e5c8a253ce0e6"
   },
   {
    "cell_type": "markdown",
@@ -684,7 +914,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 16,
    "outputs": [
     {
      "name": "stdout",
@@ -713,7 +943,7 @@
     "sel_evoked = sel_epoched.average()\n",
     "\n",
     "# Subset signal for given time range\n",
-    "signal_task = sel_evoked.crop(\n",
+    "signal_task = sel_evoked.copy().crop(\n",
     "    tmin=0.35,\n",
     "    tmax=0.6\n",
     ")"
@@ -721,8 +951,8 @@
    "metadata": {
     "collapsed": false,
     "ExecuteTime": {
-     "end_time": "2026-04-29T21:16:52.153548Z",
-     "start_time": "2026-04-29T21:16:52.041406Z"
+     "end_time": "2026-06-27T19:25:04.266933Z",
+     "start_time": "2026-06-27T19:25:04.112499Z"
     }
    },
    "id": "237a6b2afb47240e"
@@ -743,7 +973,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": 17,
    "outputs": [
     {
      "data": {
@@ -765,15 +995,15 @@
    "metadata": {
     "collapsed": false,
     "ExecuteTime": {
-     "end_time": "2026-04-29T21:16:54.390483Z",
-     "start_time": "2026-04-29T21:16:54.302275Z"
+     "end_time": "2026-06-27T19:25:20.873052Z",
+     "start_time": "2026-06-27T19:25:20.777874Z"
     }
    },
    "id": "9fc08f372dc5e18d"
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": 18,
    "outputs": [
     {
      "name": "stdout",
@@ -787,16 +1017,16 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 1398920.37it/s]\n",
-      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 26092.25it/s]\n",
-      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 22952.69it/s]\n",
-      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 17649.48it/s]\n",
-      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 11690.40it/s]\n",
-      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 14129.99it/s]\n",
-      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 14855.50it/s]\n",
-      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 15328.18it/s]\n",
-      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 15037.90it/s]\n",
-      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 12554.05it/s]\n"
+      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 888964.83it/s]\n",
+      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 8378.00it/s]\n",
+      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 6862.69it/s]\n",
+      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 7467.71it/s]\n",
+      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 7979.12it/s]\n",
+      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 11787.54it/s]\n",
+      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 14687.92it/s]\n",
+      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 12704.20it/s]\n",
+      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 11896.28it/s]\n",
+      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 12578.46it/s]\n"
      ]
     },
     {
@@ -818,16 +1048,16 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 1290322.63it/s]\n",
-      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 29927.44it/s]\n",
-      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 22786.09it/s]\n",
-      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 17669.58it/s]\n",
-      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 10787.93it/s]\n",
-      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 14084.09it/s]\n",
-      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 16000.86it/s]\n",
-      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 15841.17it/s]\n",
-      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 14362.72it/s]\n",
-      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 13824.29it/s]\n"
+      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 993648.05it/s]\n",
+      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 27620.99it/s]\n",
+      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 21019.72it/s]\n",
+      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 13141.39it/s]\n",
+      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 10400.24it/s]\n",
+      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 10018.55it/s]\n",
+      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 14864.97it/s]\n",
+      "iter 8/10: 100%|██████████| 5124/5124 [00:01<00:00, 5113.66it/s]\n",
+      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 6746.69it/s]\n",
+      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 8054.88it/s]\n"
      ]
     },
     {
@@ -849,16 +1079,16 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 1318342.15it/s]\n",
-      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 30156.09it/s]\n",
-      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 25243.12it/s]\n",
-      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 18347.57it/s]\n",
-      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 11680.45it/s]\n",
-      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 13050.75it/s]\n",
-      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 16531.26it/s]\n",
-      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 15271.53it/s]\n",
-      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 15387.84it/s]\n",
-      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 14017.08it/s]\n"
+      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 990853.56it/s]\n",
+      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 15807.20it/s]\n",
+      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 21354.96it/s]\n",
+      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 16599.34it/s]\n",
+      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 9891.17it/s]\n",
+      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 12161.66it/s]\n",
+      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 15177.84it/s]\n",
+      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 13158.00it/s]\n",
+      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 11424.85it/s]\n",
+      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 12800.40it/s]\n"
      ]
     },
     {
@@ -880,16 +1110,16 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 1288775.11it/s]\n",
-      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 28193.23it/s]\n",
-      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 24188.51it/s]\n",
-      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 20781.53it/s]\n",
-      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 13432.43it/s]\n",
-      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 12201.63it/s]\n",
-      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 16610.36it/s]\n",
-      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 15166.58it/s]\n",
-      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 15733.61it/s]\n",
-      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 14419.99it/s]\n"
+      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 1302522.04it/s]\n",
+      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 27756.58it/s]\n",
+      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 23749.40it/s]\n",
+      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 18777.50it/s]\n",
+      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 11719.40it/s]\n",
+      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 10106.85it/s]\n",
+      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 14545.87it/s]\n",
+      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 12244.84it/s]\n",
+      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 13265.75it/s]\n",
+      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 11298.09it/s]\n"
      ]
     },
     {
@@ -911,16 +1141,16 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 1238566.95it/s]\n",
-      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 27543.78it/s]\n",
-      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 26964.42it/s]\n",
-      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 21451.46it/s]\n",
-      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 14266.38it/s]\n",
-      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 14343.18it/s]\n",
-      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 15498.01it/s]\n",
-      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 15476.16it/s]\n",
-      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 11943.20it/s]\n",
-      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 13247.12it/s]\n"
+      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 1180403.89it/s]\n",
+      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 29186.60it/s]\n",
+      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 26246.38it/s]\n",
+      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 16430.39it/s]\n",
+      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 11812.64it/s]\n",
+      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 12403.11it/s]\n",
+      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 15545.31it/s]\n",
+      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 10017.54it/s]\n",
+      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 12525.49it/s]\n",
+      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 10419.19it/s]\n"
      ]
     },
     {
@@ -942,16 +1172,16 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 1384858.15it/s]\n",
-      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 25059.66it/s]\n",
-      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 26754.96it/s]\n",
-      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 19804.36it/s]\n",
-      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 14374.15it/s]\n",
-      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 13349.69it/s]\n",
-      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 14841.41it/s]\n",
-      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 15119.90it/s]\n",
-      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 15401.17it/s]\n",
-      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 13402.91it/s]\n"
+      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 1424040.13it/s]\n",
+      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 27496.21it/s]\n",
+      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 26382.74it/s]\n",
+      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 19414.53it/s]\n",
+      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 10836.60it/s]\n",
+      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 15466.34it/s]\n",
+      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 15021.11it/s]\n",
+      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 12913.21it/s]\n",
+      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 11685.79it/s]\n",
+      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 12603.99it/s]\n"
      ]
     },
     {
@@ -973,16 +1203,16 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 1282621.97it/s]\n",
-      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 28315.81it/s]\n",
-      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 26370.21it/s]\n",
-      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 19804.58it/s]\n",
-      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 14620.66it/s]\n",
-      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 11802.51it/s]\n",
-      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 13690.46it/s]\n",
-      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 15859.95it/s]\n",
-      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 14875.32it/s]\n",
-      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 14385.86it/s]\n"
+      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 1168784.73it/s]\n",
+      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 18726.63it/s]\n",
+      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 22185.37it/s]\n",
+      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 17633.03it/s]\n",
+      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 13379.93it/s]\n",
+      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 11536.61it/s]\n",
+      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 17132.76it/s]\n",
+      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 14138.33it/s]\n",
+      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 13097.38it/s]\n",
+      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 10019.89it/s]\n"
      ]
     },
     {
@@ -1004,16 +1234,16 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 1420088.13it/s]\n",
-      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 29760.60it/s]\n",
-      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 26513.51it/s]\n",
-      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 21573.57it/s]\n",
-      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 14838.80it/s]\n",
-      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 17835.51it/s]\n",
-      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 17899.82it/s]\n",
-      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 18068.07it/s]\n",
-      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 15488.18it/s]\n",
-      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 14755.60it/s]\n"
+      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 1447441.66it/s]\n",
+      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 30162.82it/s]\n",
+      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 24891.32it/s]\n",
+      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 20275.80it/s]\n",
+      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 8525.79it/s]\n",
+      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 15371.78it/s]\n",
+      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 17809.91it/s]\n",
+      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 17884.64it/s]\n",
+      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 13870.51it/s]\n",
+      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 12671.69it/s]\n"
      ]
     },
     {
@@ -1035,16 +1265,16 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 1431342.90it/s]\n",
-      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 30005.24it/s]\n",
-      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 25700.17it/s]\n",
-      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 21395.55it/s]\n",
-      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 15245.24it/s]\n",
-      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 17435.22it/s]\n",
-      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 17953.06it/s]\n",
-      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 18029.39it/s]\n",
-      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 18032.46it/s]\n",
-      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 14883.10it/s]\n"
+      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 1189155.85it/s]\n",
+      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 25884.03it/s]\n",
+      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 23616.04it/s]\n",
+      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 19388.75it/s]\n",
+      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 13321.03it/s]\n",
+      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 12150.82it/s]\n",
+      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 15276.32it/s]\n",
+      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 15621.20it/s]\n",
+      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 10204.14it/s]\n",
+      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 10814.94it/s]\n"
      ]
     },
     {
@@ -1066,16 +1296,16 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 1349806.16it/s]\n",
-      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 29845.53it/s]\n",
-      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 26349.61it/s]\n",
-      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 21515.11it/s]\n",
-      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 14505.31it/s]\n",
-      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 18068.79it/s]\n",
-      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 18032.36it/s]\n",
-      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 17917.79it/s]\n",
-      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 17947.14it/s]\n",
-      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 17827.32it/s]"
+      "iter 1/10: 100%|██████████| 5124/5124 [00:00<00:00, 1307196.26it/s]\n",
+      "iter 2/10: 100%|██████████| 5124/5124 [00:00<00:00, 27305.15it/s]\n",
+      "iter 3/10: 100%|██████████| 5124/5124 [00:00<00:00, 22590.20it/s]\n",
+      "iter 4/10: 100%|██████████| 5124/5124 [00:00<00:00, 16476.62it/s]\n",
+      "iter 5/10: 100%|██████████| 5124/5124 [00:00<00:00, 9448.84it/s]\n",
+      "iter 6/10: 100%|██████████| 5124/5124 [00:00<00:00, 13026.82it/s]\n",
+      "iter 7/10: 100%|██████████| 5124/5124 [00:00<00:00, 16204.68it/s]\n",
+      "iter 8/10: 100%|██████████| 5124/5124 [00:00<00:00, 15458.13it/s]\n",
+      "iter 9/10: 100%|██████████| 5124/5124 [00:00<00:00, 13535.00it/s]\n",
+      "iter 10/10: 100%|██████████| 5124/5124 [00:00<00:00, 12961.10it/s]"
      ]
     },
     {
@@ -1116,15 +1346,15 @@
    "metadata": {
     "collapsed": false,
     "ExecuteTime": {
-     "end_time": "2026-04-29T21:17:31.171061Z",
-     "start_time": "2026-04-29T21:17:03.644780Z"
+     "end_time": "2026-06-27T19:25:59.840682Z",
+     "start_time": "2026-06-27T19:25:24.908891Z"
     }
    },
    "id": "8000a464fcae6679"
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
+   "execution_count": 19,
    "outputs": [],
    "source": [
     "# Optional visualization of localized sources\n",
@@ -1133,15 +1363,15 @@
    "metadata": {
     "collapsed": false,
     "ExecuteTime": {
-     "end_time": "2026-04-29T21:17:34.073992Z",
-     "start_time": "2026-04-29T21:17:34.070919Z"
+     "end_time": "2026-06-27T19:28:05.297842Z",
+     "start_time": "2026-06-27T19:28:05.293039Z"
     }
    },
    "id": "f847259baac758c8"
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
+   "execution_count": 20,
    "outputs": [
     {
      "name": "stdout",
@@ -1191,15 +1421,15 @@
    "metadata": {
     "collapsed": false,
     "ExecuteTime": {
-     "end_time": "2026-04-29T21:17:34.876525Z",
-     "start_time": "2026-04-29T21:17:34.680125Z"
+     "end_time": "2026-06-27T19:28:12.862090Z",
+     "start_time": "2026-06-27T19:28:12.670771Z"
     }
    },
    "id": "35ccb1ce6645dc2b"
   },
   {
    "cell_type": "code",
-   "execution_count": 16,
+   "execution_count": 21,
    "outputs": [
     {
      "name": "stdout",
@@ -1210,9 +1440,9 @@
     },
     {
      "data": {
-      "text/plain": "<mne.viz._brain._brain.Brain at 0x137249810>"
+      "text/plain": "<mne.viz._brain._brain.Brain at 0x1369a6490>"
      },
-     "execution_count": 16,
+     "execution_count": 21,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -1227,19 +1457,228 @@
    "metadata": {
     "collapsed": false,
     "ExecuteTime": {
-     "end_time": "2026-04-29T21:18:00.286493Z",
-     "start_time": "2026-04-29T21:17:57.987303Z"
+     "end_time": "2026-06-27T19:28:19.834607Z",
+     "start_time": "2026-06-27T19:28:17.220222Z"
     }
    },
    "id": "80e9e875ebb67275"
   },
   {
    "cell_type": "markdown",
-   "source": [],
+   "source": [
+    "#### Comparison with standard LCMV beamformer and sLORETA\n",
+    "##### Standard LCMV beamformer"
+   ],
    "metadata": {
     "collapsed": false
    },
    "id": "f3ed4e030feb84df"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Computing rank from covariance with rank=None\n",
+      "    Using tolerance 5.2e-13 (2.2e-16 eps * 128 dim * 18  max singular value)\n",
+      "    Estimated rank (eeg): 86\n",
+      "    EEG: rank 86 computed from 128 data channels with 1 projector\n",
+      "Computing rank from covariance with rank=None\n",
+      "    Using tolerance 3.6e-13 (2.2e-16 eps * 128 dim * 13  max singular value)\n",
+      "    Estimated rank (eeg): 86\n",
+      "    EEG: rank 86 computed from 128 data channels with 1 projector\n",
+      "Making LCMV beamformer with rank {'eeg': 86}\n",
+      "Computing inverse operator with 128 channels.\n",
+      "    128 out of 128 channels remain after picking\n",
+      "Selected 128 channels\n",
+      "Whitening the forward solution.\n",
+      "    Created an SSP operator (subspace dimension = 1)\n",
+      "Computing rank from covariance with rank={'eeg': 86}\n",
+      "    Setting small EEG eigenvalues to zero (without PCA)\n",
+      "Creating the source covariance matrix\n",
+      "Adjusting source covariance matrix.\n",
+      "Computing beamformer filters for 5124 sources\n",
+      "Filter computation complete\n",
+      "Using control points [0.59661989 0.65132542 1.08688352]\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": "<mne.viz._brain._brain.Brain at 0x13697a350>"
+     },
+     "execution_count": 22,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "standard_lcmv_task = mne.beamformer.make_lcmv(\n",
+    "    signal_task.info,\n",
+    "    fwd,\n",
+    "    data_cov_task,\n",
+    "    reg=0.05,\n",
+    "    noise_cov=noise_cov,\n",
+    "    pick_ori=None,\n",
+    "    weight_norm=\"nai\",\n",
+    "    rank=None\n",
+    ")\n",
+    "\n",
+    "stc_standard_lcmv_task = mne.beamformer.apply_lcmv(signal_task, standard_lcmv_task)\n",
+    "\n",
+    "# Optional plot\n",
+    "# stc_standard_lcmv_task.plot(hemi=\"both\")"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2026-06-27T19:28:51.123946Z",
+     "start_time": "2026-06-27T19:28:49.119523Z"
+    }
+   },
+   "id": "59338f73f835c271"
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "##### sLORETA"
+   ],
+   "metadata": {
+    "collapsed": false
+   },
+   "id": "8cec3c351d57b92d"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Computing inverse operator with 128 channels.\n",
+      "    128 out of 128 channels remain after picking\n",
+      "Selected 128 channels\n",
+      "Whitening the forward solution.\n",
+      "    Created an SSP operator (subspace dimension = 1)\n",
+      "Computing rank from covariance with rank=None\n",
+      "    Using tolerance 3.6e-13 (2.2e-16 eps * 128 dim * 13  max singular value)\n",
+      "    Estimated rank (eeg): 86\n",
+      "    EEG: rank 86 computed from 128 data channels with 1 projector\n",
+      "    Setting small EEG eigenvalues to zero (without PCA)\n",
+      "Creating the source covariance matrix\n",
+      "Adjusting source covariance matrix.\n",
+      "Computing SVD of whitened and weighted lead field matrix.\n",
+      "    largest singular value = 3.46898\n",
+      "    scaling factor to adjust the trace = 1.46719e+20 (nchan = 128 nzero = 42)\n"
+     ]
+    }
+   ],
+   "source": [
+    "inv_op_task = mne.minimum_norm.make_inverse_operator(\n",
+    "    info=signal_task.info,\n",
+    "    forward=fwd,\n",
+    "    noise_cov=noise_cov,\n",
+    "    loose=0.0,  # forward with fixed orientation\n",
+    "    depth=None\n",
+    ")"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2026-06-27T19:29:17.946575Z",
+     "start_time": "2026-06-27T19:29:17.757417Z"
+    }
+   },
+   "id": "573d1e3c052dbb1c"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "SNR: 3.5\n"
+     ]
+    }
+   ],
+   "source": [
+    "baseline = sel_evoked.copy().crop(tmin=sel_epoched.tmin, tmax=0)\n",
+    "active = sel_evoked.copy().crop(tmin=0.35, tmax=0.6)\n",
+    "\n",
+    "noise_std = np.std(baseline.data)\n",
+    "signal_rms = np.sqrt(np.mean(active.data**2))\n",
+    "\n",
+    "snr_est = np.round(signal_rms / noise_std, 2)\n",
+    "print(f\"SNR: {snr_est}\")"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2026-06-27T19:29:23.084272Z",
+     "start_time": "2026-06-27T19:29:23.056998Z"
+    }
+   },
+   "id": "8e24ffba53eb1b02"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Preparing the inverse operator for use...\n",
+      "    Scaled noise and source covariance from nave = 1 to nave = 78\n",
+      "    Created the regularized inverter\n",
+      "    Created an SSP operator (subspace dimension = 1)\n",
+      "    Created the whitener using a noise covariance matrix with rank 86 (42 small eigenvalues omitted)\n",
+      "    Computing noise-normalization factors (sLORETA)...\n",
+      "[done]\n",
+      "Applying inverse operator to \"target\"...\n",
+      "    Picked 128 channels from the data\n",
+      "    Computing inverse...\n",
+      "    Eigenleads need to be weighted ...\n",
+      "    Computing residual...\n",
+      "    Explained  86.3% variance\n",
+      "    sLORETA...\n",
+      "[done]\n",
+      "Using control points [1.98567814 2.18181795 3.69853747]\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": "<mne.viz._brain._brain.Brain at 0x1369a7b10>"
+     },
+     "execution_count": 26,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "stc_sloreta_task = mne.minimum_norm.apply_inverse(\n",
+    "    signal_task,\n",
+    "    inv_op_task,\n",
+    "    lambda2=1.0 / snr_est ** 2,\n",
+    "    method=\"sLORETA\"\n",
+    ")\n",
+    "\n",
+    "# Optional plot\n",
+    "stc_sloreta_task.plot(hemi=\"both\")"
+   ],
+   "metadata": {
+    "collapsed": false,
+    "ExecuteTime": {
+     "end_time": "2026-06-27T19:29:38.737123Z",
+     "start_time": "2026-06-27T19:29:37.163232Z"
+    }
+   },
+   "id": "79fd52b568d7ccf3"
   }
  ],
  "metadata": {
