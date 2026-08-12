@@ -106,5 +106,6 @@ The tutorials walk you through:
 
 If you use **mvpure_py** in your work, please cite:
 
-> Jurkowska, J., Dreszer, J., Lewandowska, M., Tołpa, K., Piotrowski, T. (2025).  
-> *Multi-Source Neural Activity Indices and Spatial Filters for EEG/MEG Inverse Problem: An Extension to MNE-Python*. (preprint)
+> Jurkowska, J., Dreszer, J., Lewandowska, M., Tolpa, K., Piotrowski, T.,
+> *Multi-source neural activity indices for EEG/MEG localization: A two-stage spatial filtering framework and extension to MNE-Python*, NeuroImage, Volume 339, 2026, 122126, <https://doi.org/10.1016/j.neuroimage.2026.122126>.
+
