@@ -1,0 +1,2554 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Simulating and Localizing Multi-Source EEG Activity — Multiple Runs &#8212; mvpure_py 2.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=7be6d3a6"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/simulating_and_localizing_multi_source_eeg_activity_multiple_runs';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Simulating and Localizing Multi-Source EEG Activity with MVPURE_py" href="simulating_and_localizing_multi-source_EEG_activity_with_MVPURE_py.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">mvpure_py</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"></div>
+</nav></div>
+        <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Simulating and Localizing Multi-Source EEG Activity — Multiple Runs</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <style>
+/* Make all output cells scrollable if they are tall */
+div.nboutput:not(:has(div.figure)) {
+    max-height: 380px;
+    overflow-y: auto;
+    padding: 2px;
+}
+</style><section id="Simulating-and-Localizing-Multi-Source-EEG-Activity-—-Multiple-Runs">
+<h1>Simulating and Localizing Multi-Source EEG Activity — Multiple Runs<a class="headerlink" href="#Simulating-and-Localizing-Multi-Source-EEG-Activity-—-Multiple-Runs" title="Link to this heading">#</a></h1>
+<p>This tutorial extends the <strong>single-run</strong> simulation/localization workflow presented in the <a class="reference external" href="https://julia-jurkowska.github.io/mvpure-tools/tutorials/simulating_and_localizing_multi-source_EEG_activity_with_MVPURE_py.html">“Simulating and Localizing Multi-Source EEG Activity with MVPURE_py tutorial”</a>.</p>
+<p>The simulation, forward modeling, preprocessing, MVPURE_py localization, and LCMV comparison are essentially the same as in that tutorial. We therefore assume that you already know that workflow and focus on the new part:</p>
+<blockquote>
+<div><p><strong>How to repeat the complete experiment many times and aggregate the results.</strong></p>
+</div></blockquote>
+<p>Repeating the experiment is important because the source locations are randomly sampled in every run. A single run therefore gives only one realization of the experiment, whereas multiple runs allow us to characterize the distribution and variability of localization performance.</p>
+<p>The notebook follows the structure of the original script, but separates the workflow into:</p>
+<ol class="arabic simple">
+<li><p>one-time setup and data loading,</p></li>
+<li><p>a repeated simulation/localization loop,</p></li>
+<li><p>collection of results from every run,</p></li>
+<li><p>aggregation and visualization of the results,</p></li>
+</ol>
+<p>For the details of the individual simulation steps, see the previous tutorial linked above.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">mne</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">mvpure_py</span><span class="w"> </span><span class="kn">import</span> <span class="n">simulation</span><span class="p">,</span> <span class="n">utils</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># HELPER VISUALIZATION FUNCTION</span>
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">violin_plot_from_results</span><span class="p">(</span>
+        <span class="n">ax</span><span class="p">,</span>
+        <span class="n">snr_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">results_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="s2">&quot;Rank&quot;</span><span class="p">,</span>
+        <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;indigo&quot;</span><span class="p">,</span>
+        <span class="n">include_lcmv</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">lcmv_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;crimson&quot;</span><span class="p">,</span>
+        <span class="n">show_means</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a violin plot of the results stored in `snr_dict`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Collect distributions for each rank</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">results_key</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">results</span> <span class="ow">in</span> <span class="n">snr_dict</span><span class="p">[</span><span class="s1">&#39;by_rank&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">]</span>
+
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="n">include_lcmv</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">results_key</span> <span class="o">==</span> <span class="s2">&quot;n_correctly_localized&quot;</span><span class="p">:</span>
+            <span class="n">lcmv_key</span> <span class="o">=</span> <span class="s2">&quot;lcmv_n_correctly_localized&quot;</span>
+        <span class="k">elif</span> <span class="n">results_key</span> <span class="o">==</span> <span class="s2">&quot;mean_error&quot;</span><span class="p">:</span>
+            <span class="n">lcmv_key</span> <span class="o">=</span> <span class="s2">&quot;lcmv_mean_error&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported results_key: </span><span class="si">{</span><span class="n">results_key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">snr_dict</span><span class="p">[</span><span class="n">lcmv_key</span><span class="p">])</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;LCMV-NAI&quot;</span><span class="p">)</span>
+
+    <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">vp</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">violinplot</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">positions</span><span class="o">=</span><span class="n">positions</span><span class="p">,</span>
+        <span class="n">showmeans</span><span class="o">=</span><span class="n">show_means</span><span class="p">,</span>
+        <span class="n">showmedians</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">showextrema</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Color all violins</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">body</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vp</span><span class="p">[</span><span class="s1">&#39;bodies&#39;</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">include_lcmv</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">body</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="n">lcmv_color</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">body</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+
+        <span class="n">body</span><span class="o">.</span><span class="n">set_edgecolor</span><span class="p">(</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+        <span class="n">body</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="mf">0.7</span><span class="p">)</span>
+
+    <span class="c1"># Optionally customize mean lines</span>
+    <span class="k">if</span> <span class="n">show_means</span><span class="p">:</span>
+        <span class="n">vp</span><span class="p">[</span><span class="s1">&#39;cmeans&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+        <span class="n">vp</span><span class="p">[</span><span class="s1">&#39;cmeans&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">fontdict</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;fontsize&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">})</span>
+    <span class="n">xticklabels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">()</span>
+    <span class="n">xticklabels</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_rotation</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+    <span class="n">xticklabels</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ha</span><span class="p">(</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">fontdict</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;fontsize&quot;</span><span class="p">:</span> <span class="mi">13</span><span class="p">})</span>
+
+    <span class="k">if</span> <span class="n">xlabel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">,</span> <span class="n">fontdict</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;fontsize&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">})</span>
+    <span class="k">if</span> <span class="n">ylabel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">,</span> <span class="n">fontdict</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;fontsize&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<section id="1.-Experiment-configuration">
+<h2>1. Experiment configuration<a class="headerlink" href="#1.-Experiment-configuration" title="Link to this heading">#</a></h2>
+<p>Most parameters below are inherited directly from the original simulation script.</p>
+<p>The important new parameter is <code class="docutils literal notranslate"><span class="pre">N_RUNS</span></code>: instead of generating one dataset and evaluating it once, we repeat the experiment <code class="docutils literal notranslate"><span class="pre">N_RUNS</span></code> times.</p>
+<p>For a quick notebook run, use a small value such as <code class="docutils literal notranslate"><span class="pre">N_RUNS</span> <span class="pre">=</span> <span class="pre">10</span></code>. Once the workflow is verified, <code class="docutils literal notranslate"><span class="pre">N_RUNS</span></code> can be increased to the desired number of repetitions, e.g. <code class="docutils literal notranslate"><span class="pre">100</span></code> or <code class="docutils literal notranslate"><span class="pre">1000</span></code>.</p>
+<p>The parameters defining the simulated sources, their activity, and the sensor-level noise remain fixed across runs. What changes between runs is the random realization of the simulated experiment, including the selected source locations and simulated activity.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels_to_use</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;cuneus-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cuneus-rh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lateraloccipital-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lateraloccipital-rh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;inferiorparietal-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;inferiorparietal-rh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;superiorparietal-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;superiorparietal-rh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;superiortemporal-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;superiortemporal-rh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;supramarginal-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;supramarginal-rh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;superiorfrontal-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;superiorfrontal-rh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;insula-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;insula-rh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;caudalanteriorcingulate-lh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;caudalanteriorcingulate-rh&quot;</span>
+<span class="p">]</span>
+
+<span class="n">labels_to_use_poststimuli</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;lateraloccipital-rh&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;superiorfrontal-rh&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;caudalanteriorcingulate-lh&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;caudalmiddlefrontal-lh&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;lateraloccipital-lh&#39;</span>
+<span class="p">]</span>
+
+<span class="n">SUBJECT</span> <span class="o">=</span> <span class="s2">&quot;sample_subject&quot;</span>
+<span class="n">SUBJECTS_DIR</span> <span class="o">=</span> <span class="s2">&quot;subjects&quot;</span>
+
+<span class="n">mne</span><span class="o">.</span><span class="n">set_config</span><span class="p">(</span><span class="s2">&quot;SUBJECTS_DIR&quot;</span><span class="p">,</span> <span class="n">SUBJECTS_DIR</span><span class="p">)</span>
+
+<span class="n">N_VERTICES_PER_BG_LABEL</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">N_VERTICES_PER_ACTIVITY_LABEL</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">N_EPOCHS</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">ERP_FACTOR</span> <span class="o">=</span> <span class="mf">15e-9</span>
+<span class="n">ORDER_BG</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="n">ORDER</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">TARGET_STD_BG</span> <span class="o">=</span> <span class="mf">15e-9</span>
+<span class="n">TARGET_STD</span> <span class="o">=</span> <span class="mf">15e-9</span>
+<span class="n">COUPLING_BG</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">COUPLING</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="n">NOISE_BG</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">NOISE</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">GAUSSIAN_FILTER_SIGMA_BG</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">GAUSSIAN_FILTER_SIGMA</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">N_DOMINANT_EIGVALS</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">NOISE_FACTOR_SENSORS</span> <span class="o">=</span> <span class="mf">0.3</span>
+
+<span class="n">FIND_CLOSE</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="c1"># NEW: number of independent repetitions of the experiment.</span>
+<span class="c1"># Use 10 for a quick test; use larger number e.g., 1000 for the full experiment.</span>
+<span class="n">N_RUNS</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">SNR_DB</span> <span class="o">=</span> <span class="mf">1.0</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="2.-Load-the-data-and-forward-model-once">
+<h2>2. Load the data and forward model once<a class="headerlink" href="#2.-Load-the-data-and-forward-model-once" title="Link to this heading">#</a></h2>
+<p>These objects do not change between runs, so there is no reason to load them inside the loop.</p>
+<p>We use the same sample-subject epoched data and forward solution as in the previous tutorial. The epochs provide the sampling frequency, timing, channel information, and other MNE metadata; the forward solution provides the lead field and source-space geometry.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loading data...&quot;</span><span class="p">)</span>
+
+<span class="n">epoched</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">read_epochs</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">SUBJECTS_DIR</span><span class="p">,</span>
+        <span class="n">SUBJECT</span><span class="p">,</span>
+        <span class="s2">&quot;_eeg&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;_pre&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">SUBJECT</span><span class="si">}</span><span class="s2">_oddball-epo.fif&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">forward_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="n">SUBJECTS_DIR</span><span class="p">,</span>
+    <span class="n">SUBJECT</span><span class="p">,</span>
+    <span class="s2">&quot;forward&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">SUBJECT</span><span class="si">}</span><span class="s2">_ico4-fwd.fif&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">fwd_vector</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">read_forward_solution</span><span class="p">(</span><span class="n">forward_path</span><span class="p">)</span>
+
+<span class="n">fwd</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">convert_forward_solution</span><span class="p">(</span>
+    <span class="n">fwd_vector</span><span class="p">,</span>
+    <span class="n">surf_ori</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">force_fixed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">use_cps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">leadfield</span> <span class="o">=</span> <span class="n">fwd</span><span class="p">[</span><span class="s2">&quot;sol&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+<span class="n">src</span> <span class="o">=</span> <span class="n">fwd</span><span class="p">[</span><span class="s2">&quot;src&quot;</span><span class="p">]</span>
+
+<span class="n">sfreq</span> <span class="o">=</span> <span class="n">epoched</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;sfreq&quot;</span><span class="p">]</span>
+<span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span> <span class="o">=</span> <span class="n">epoched</span><span class="o">.</span><span class="n">tmin</span><span class="p">,</span> <span class="mf">0.25</span>
+<span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">sfreq</span><span class="p">)</span>
+<span class="n">n_times</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+
+<span class="n">post_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">times</span> <span class="o">&gt;=</span> <span class="mf">0.05</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">times</span> <span class="o">&lt;=</span> <span class="mf">0.2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sampling frequency: </span><span class="si">{</span><span class="n">sfreq</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> Hz&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of time points: </span><span class="si">{</span><span class="n">n_times</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of sources in forward model: </span><span class="si">{</span><span class="n">leadfield</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Loading data...
+Reading /Volumes/UMK/oddball/subjects/sample_subject/_eeg/_pre/sample_subject_oddball-epo.fif ...
+    Found the data of interest:
+        t =    -199.22 ...     800.78 ms
+        0 CTF compensation matrices available
+Not setting metadata
+621 matching events found
+No baseline correction applied
+0 projection items activated
+Reading forward solution from /Volumes/UMK/oddball/subjects/sample_subject/forward/sample_subject_ico4-fwd.fif...
+    Reading a source space...
+    [done]
+    Reading a source space...
+    [done]
+    2 source spaces read
+    Desired named matrix (kind = 3523 (FIFF_MNE_FORWARD_SOLUTION_GRAD)) not available
+    Read EEG forward solution (5124 sources, 128 channels, free orientations)
+    Source spaces transformed to the forward solution coordinate frame
+    No patch info available. The standard source space normals will be employed in the rotation to the local surface coordinates....
+    Changing to fixed-orientation forward solution with surface-based source orientations...
+    [done]
+Sampling frequency: 256.00 Hz
+Number of time points: 115
+Number of sources in forward model: 5124
+</pre></div></div>
+</div>
+</section>
+<section id="3.-What-changes-between-runs?">
+<h2>3. What changes between runs?<a class="headerlink" href="#3.-What-changes-between-runs?" title="Link to this heading">#</a></h2>
+<p>The key stochastic step is the selection of source vertices.</p>
+<p>For every run we call <code class="docutils literal notranslate"><span class="pre">simulation.get_random_vertices(...)</span></code> again. This means that the background and post-stimulus sources are re-sampled, subject to the same anatomical constraints.</p>
+<p>Everything downstream is then recomputed for that realization:</p>
+<p><code class="docutils literal notranslate"><span class="pre">random</span> <span class="pre">vertices</span> <span class="pre">→</span> <span class="pre">source</span> <span class="pre">simulation</span> <span class="pre">→</span> <span class="pre">sensor</span> <span class="pre">simulation</span> <span class="pre">→</span> <span class="pre">preprocessing</span> <span class="pre">→</span> <span class="pre">covariance</span> <span class="pre">→</span> <span class="pre">localization</span> <span class="pre">→</span> <span class="pre">evaluation</span></code></p>
+<p>This is the main conceptual difference from the previous tutorial.</p>
+</section>
+<section id="4.-Store-results-from-all-runs">
+<h2>4. Store results from all runs<a class="headerlink" href="#4.-Store-results-from-all-runs" title="Link to this heading">#</a></h2>
+<p>Instead of keeping only the result of the current run, we append the relevant metrics to <code class="docutils literal notranslate"><span class="pre">FULL_RESULTS</span></code>.</p>
+<p>Results are stored separately for each tested rank. For every rank we keep:</p>
+<ul class="simple">
+<li><p>number of correctly localized sources,</p></li>
+<li><p>mean localization error.</p></li>
+</ul>
+<p>We also store, for each run:</p>
+<ul class="simple">
+<li><p>the rank(s) with the smallest mean error,</p></li>
+<li><p>the rank(s) with the largest number of correctly localized sources,</p></li>
+<li><p>the corresponding LCMV metrics.</p></li>
+</ul>
+<p>Keeping the per-run values is preferable to storing only an average: it lets us inspect variability, compare methods, and perform additional analyses later without repeating the simulations.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FULL_RESULTS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;by_rank&quot;</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="s2">&quot;best_rank_mse&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;best_rank_n_locs&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;lcmv_n_correctly_localized&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;lcmv_mean_error&quot;</span><span class="p">:</span> <span class="p">[],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="5.-Run-the-complete-experiment-repeatedly">
+<h2>5. Run the complete experiment repeatedly<a class="headerlink" href="#5.-Run-the-complete-experiment-repeatedly" title="Link to this heading">#</a></h2>
+<p>The code below is close to the original single-run implementation.</p>
+<p>The main structural change is that the whole simulation-localization block is inside:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_RUNS</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>The source locations are sampled on every iteration, so each iteration is an independent realization of the same experimental condition.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_RUNS</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;==== RUN </span><span class="si">{</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">N_RUNS</span><span class="si">}</span><span class="s2"> ====&quot;</span><span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------</span>
+    <span class="c1"># 1. Random source locations</span>
+    <span class="c1"># ------------------------------------------------------------</span>
+    <span class="n">labels_info</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">get_random_vertices</span><span class="p">(</span>
+        <span class="n">n_vertices_per_label_bg</span><span class="o">=</span><span class="n">N_VERTICES_PER_BG_LABEL</span><span class="p">,</span>
+        <span class="n">n_vertices_per_poststimuli_label</span><span class="o">=</span><span class="n">N_VERTICES_PER_ACTIVITY_LABEL</span><span class="p">,</span>
+        <span class="n">noise_labels</span><span class="o">=</span><span class="n">labels_to_use</span><span class="p">,</span>
+        <span class="n">poststimuli_labels</span><span class="o">=</span><span class="n">labels_to_use_poststimuli</span><span class="p">,</span>
+        <span class="n">subject</span><span class="o">=</span><span class="n">SUBJECT</span><span class="p">,</span>
+        <span class="n">subjects_dir</span><span class="o">=</span><span class="n">SUBJECTS_DIR</span><span class="p">,</span>
+        <span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span>
+        <span class="n">find_close</span><span class="o">=</span><span class="n">FIND_CLOSE</span>
+    <span class="p">)</span>
+
+    <span class="n">noise_vertices</span><span class="p">,</span> <span class="n">poststimuli_vertices</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">split_vertices</span><span class="p">(</span>
+        <span class="n">labels_info</span><span class="p">,</span>
+        <span class="n">labels_to_use_poststimuli</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">leadfield_subset_indices_noise</span><span class="p">,</span> <span class="n">lh_vert_to_lf_noise</span><span class="p">,</span> <span class="n">rh_vert_to_lf_noise</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">utils</span><span class="o">.</span><span class="n">translation</span><span class="o">.</span><span class="n">transform_vertices_to_leadfield_indices</span><span class="p">(</span>
+            <span class="n">vertices</span><span class="o">=</span><span class="n">noise_vertices</span><span class="p">,</span>
+            <span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span>
+            <span class="n">hemi</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+            <span class="n">include_mapping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">leadfield_subset_poststimuli_indices</span><span class="p">,</span> <span class="n">lh_vert_to_lf_stimuli</span><span class="p">,</span> <span class="n">rh_vert_to_lf_stimuli</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">utils</span><span class="o">.</span><span class="n">translation</span><span class="o">.</span><span class="n">transform_vertices_to_leadfield_indices</span><span class="p">(</span>
+            <span class="n">vertices</span><span class="o">=</span><span class="n">poststimuli_vertices</span><span class="p">,</span>
+            <span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span>
+            <span class="n">hemi</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+            <span class="n">include_mapping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">leadfield_subset_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="n">leadfield_subset_indices_noise</span><span class="p">,</span>
+                <span class="n">leadfield_subset_poststimuli_indices</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">leadfield_to_label_mapping</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">assign_label_to_leadfield_index</span><span class="p">(</span>
+        <span class="n">labels_info</span><span class="o">=</span><span class="n">labels_info</span><span class="p">,</span>
+        <span class="n">lh_vert_to_lf</span><span class="o">=</span><span class="n">lh_vert_to_lf_noise</span> <span class="o">|</span> <span class="n">lh_vert_to_lf_stimuli</span><span class="p">,</span>
+        <span class="n">rh_vert_to_lf</span><span class="o">=</span><span class="n">rh_vert_to_lf_noise</span> <span class="o">|</span> <span class="n">rh_vert_to_lf_stimuli</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------</span>
+    <span class="c1"># 2. Simulate source activity</span>
+    <span class="c1"># ------------------------------------------------------------</span>
+    <span class="n">X_epochs</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">simulate_source_epochs</span><span class="p">(</span>
+        <span class="n">n_epochs</span><span class="o">=</span><span class="n">N_EPOCHS</span><span class="p">,</span>
+        <span class="n">lf_subset_indices</span><span class="o">=</span><span class="n">leadfield_subset_indices</span><span class="p">,</span>
+        <span class="n">n_times</span><span class="o">=</span><span class="n">n_times</span><span class="p">,</span>
+        <span class="n">bg_lf_subset_indices</span><span class="o">=</span><span class="n">leadfield_subset_indices_noise</span><span class="p">,</span>
+        <span class="n">poststimuli_mask</span><span class="o">=</span><span class="n">post_mask</span><span class="p">,</span>
+        <span class="n">poststimuli_lf_subset_indices</span><span class="o">=</span><span class="n">leadfield_subset_poststimuli_indices</span><span class="p">,</span>
+        <span class="n">lf_to_label</span><span class="o">=</span><span class="n">leadfield_to_label_mapping</span><span class="p">,</span>
+        <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span>
+        <span class="n">erp_factor</span><span class="o">=</span><span class="n">ERP_FACTOR</span><span class="p">,</span>
+        <span class="n">snr_db</span><span class="o">=</span><span class="n">SNR_DB</span><span class="p">,</span>
+        <span class="n">order_bg</span><span class="o">=</span><span class="n">ORDER_BG</span><span class="p">,</span>
+        <span class="n">order</span><span class="o">=</span><span class="n">ORDER</span><span class="p">,</span>
+        <span class="n">target_std_bg</span><span class="o">=</span><span class="n">TARGET_STD_BG</span><span class="p">,</span>
+        <span class="n">target_std</span><span class="o">=</span><span class="n">TARGET_STD</span><span class="p">,</span>
+        <span class="n">coupling_bg</span><span class="o">=</span><span class="n">COUPLING_BG</span><span class="p">,</span>
+        <span class="n">coupling</span><span class="o">=</span><span class="n">COUPLING</span><span class="p">,</span>
+        <span class="n">noise_bg</span><span class="o">=</span><span class="n">NOISE_BG</span><span class="p">,</span>
+        <span class="n">noise</span><span class="o">=</span><span class="n">NOISE</span><span class="p">,</span>
+        <span class="n">gaussian_filter_sigma</span><span class="o">=</span><span class="n">GAUSSIAN_FILTER_SIGMA</span><span class="p">,</span>
+        <span class="n">gaussian_filter_sigma_bg</span><span class="o">=</span><span class="n">GAUSSIAN_FILTER_SIGMA_BG</span><span class="p">,</span>
+        <span class="n">n_dominant_eigvals</span><span class="o">=</span><span class="n">N_DOMINANT_EIGVALS</span><span class="p">,</span>
+        <span class="n">seed</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------</span>
+    <span class="c1"># 3. Project source activity to sensors</span>
+    <span class="c1"># ------------------------------------------------------------</span>
+    <span class="n">sim_epochs</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">simulate_sensor_epochs</span><span class="p">(</span>
+        <span class="n">X_epochs</span><span class="o">=</span><span class="n">X_epochs</span><span class="p">,</span>
+        <span class="n">leadfield</span><span class="o">=</span><span class="n">leadfield</span><span class="p">,</span>
+        <span class="n">lf_subset_indices</span><span class="o">=</span><span class="n">leadfield_subset_indices</span><span class="p">,</span>
+        <span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span>
+        <span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span>
+        <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span>
+        <span class="n">noise_factor</span><span class="o">=</span><span class="n">NOISE_FACTOR_SENSORS</span><span class="p">,</span>
+        <span class="n">info</span><span class="o">=</span><span class="n">epoched</span><span class="o">.</span><span class="n">info</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------</span>
+    <span class="c1"># 4. Preprocessing</span>
+    <span class="c1"># ------------------------------------------------------------</span>
+    <span class="n">sim_epochs</span> <span class="o">=</span> <span class="n">sim_epochs</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+        <span class="n">l_freq</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">h_freq</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;iir&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">noise_cov</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">compute_covariance</span><span class="p">(</span>
+        <span class="n">sim_epochs</span><span class="p">,</span>
+        <span class="n">tmin</span><span class="o">=-</span><span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">tmax</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;empirical&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">data_cov</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">compute_covariance</span><span class="p">(</span>
+        <span class="n">sim_epochs</span><span class="p">,</span>
+        <span class="n">tmin</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+        <span class="n">tmax</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;empirical&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">sim_epochs</span><span class="o">.</span><span class="n">set_eeg_reference</span><span class="p">(</span><span class="s2">&quot;average&quot;</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sim_epochs</span><span class="o">.</span><span class="n">apply_proj</span><span class="p">()</span>
+    <span class="n">sim_evoked</span> <span class="o">=</span> <span class="n">sim_epochs</span><span class="o">.</span><span class="n">average</span><span class="p">()</span>
+    <span class="n">sim_evoked</span> <span class="o">=</span> <span class="n">sim_evoked</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span>
+        <span class="n">tmin</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+        <span class="n">tmax</span><span class="o">=</span><span class="mf">0.2</span>
+    <span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------</span>
+    <span class="c1"># 5. MVPURE localization for every rank</span>
+    <span class="c1"># ------------------------------------------------------------</span>
+    <span class="n">locs_results_summary</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">evaluate_localization_for_each_rank</span><span class="p">(</span>
+        <span class="n">subject</span><span class="o">=</span><span class="n">SUBJECT</span><span class="p">,</span>
+        <span class="n">subjects_dir</span><span class="o">=</span><span class="n">SUBJECTS_DIR</span><span class="p">,</span>
+        <span class="n">n_sources</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">labels_to_use_poststimuli</span><span class="p">)</span> <span class="o">*</span> <span class="n">N_VERTICES_PER_ACTIVITY_LABEL</span><span class="p">,</span>
+        <span class="n">R</span><span class="o">=</span><span class="n">data_cov</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+        <span class="n">N</span><span class="o">=</span><span class="n">noise_cov</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+        <span class="n">forward</span><span class="o">=</span><span class="n">fwd</span><span class="p">,</span>
+        <span class="n">true_vertices</span><span class="o">=</span><span class="n">poststimuli_vertices</span><span class="p">,</span>
+        <span class="n">localizer_to_use</span><span class="o">=</span><span class="s2">&quot;mai_mvp&quot;</span><span class="p">,</span>
+        <span class="n">plot_sum_error_by_rank</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">plot_correct_sources_by_rank</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">plot_mean_error_by_rank</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">show_progress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">mse</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">n_corr_locs</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">rank</span><span class="p">,</span> <span class="n">items</span> <span class="ow">in</span> <span class="n">locs_results_summary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">rank</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">FULL_RESULTS</span><span class="p">[</span><span class="s2">&quot;by_rank&quot;</span><span class="p">]:</span>
+            <span class="n">FULL_RESULTS</span><span class="p">[</span><span class="s2">&quot;by_rank&quot;</span><span class="p">][</span><span class="n">rank</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;n_correctly_localized&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s2">&quot;mean_error&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="p">}</span>
+
+        <span class="n">mse</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="s2">&quot;error_info&quot;</span><span class="p">][</span><span class="s2">&quot;mean_error&quot;</span><span class="p">])</span>
+        <span class="n">n_corr_locs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="s2">&quot;n_correctly_localized&quot;</span><span class="p">])</span>
+
+        <span class="n">FULL_RESULTS</span><span class="p">[</span><span class="s2">&quot;by_rank&quot;</span><span class="p">][</span><span class="n">rank</span><span class="p">][</span><span class="s2">&quot;n_correctly_localized&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">items</span><span class="p">[</span><span class="s2">&quot;n_correctly_localized&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">FULL_RESULTS</span><span class="p">[</span><span class="s2">&quot;by_rank&quot;</span><span class="p">][</span><span class="n">rank</span><span class="p">][</span><span class="s2">&quot;mean_error&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">items</span><span class="p">[</span><span class="s2">&quot;error_info&quot;</span><span class="p">][</span><span class="s2">&quot;mean_error&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="n">FULL_RESULTS</span><span class="p">[</span><span class="s2">&quot;best_rank_mse&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mse</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="nb">min</span><span class="p">(</span><span class="n">mse</span><span class="p">)]</span>
+    <span class="p">)</span>
+
+    <span class="n">FULL_RESULTS</span><span class="p">[</span><span class="s2">&quot;best_rank_n_locs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">n_corr_locs</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="nb">max</span><span class="p">(</span><span class="n">n_corr_locs</span><span class="p">)]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------</span>
+    <span class="c1"># 6. LCMV comparison</span>
+    <span class="c1"># ------------------------------------------------------------</span>
+    <span class="p">(</span>
+        <span class="n">lcmv_top_vertices</span><span class="p">,</span>
+        <span class="n">lcmv_n_correctly_localized</span><span class="p">,</span>
+        <span class="n">lcmv_error_info</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">compare_with_strongest_sources_lcmv</span><span class="p">(</span>
+        <span class="n">signal</span><span class="o">=</span><span class="n">sim_evoked</span><span class="p">,</span>
+        <span class="n">n_sources</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">labels_to_use_poststimuli</span><span class="p">)</span> <span class="o">*</span> <span class="n">N_VERTICES_PER_ACTIVITY_LABEL</span><span class="p">,</span>
+        <span class="n">true_vertices</span><span class="o">=</span><span class="n">poststimuli_vertices</span><span class="p">,</span>
+        <span class="n">forward</span><span class="o">=</span><span class="n">fwd</span><span class="p">,</span>
+        <span class="n">R</span><span class="o">=</span><span class="n">data_cov</span><span class="p">,</span>
+        <span class="n">N</span><span class="o">=</span><span class="n">noise_cov</span><span class="p">,</span>
+        <span class="n">reg</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+        <span class="n">pick_ori</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">FULL_RESULTS</span><span class="p">[</span><span class="s2">&quot;lcmv_n_correctly_localized&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">lcmv_n_correctly_localized</span>
+    <span class="p">)</span>
+    <span class="n">FULL_RESULTS</span><span class="p">[</span><span class="s2">&quot;lcmv_mean_error&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">lcmv_error_info</span><span class="p">[</span><span class="s2">&quot;mean_error&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+<span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Elapsed time: </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s (</span><span class="si">{</span><span class="n">elapsed</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">60</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> min)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+==== RUN 1/10 ====
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Setting up band-pass filter from 1 - 45 Hz
+
+IIR filter parameters
+---------------------
+Butterworth bandpass zero-phase (two-pass forward and reverse) non-causal filter:
+- Filter order 16 (effective, after forward-backward)
+- Cutoffs at 1.00, 45.00 Hz: -6.02, -6.02 dB
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 5200
+[done]
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 3900
+[done]
+EEG channel type selected for re-referencing
+Adding average EEG reference projection.
+1 projection items deactivated
+Average reference projection was added, but has not been applied yet. Use the apply_proj method to apply it.
+Created an SSP operator (subspace dimension = 1)
+1 projection items activated
+SSP projectors applied...
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1912, 2570, 201, 2151, 4619]
+  Selected indices (sorted, matches H_res columns): [201, 1912, 2151, 2570, 4619]
+  Index max values (sorted to match H_res/sorted_sources): [2.14955894 1.26719123 2.33060145 1.99242278 2.42994718]
+  Rank parameter (r): 1
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1912, 2570, 201, 2151, 257]
+  Selected indices (sorted, matches H_res columns): [201, 257, 1912, 2151, 2570]
+  Index max values (sorted to match H_res/sorted_sources): [2.82344823 3.12011346 1.26719123 3.0052794  2.56713989]
+  Rank parameter (r): 2
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1912, 2570, 411, 4750, 201]
+  Selected indices (sorted, matches H_res columns): [201, 411, 1912, 2570, 4750]
+  Index max values (sorted to match H_res/sorted_sources): [3.80738377 3.25994592 1.26719123 2.56713989 3.58457047]
+  Rank parameter (r): 3
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1912, 2570, 411, 2115, 4750]
+  Selected indices (sorted, matches H_res columns): [411, 1912, 2115, 2570, 4750]
+  Index max values (sorted to match H_res/sorted_sources): [3.25994592 1.26719123 3.90041559 2.56713989 4.24021027]
+  Rank parameter (r): 4
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1912, 2570, 411, 2115, 3732]
+  Selected indices (sorted, matches H_res columns): [411, 1912, 2115, 2570, 3732]
+  Index max values (sorted to match H_res/sorted_sources): [3.25994592 1.26719123 3.90041559 2.56713989 4.53309263]
+  Rank parameter (r): 5
+
+Computing rank from covariance with rank=None
+    Using tolerance 5.2e-13 (2.2e-16 eps * 128 dim * 18  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Computing rank from covariance with rank=None
+    Using tolerance 2.8e-13 (2.2e-16 eps * 128 dim * 10  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Making LCMV beamformer with rank {&#39;eeg&#39;: 127}
+Computing inverse operator with 128 channels.
+    128 out of 128 channels remain after picking
+Selected 128 channels
+Whitening the forward solution.
+    Created an SSP operator (subspace dimension = 1)
+Computing rank from covariance with rank={&#39;eeg&#39;: 127}
+    Setting small EEG eigenvalues to zero (without PCA)
+Creating the source covariance matrix
+Adjusting source covariance matrix.
+Computing beamformer filters for 5124 sources
+Filter computation complete
+==== RUN 2/10 ====
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Setting up band-pass filter from 1 - 45 Hz
+
+IIR filter parameters
+---------------------
+Butterworth bandpass zero-phase (two-pass forward and reverse) non-causal filter:
+- Filter order 16 (effective, after forward-backward)
+- Cutoffs at 1.00, 45.00 Hz: -6.02, -6.02 dB
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 5200
+[done]
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 3900
+[done]
+EEG channel type selected for re-referencing
+Adding average EEG reference projection.
+1 projection items deactivated
+Average reference projection was added, but has not been applied yet. Use the apply_proj method to apply it.
+Created an SSP operator (subspace dimension = 1)
+1 projection items activated
+SSP projectors applied...
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [2040, 458, 4755, 686, 475]
+  Selected indices (sorted, matches H_res columns): [458, 475, 686, 2040, 4755]
+  Index max values (sorted to match H_res/sorted_sources): [4.88690889 5.63391534 5.49563375 4.45534792 5.36035964]
+  Rank parameter (r): 1
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [2040, 458, 4755, 1842, 2188]
+  Selected indices (sorted, matches H_res columns): [458, 1842, 2040, 2188, 4755]
+  Index max values (sorted to match H_res/sorted_sources): [5.42951899 6.33762811 4.45534792 6.56662027 6.07303972]
+  Rank parameter (r): 2
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [2040, 458, 4755, 1841, 4481]
+  Selected indices (sorted, matches H_res columns): [458, 1841, 2040, 4481, 4755]
+  Index max values (sorted to match H_res/sorted_sources): [5.42951899 6.95050071 4.45534792 7.24534668 6.44088187]
+  Rank parameter (r): 3
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [2040, 458, 4755, 2188, 1841]
+  Selected indices (sorted, matches H_res columns): [458, 1841, 2040, 2188, 4755]
+  Index max values (sorted to match H_res/sorted_sources): [5.42951899 7.85531936 4.45534792 7.30786679 6.44088187]
+  Rank parameter (r): 4
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [2040, 458, 4755, 2188, 1841]
+  Selected indices (sorted, matches H_res columns): [458, 1841, 2040, 2188, 4755]
+  Index max values (sorted to match H_res/sorted_sources): [5.42951899 8.15340665 4.45534792 7.30786679 6.44088187]
+  Rank parameter (r): 5
+
+Computing rank from covariance with rank=None
+    Using tolerance 4.6e-13 (2.2e-16 eps * 128 dim * 16  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Computing rank from covariance with rank=None
+    Using tolerance 2.7e-13 (2.2e-16 eps * 128 dim * 9.5  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Making LCMV beamformer with rank {&#39;eeg&#39;: 127}
+Computing inverse operator with 128 channels.
+    128 out of 128 channels remain after picking
+Selected 128 channels
+Whitening the forward solution.
+    Created an SSP operator (subspace dimension = 1)
+Computing rank from covariance with rank={&#39;eeg&#39;: 127}
+    Setting small EEG eigenvalues to zero (without PCA)
+Creating the source covariance matrix
+Adjusting source covariance matrix.
+Computing beamformer filters for 5124 sources
+Filter computation complete
+==== RUN 3/10 ====
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Setting up band-pass filter from 1 - 45 Hz
+
+IIR filter parameters
+---------------------
+Butterworth bandpass zero-phase (two-pass forward and reverse) non-causal filter:
+- Filter order 16 (effective, after forward-backward)
+- Cutoffs at 1.00, 45.00 Hz: -6.02, -6.02 dB
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 5200
+[done]
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 3900
+[done]
+EEG channel type selected for re-referencing
+Adding average EEG reference projection.
+1 projection items deactivated
+Average reference projection was added, but has not been applied yet. Use the apply_proj method to apply it.
+Created an SSP operator (subspace dimension = 1)
+1 projection items activated
+SSP projectors applied...
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1692, 2042, 329, 2156, 2571]
+  Selected indices (sorted, matches H_res columns): [329, 1692, 2042, 2156, 2571]
+  Index max values (sorted to match H_res/sorted_sources): [2.25687342 1.86929064 2.13301082 2.33803454 2.42796607]
+  Rank parameter (r): 1
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1692, 2571, 2042, 329, 2034]
+  Selected indices (sorted, matches H_res columns): [329, 1692, 2034, 2042, 2571]
+  Index max values (sorted to match H_res/sorted_sources): [3.16108116 1.86929064 3.28930475 3.0332807  2.76657492]
+  Rank parameter (r): 2
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1692, 2571, 2042, 4935, 2249]
+  Selected indices (sorted, matches H_res columns): [1692, 2042, 2249, 2571, 4935]
+  Index max values (sorted to match H_res/sorted_sources): [1.86929064 3.55866679 4.20297367 2.76657492 3.94641548]
+  Rank parameter (r): 3
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1692, 2571, 2042, 366, 3393]
+  Selected indices (sorted, matches H_res columns): [366, 1692, 2042, 2571, 3393]
+  Index max values (sorted to match H_res/sorted_sources): [4.30237386 1.86929064 3.55866679 2.76657492 4.72627125]
+  Rank parameter (r): 4
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1692, 2571, 2042, 366, 3393]
+  Selected indices (sorted, matches H_res columns): [366, 1692, 2042, 2571, 3393]
+  Index max values (sorted to match H_res/sorted_sources): [4.30237386 1.86929064 3.55866679 2.76657492 5.0053849 ]
+  Rank parameter (r): 5
+
+Computing rank from covariance with rank=None
+    Using tolerance 5.8e-13 (2.2e-16 eps * 128 dim * 21  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Computing rank from covariance with rank=None
+    Using tolerance 2.8e-13 (2.2e-16 eps * 128 dim * 9.7  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Making LCMV beamformer with rank {&#39;eeg&#39;: 127}
+Computing inverse operator with 128 channels.
+    128 out of 128 channels remain after picking
+Selected 128 channels
+Whitening the forward solution.
+    Created an SSP operator (subspace dimension = 1)
+Computing rank from covariance with rank={&#39;eeg&#39;: 127}
+    Setting small EEG eigenvalues to zero (without PCA)
+Creating the source covariance matrix
+Adjusting source covariance matrix.
+Computing beamformer filters for 5124 sources
+Filter computation complete
+==== RUN 4/10 ====
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Setting up band-pass filter from 1 - 45 Hz
+
+IIR filter parameters
+---------------------
+Butterworth bandpass zero-phase (two-pass forward and reverse) non-causal filter:
+- Filter order 16 (effective, after forward-backward)
+- Cutoffs at 1.00, 45.00 Hz: -6.02, -6.02 dB
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 5200
+[done]
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 3900
+[done]
+EEG channel type selected for re-referencing
+Adding average EEG reference projection.
+1 projection items deactivated
+Average reference projection was added, but has not been applied yet. Use the apply_proj method to apply it.
+Created an SSP operator (subspace dimension = 1)
+1 projection items activated
+SSP projectors applied...
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [135, 1934, 4881, 4517, 2673]
+  Selected indices (sorted, matches H_res columns): [135, 1934, 2673, 4517, 4881]
+  Index max values (sorted to match H_res/sorted_sources): [0.909107   1.47102952 1.82601673 1.77309039 1.6521332 ]
+  Rank parameter (r): 1
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [135, 1753, 1782, 4881, 3204]
+  Selected indices (sorted, matches H_res columns): [135, 1753, 1782, 3204, 4881]
+  Index max values (sorted to match H_res/sorted_sources): [0.909107   1.61792608 2.14292346 2.70735563 2.4421112 ]
+  Rank parameter (r): 2
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [135, 1753, 3204, 1782, 13]
+  Selected indices (sorted, matches H_res columns): [13, 135, 1753, 1782, 3204]
+  Index max values (sorted to match H_res/sorted_sources): [3.19219834 0.909107   1.61792608 2.85226181 2.30823867]
+  Rank parameter (r): 3
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [135, 1753, 3204, 2594, 1934]
+  Selected indices (sorted, matches H_res columns): [135, 1753, 1934, 2594, 3204]
+  Index max values (sorted to match H_res/sorted_sources): [0.909107   1.61792608 3.56958663 2.99944356 2.30823867]
+  Rank parameter (r): 4
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [135, 1753, 3204, 2594, 4064]
+  Selected indices (sorted, matches H_res columns): [135, 1753, 2594, 3204, 4064]
+  Index max values (sorted to match H_res/sorted_sources): [0.909107   1.61792608 2.99944356 2.30823867 3.6835762 ]
+  Rank parameter (r): 5
+
+Computing rank from covariance with rank=None
+    Using tolerance 7.2e-13 (2.2e-16 eps * 128 dim * 25  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Computing rank from covariance with rank=None
+    Using tolerance 3.2e-13 (2.2e-16 eps * 128 dim * 11  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Making LCMV beamformer with rank {&#39;eeg&#39;: 127}
+Computing inverse operator with 128 channels.
+    128 out of 128 channels remain after picking
+Selected 128 channels
+Whitening the forward solution.
+    Created an SSP operator (subspace dimension = 1)
+Computing rank from covariance with rank={&#39;eeg&#39;: 127}
+    Setting small EEG eigenvalues to zero (without PCA)
+Creating the source covariance matrix
+Adjusting source covariance matrix.
+Computing beamformer filters for 5124 sources
+Filter computation complete
+==== RUN 5/10 ====
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Setting up band-pass filter from 1 - 45 Hz
+
+IIR filter parameters
+---------------------
+Butterworth bandpass zero-phase (two-pass forward and reverse) non-causal filter:
+- Filter order 16 (effective, after forward-backward)
+- Cutoffs at 1.00, 45.00 Hz: -6.02, -6.02 dB
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 5200
+[done]
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 3900
+[done]
+EEG channel type selected for re-referencing
+Adding average EEG reference projection.
+1 projection items deactivated
+Average reference projection was added, but has not been applied yet. Use the apply_proj method to apply it.
+Created an SSP operator (subspace dimension = 1)
+1 projection items activated
+SSP projectors applied...
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1915, 1394, 2576, 2527, 1988]
+  Selected indices (sorted, matches H_res columns): [1394, 1915, 1988, 2527, 2576]
+  Index max values (sorted to match H_res/sorted_sources): [6.53704875 6.39350737 6.85525371 6.76798288 6.66104236]
+  Rank parameter (r): 1
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1915, 264, 2249, 1394, 2576]
+  Selected indices (sorted, matches H_res columns): [264, 1394, 1915, 2249, 2576]
+  Index max values (sorted to match H_res/sorted_sources): [7.29688426 7.72305224 6.39350737 7.52649619 7.90272294]
+  Rank parameter (r): 2
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1915, 264, 5036, 2249, 1394]
+  Selected indices (sorted, matches H_res columns): [264, 1394, 1915, 2249, 5036]
+  Index max values (sorted to match H_res/sorted_sources): [7.29688426 8.48515572 6.39350737 8.28144421 8.02513545]
+  Rank parameter (r): 3
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1915, 264, 5036, 2576, 1232]
+  Selected indices (sorted, matches H_res columns): [264, 1232, 1915, 2576, 5036]
+  Index max values (sorted to match H_res/sorted_sources): [7.29688426 8.98623803 6.39350737 8.71877444 8.02513545]
+  Rank parameter (r): 4
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1915, 264, 5036, 2576, 1232]
+  Selected indices (sorted, matches H_res columns): [264, 1232, 1915, 2576, 5036]
+  Index max values (sorted to match H_res/sorted_sources): [7.29688426 9.37019935 6.39350737 8.71877444 8.02513545]
+  Rank parameter (r): 5
+
+Computing rank from covariance with rank=None
+    Using tolerance 5.2e-13 (2.2e-16 eps * 128 dim * 18  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Computing rank from covariance with rank=None
+    Using tolerance 3e-13 (2.2e-16 eps * 128 dim * 10  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Making LCMV beamformer with rank {&#39;eeg&#39;: 127}
+Computing inverse operator with 128 channels.
+    128 out of 128 channels remain after picking
+Selected 128 channels
+Whitening the forward solution.
+    Created an SSP operator (subspace dimension = 1)
+Computing rank from covariance with rank={&#39;eeg&#39;: 127}
+    Setting small EEG eigenvalues to zero (without PCA)
+Creating the source covariance matrix
+Adjusting source covariance matrix.
+Computing beamformer filters for 5124 sources
+Filter computation complete
+==== RUN 6/10 ====
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Setting up band-pass filter from 1 - 45 Hz
+
+IIR filter parameters
+---------------------
+Butterworth bandpass zero-phase (two-pass forward and reverse) non-causal filter:
+- Filter order 16 (effective, after forward-backward)
+- Cutoffs at 1.00, 45.00 Hz: -6.02, -6.02 dB
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 5200
+[done]
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 3900
+[done]
+EEG channel type selected for re-referencing
+Adding average EEG reference projection.
+1 projection items deactivated
+Average reference projection was added, but has not been applied yet. Use the apply_proj method to apply it.
+Created an SSP operator (subspace dimension = 1)
+1 projection items activated
+SSP projectors applied...
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [626, 1835, 4650, 1301, 2794]
+  Selected indices (sorted, matches H_res columns): [626, 1301, 1835, 2794, 4650]
+  Index max values (sorted to match H_res/sorted_sources): [0.7184174  1.21067705 0.94343773 1.30457736 1.1334448 ]
+  Rank parameter (r): 1
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [626, 2785, 2023, 87, 4650]
+  Selected indices (sorted, matches H_res columns): [87, 626, 2023, 2785, 4650]
+  Index max values (sorted to match H_res/sorted_sources): [2.1685766  0.7184174  1.82374037 1.419883   2.54250654]
+  Rank parameter (r): 2
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [626, 2785, 87, 2023, 4650]
+  Selected indices (sorted, matches H_res columns): [87, 626, 2023, 2785, 4650]
+  Index max values (sorted to match H_res/sorted_sources): [2.17264814 0.7184174  2.65257846 1.419883   3.18287527]
+  Rank parameter (r): 3
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [626, 2785, 87, 4650, 2023]
+  Selected indices (sorted, matches H_res columns): [87, 626, 2023, 2785, 4650]
+  Index max values (sorted to match H_res/sorted_sources): [2.17264814 0.7184174  3.56073811 1.419883   2.96702093]
+  Rank parameter (r): 4
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [626, 2785, 87, 4650, 1835]
+  Selected indices (sorted, matches H_res columns): [87, 626, 1835, 2785, 4650]
+  Index max values (sorted to match H_res/sorted_sources): [2.17264814 0.7184174  3.82509333 1.419883   2.96702093]
+  Rank parameter (r): 5
+
+Computing rank from covariance with rank=None
+    Using tolerance 5.2e-13 (2.2e-16 eps * 128 dim * 18  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Computing rank from covariance with rank=None
+    Using tolerance 2.7e-13 (2.2e-16 eps * 128 dim * 9.6  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Making LCMV beamformer with rank {&#39;eeg&#39;: 127}
+Computing inverse operator with 128 channels.
+    128 out of 128 channels remain after picking
+Selected 128 channels
+Whitening the forward solution.
+    Created an SSP operator (subspace dimension = 1)
+Computing rank from covariance with rank={&#39;eeg&#39;: 127}
+    Setting small EEG eigenvalues to zero (without PCA)
+Creating the source covariance matrix
+Adjusting source covariance matrix.
+Computing beamformer filters for 5124 sources
+Filter computation complete
+==== RUN 7/10 ====
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Setting up band-pass filter from 1 - 45 Hz
+
+IIR filter parameters
+---------------------
+Butterworth bandpass zero-phase (two-pass forward and reverse) non-causal filter:
+- Filter order 16 (effective, after forward-backward)
+- Cutoffs at 1.00, 45.00 Hz: -6.02, -6.02 dB
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 5200
+[done]
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 3900
+[done]
+EEG channel type selected for re-referencing
+Adding average EEG reference projection.
+1 projection items deactivated
+Average reference projection was added, but has not been applied yet. Use the apply_proj method to apply it.
+Created an SSP operator (subspace dimension = 1)
+1 projection items activated
+SSP projectors applied...
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1845, 4731, 382, 4171, 3838]
+  Selected indices (sorted, matches H_res columns): [382, 1845, 3838, 4171, 4731]
+  Index max values (sorted to match H_res/sorted_sources): [2.25415959 2.02949245 2.42829872 2.34660335 2.17671669]
+  Rank parameter (r): 1
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1845, 2696, 130, 1653, 4783]
+  Selected indices (sorted, matches H_res columns): [130, 1653, 1845, 2696, 4783]
+  Index max values (sorted to match H_res/sorted_sources): [3.33687788 3.51049106 2.02949245 2.92338882 3.66723627]
+  Rank parameter (r): 2
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1845, 2696, 130, 4783, 1653]
+  Selected indices (sorted, matches H_res columns): [130, 1653, 1845, 2696, 4783]
+  Index max values (sorted to match H_res/sorted_sources): [3.63558088 4.29092904 2.02949245 2.92338882 4.09003581]
+  Rank parameter (r): 3
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1845, 2696, 130, 4783, 4565]
+  Selected indices (sorted, matches H_res columns): [130, 1845, 2696, 4565, 4783]
+  Index max values (sorted to match H_res/sorted_sources): [3.63558088 2.02949245 2.92338882 4.78297148 4.3541731 ]
+  Rank parameter (r): 4
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1845, 2696, 130, 4783, 1199]
+  Selected indices (sorted, matches H_res columns): [130, 1199, 1845, 2696, 4783]
+  Index max values (sorted to match H_res/sorted_sources): [3.63558088 5.03568608 2.02949245 2.92338882 4.3541731 ]
+  Rank parameter (r): 5
+
+Computing rank from covariance with rank=None
+    Using tolerance 4.8e-13 (2.2e-16 eps * 128 dim * 17  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Computing rank from covariance with rank=None
+    Using tolerance 2.7e-13 (2.2e-16 eps * 128 dim * 9.6  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Making LCMV beamformer with rank {&#39;eeg&#39;: 127}
+Computing inverse operator with 128 channels.
+    128 out of 128 channels remain after picking
+Selected 128 channels
+Whitening the forward solution.
+    Created an SSP operator (subspace dimension = 1)
+Computing rank from covariance with rank={&#39;eeg&#39;: 127}
+    Setting small EEG eigenvalues to zero (without PCA)
+Creating the source covariance matrix
+Adjusting source covariance matrix.
+Computing beamformer filters for 5124 sources
+Filter computation complete
+==== RUN 8/10 ====
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Setting up band-pass filter from 1 - 45 Hz
+
+IIR filter parameters
+---------------------
+Butterworth bandpass zero-phase (two-pass forward and reverse) non-causal filter:
+- Filter order 16 (effective, after forward-backward)
+- Cutoffs at 1.00, 45.00 Hz: -6.02, -6.02 dB
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 5200
+[done]
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 3900
+[done]
+EEG channel type selected for re-referencing
+Adding average EEG reference projection.
+1 projection items deactivated
+Average reference projection was added, but has not been applied yet. Use the apply_proj method to apply it.
+Created an SSP operator (subspace dimension = 1)
+1 projection items activated
+SSP projectors applied...
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1779, 4340, 1844, 2654, 2295]
+  Selected indices (sorted, matches H_res columns): [1779, 1844, 2295, 2654, 4340]
+  Index max values (sorted to match H_res/sorted_sources): [1.88404056 2.25246957 2.44341905 2.37458599 2.04820683]
+  Rank parameter (r): 1
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1779, 2654, 191, 4340, 1844]
+  Selected indices (sorted, matches H_res columns): [191, 1779, 1844, 2654, 4340]
+  Index max values (sorted to match H_res/sorted_sources): [3.05770379 1.88404056 3.43509889 2.81023299 3.23900946]
+  Rank parameter (r): 2
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1779, 2654, 191, 1984, 4340]
+  Selected indices (sorted, matches H_res columns): [191, 1779, 1984, 2654, 4340]
+  Index max values (sorted to match H_res/sorted_sources): [3.51938726 1.88404056 3.89562546 2.81023299 4.10860867]
+  Rank parameter (r): 3
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1779, 2654, 191, 177, 1984]
+  Selected indices (sorted, matches H_res columns): [177, 191, 1779, 1984, 2654]
+  Index max values (sorted to match H_res/sorted_sources): [4.19025248 3.51938726 1.88404056 4.58746941 2.81023299]
+  Rank parameter (r): 4
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [1779, 2654, 191, 177, 4558]
+  Selected indices (sorted, matches H_res columns): [177, 191, 1779, 2654, 4558]
+  Index max values (sorted to match H_res/sorted_sources): [4.19025248 3.51938726 1.88404056 2.81023299 4.83688375]
+  Rank parameter (r): 5
+
+Computing rank from covariance with rank=None
+    Using tolerance 6.3e-13 (2.2e-16 eps * 128 dim * 22  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Computing rank from covariance with rank=None
+    Using tolerance 3.3e-13 (2.2e-16 eps * 128 dim * 12  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Making LCMV beamformer with rank {&#39;eeg&#39;: 127}
+Computing inverse operator with 128 channels.
+    128 out of 128 channels remain after picking
+Selected 128 channels
+Whitening the forward solution.
+    Created an SSP operator (subspace dimension = 1)
+Computing rank from covariance with rank={&#39;eeg&#39;: 127}
+    Setting small EEG eigenvalues to zero (without PCA)
+Creating the source covariance matrix
+Adjusting source covariance matrix.
+Computing beamformer filters for 5124 sources
+Filter computation complete
+==== RUN 9/10 ====
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Setting up band-pass filter from 1 - 45 Hz
+
+IIR filter parameters
+---------------------
+Butterworth bandpass zero-phase (two-pass forward and reverse) non-causal filter:
+- Filter order 16 (effective, after forward-backward)
+- Cutoffs at 1.00, 45.00 Hz: -6.02, -6.02 dB
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 5200
+[done]
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 3900
+[done]
+EEG channel type selected for re-referencing
+Adding average EEG reference projection.
+1 projection items deactivated
+Average reference projection was added, but has not been applied yet. Use the apply_proj method to apply it.
+Created an SSP operator (subspace dimension = 1)
+1 projection items activated
+SSP projectors applied...
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [4573, 135, 2023, 595, 4842]
+  Selected indices (sorted, matches H_res columns): [135, 595, 2023, 4573, 4842]
+  Index max values (sorted to match H_res/sorted_sources): [1.03676593 1.40722614 1.30151873 0.78022538 1.48135688]
+  Rank parameter (r): 1
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [4573, 2252, 135, 2023, 4459]
+  Selected indices (sorted, matches H_res columns): [135, 2023, 2252, 4459, 4573]
+  Index max values (sorted to match H_res/sorted_sources): [1.72851143 2.00791647 1.46361478 2.26167128 0.78022538]
+  Rank parameter (r): 2
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [4573, 2252, 123, 2747, 135]
+  Selected indices (sorted, matches H_res columns): [123, 135, 2252, 2747, 4573]
+  Index max values (sorted to match H_res/sorted_sources): [2.14647119 2.65061676 1.46361478 2.41120364 0.78022538]
+  Rank parameter (r): 3
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [4573, 2252, 123, 128, 4459]
+  Selected indices (sorted, matches H_res columns): [123, 128, 2252, 4459, 4573]
+  Index max values (sorted to match H_res/sorted_sources): [2.14647119 2.82155445 1.46361478 3.18357226 0.78022538]
+  Rank parameter (r): 4
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [4573, 2252, 123, 128, 4161]
+  Selected indices (sorted, matches H_res columns): [123, 128, 2252, 4161, 4573]
+  Index max values (sorted to match H_res/sorted_sources): [2.14647119 2.82155445 1.46361478 3.52345131 0.78022538]
+  Rank parameter (r): 5
+
+Computing rank from covariance with rank=None
+    Using tolerance 5.2e-13 (2.2e-16 eps * 128 dim * 18  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Computing rank from covariance with rank=None
+    Using tolerance 2.9e-13 (2.2e-16 eps * 128 dim * 10  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Making LCMV beamformer with rank {&#39;eeg&#39;: 127}
+Computing inverse operator with 128 channels.
+    128 out of 128 channels remain after picking
+Selected 128 channels
+Whitening the forward solution.
+    Created an SSP operator (subspace dimension = 1)
+Computing rank from covariance with rank={&#39;eeg&#39;: 127}
+    Setting small EEG eigenvalues to zero (without PCA)
+Creating the source covariance matrix
+Adjusting source covariance matrix.
+Computing beamformer filters for 5124 sources
+Filter computation complete
+==== RUN 10/10 ====
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Setting up band-pass filter from 1 - 45 Hz
+
+IIR filter parameters
+---------------------
+Butterworth bandpass zero-phase (two-pass forward and reverse) non-causal filter:
+- Filter order 16 (effective, after forward-backward)
+- Cutoffs at 1.00, 45.00 Hz: -6.02, -6.02 dB
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 5200
+[done]
+Reducing data rank from 128 -&gt; 128
+Estimating covariance using EMPIRICAL
+Done.
+Number of samples used : 3900
+[done]
+EEG channel type selected for re-referencing
+Adding average EEG reference projection.
+1 projection items deactivated
+Average reference projection was added, but has not been applied yet. Use the apply_proj method to apply it.
+Created an SSP operator (subspace dimension = 1)
+1 projection items activated
+SSP projectors applied...
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [2076, 1950, 4404, 2713, 1736]
+  Selected indices (sorted, matches H_res columns): [1736, 1950, 2076, 2713, 4404]
+  Index max values (sorted to match H_res/sorted_sources): [2.11895827 1.78761154 1.61261815 2.06086976 1.95405909]
+  Rank parameter (r): 1
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [2076, 2713, 1298, 4404, 1950]
+  Selected indices (sorted, matches H_res columns): [1298, 1950, 2076, 2713, 4404]
+  Index max values (sorted to match H_res/sorted_sources): [2.72942433 2.97047189 1.61261815 2.51976415 2.85145481]
+  Rank parameter (r): 2
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [2076, 2713, 559, 1298, 341]
+  Selected indices (sorted, matches H_res columns): [341, 559, 1298, 2076, 2713]
+  Index max values (sorted to match H_res/sorted_sources): [3.65303966 3.27822901 3.49552122 1.61261815 2.51976415]
+  Rank parameter (r): 3
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [2076, 2713, 559, 2042, 1298]
+  Selected indices (sorted, matches H_res columns): [559, 1298, 2042, 2076, 2713]
+  Index max values (sorted to match H_res/sorted_sources): [3.27822901 4.28012424 3.97788557 1.61261815 2.51976415]
+  Rank parameter (r): 4
+
+<span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
+
+[Activity Index Result]
+  Selected indices (greedy discovery order): [2076, 2713, 559, 2042, 1539]
+  Selected indices (sorted, matches H_res columns): [559, 1539, 2042, 2076, 2713]
+  Index max values (sorted to match H_res/sorted_sources): [3.27822901 4.64803562 3.97788557 1.61261815 2.51976415]
+  Rank parameter (r): 5
+
+Computing rank from covariance with rank=None
+    Using tolerance 5.1e-13 (2.2e-16 eps * 128 dim * 18  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Computing rank from covariance with rank=None
+    Using tolerance 3.2e-13 (2.2e-16 eps * 128 dim * 11  max singular value)
+    Estimated rank (eeg): 127
+    EEG: rank 127 computed from 128 data channels with 1 projector
+Making LCMV beamformer with rank {&#39;eeg&#39;: 127}
+Computing inverse operator with 128 channels.
+    128 out of 128 channels remain after picking
+Selected 128 channels
+Whitening the forward solution.
+    Created an SSP operator (subspace dimension = 1)
+Computing rank from covariance with rank={&#39;eeg&#39;: 127}
+    Setting small EEG eigenvalues to zero (without PCA)
+Creating the source covariance matrix
+Adjusting source covariance matrix.
+Computing beamformer filters for 5124 sources
+Filter computation complete
+Elapsed time: 143.08 s (2.38 min)
+</pre></div></div>
+</div>
+</section>
+<section id="6.-Inspect-the-raw-multi-run-result-structure">
+<h2>6. Inspect the raw multi-run result structure<a class="headerlink" href="#6.-Inspect-the-raw-multi-run-result-structure" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">FULL_RESULTS[&quot;by_rank&quot;][rank]</span></code> contains set of results per run.</p>
+<p>This is the important difference from a single-run analysis: instead of one localization error for a rank, we now have a distribution of errors across independent realizations.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ranks evaluated:&quot;</span><span class="p">,</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">FULL_RESULTS</span><span class="p">[</span><span class="s2">&quot;by_rank&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+
+<span class="k">for</span> <span class="n">rank</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">FULL_RESULTS</span><span class="p">[</span><span class="s2">&quot;by_rank&quot;</span><span class="p">]):</span>
+    <span class="n">n_runs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">FULL_RESULTS</span><span class="p">[</span><span class="s2">&quot;by_rank&quot;</span><span class="p">][</span><span class="n">rank</span><span class="p">][</span><span class="s2">&quot;mean_error&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rank </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">n_runs</span><span class="si">}</span><span class="s2"> runs&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of LCMV runs: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">FULL_RESULTS</span><span class="p">[</span><span class="s1">&#39;lcmv_mean_error&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Ranks evaluated: [&#39;rank_1&#39;, &#39;rank_2&#39;, &#39;rank_3&#39;, &#39;rank_4&#39;, &#39;rank_5&#39;]
+Rank rank_1: 10 runs
+Rank rank_2: 10 runs
+Rank rank_3: 10 runs
+Rank rank_4: 10 runs
+Rank rank_5: 10 runs
+Number of LCMV runs: 10
+</pre></div></div>
+</div>
+</section>
+<section id="7.-Aggregate-performance-across-runs">
+<h2>7. Aggregate performance across runs<a class="headerlink" href="#7.-Aggregate-performance-across-runs" title="Link to this heading">#</a></h2>
+<p>For each rank we can now calculate summary statistics such as:</p>
+<ul class="simple">
+<li><p>mean localization error,</p></li>
+<li><p>median localization error,</p></li>
+<li><p>standard deviation,</p></li>
+<li><p>mean number of correctly localized sources.</p></li>
+</ul>
+<p>The mean summarizes overall performance, while the standard deviation shows how sensitive the method is to the particular random source configuration.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rank_summary</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">rank</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">FULL_RESULTS</span><span class="p">[</span><span class="s2">&quot;by_rank&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;mean_error&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">n_correct</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;n_correctly_localized&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="n">rank_summary</span><span class="p">[</span><span class="n">rank</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;mean_error&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">errors</span><span class="p">),</span>
+        <span class="s2">&quot;median_error&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">errors</span><span class="p">),</span>
+        <span class="s2">&quot;std_error&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">errors</span><span class="p">),</span>
+        <span class="s2">&quot;mean_n_correct&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">n_correct</span><span class="p">),</span>
+        <span class="s2">&quot;std_n_correct&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">n_correct</span><span class="p">),</span>
+    <span class="p">}</span>
+
+<span class="k">for</span> <span class="n">rank</span><span class="p">,</span> <span class="n">summary</span> <span class="ow">in</span> <span class="n">rank_summary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Rank </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">: &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;mean error = </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;mean_error&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;median = </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;median_error&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;SD = </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;std_error&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;mean correctly localized = </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;mean_n_correct&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Rank rank_1: mean error = 24.696, median = 24.230, SD = 7.313, mean correctly localized = 2.50
+Rank rank_2: mean error = 19.229, median = 19.832, SD = 9.093, mean correctly localized = 3.30
+Rank rank_3: mean error = 21.782, median = 23.054, SD = 8.687, mean correctly localized = 3.00
+Rank rank_4: mean error = 20.682, median = 18.413, SD = 6.652, mean correctly localized = 3.00
+Rank rank_5: mean error = 20.354, median = 17.631, SD = 10.935, mean correctly localized = 3.20
+</pre></div></div>
+</div>
+</section>
+<section id="8.-Localization-error-as-a-function-of-rank">
+<h2>8. Localization error as a function of rank<a class="headerlink" href="#8.-Localization-error-as-a-function-of-rank" title="Link to this heading">#</a></h2>
+<p>Each violin represents the distribution obtained from the repeated simulations. This makes it possible to see not only the typical localization error for a given rank, but also the variability across different source configurations.</p>
+<p>The LCMV-NAI result is shown alongside the MVPURE ranks for comparison.</p>
+<p>Lower localization error indicates better performance.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">violin_plot_from_results</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span>
+                         <span class="n">FULL_RESULTS</span><span class="p">,</span>
+                         <span class="n">results_key</span><span class="o">=</span><span class="s2">&quot;mean_error&quot;</span><span class="p">,</span>
+                         <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Average distance error [mm]&quot;</span><span class="p">,</span>
+                         <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Rank&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_lcmv</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulating_and_localizing_multi_source_eeg_activity_multiple_runs_17_0.png" src="../_images/tutorials_simulating_and_localizing_multi_source_eeg_activity_multiple_runs_17_0.png" />
+</div>
+</div>
+<p>We can perform the same analysis for the number of correctly localized sources.</p>
+<p>The violin plot shows the distribution of this measure across runs for each MVPURE rank and for LCMV-NAI.</p>
+<p>Here, larger values indicate better localization performance.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">violin_plot_from_results</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span>
+                         <span class="n">FULL_RESULTS</span><span class="p">,</span>
+                         <span class="n">results_key</span><span class="o">=</span><span class="s2">&quot;n_correctly_localized&quot;</span><span class="p">,</span>
+                         <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Number of correctly localized sources&quot;</span><span class="p">,</span>
+                         <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Rank&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_lcmv</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_simulating_and_localizing_multi_source_eeg_activity_multiple_runs_19_0.png" src="../_images/tutorials_simulating_and_localizing_multi_source_eeg_activity_multiple_runs_19_0.png" />
+</div>
+</div>
+</section>
+<section id="9.-Save-the-results">
+<h2>9. Save the results<a class="headerlink" href="#9.-Save-the-results" title="Link to this heading">#</a></h2>
+<p>After all runs have finished, <code class="docutils literal notranslate"><span class="pre">FULL_RESULTS</span></code> contains the complete set of results from the experiment.</p>
+<p>We can save this dictionary as a Python pickle (<code class="docutils literal notranslate"><span class="pre">.pkl</span></code>) file. This allows us to perform the analysis later without running the computationally expensive simulations again.</p>
+<p>For example:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">OUTPUT_PATH</span> <span class="o">=</span> <span class="s2">&quot;synthetic_results.pkl&quot;</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">OUTPUT_PATH</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">FULL_RESULTS</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Results saved to: </span><span class="si">{</span><span class="n">OUTPUT_PATH</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="11.-Repeating-the-experiment-for-multiple-SNR-values">
+<h2>11. Repeating the experiment for multiple SNR values<a class="headerlink" href="#11.-Repeating-the-experiment-for-multiple-SNR-values" title="Link to this heading">#</a></h2>
+<p>The same framework can also be used to evaluate localization performance at multiple signal-to-noise ratios.</p>
+<p>Instead of running the experiment for a single SNR value, we can define a list of values, for example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">SNRS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The experiment can then be wrapped in an additional loop over <code class="docutils literal notranslate"><span class="pre">SNRS</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">SNR_DB</span> <span class="ow">in</span> <span class="n">SNRS</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_RUNS</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p>In this setup, <code class="docutils literal notranslate"><span class="pre">N_RUNS</span></code> independent simulations are performed for each SNR value.</p>
+<p>The results can be stored separately for each SNR, for example in a dictionary:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ALL_RESULTS</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">SNR_DB</span> <span class="ow">in</span> <span class="n">SNRS</span><span class="p">:</span>
+    <span class="c1"># initialize results for this SNR</span>
+    <span class="o">...</span>
+    <span class="n">ALL_RESULTS</span><span class="p">[</span><span class="n">SNR_DB</span><span class="p">]</span> <span class="o">=</span> <span class="n">FULL_RESULTS</span>
+</pre></div>
+</div>
+<p>This makes it possible to compare how MVPURE localization performance changes as the SNR decreases or increases.</p>
+<p>For a multi-SNR experiment, it is useful to save the results for each SNR separately, or save the complete <code class="docutils literal notranslate"><span class="pre">ALL_RESULTS</span></code> dictionary in a single <code class="docutils literal notranslate"><span class="pre">.pkl</span></code> file.</p>
+</section>
+<section id="Summary">
+<h2>Summary<a class="headerlink" href="#Summary" title="Link to this heading">#</a></h2>
+<p>The simulation and localization pipeline is intentionally almost unchanged from the previous tutorial. The new element is the <strong>experimental repetition layer</strong>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>                 ┌─ run 1 ─┐
+                 ├─ run 2 ─┤
+same parameters ─┼─ run 3 ─┼─→ aggregate results → distributions / summaries
+                 ├─  ...  ─┤
+                 └─ run N ─┘
+</pre></div>
+</div>
+<p>Each run independently samples source locations and generates new simulated data. The resulting per-run metrics are retained, which allows us to quantify both average performance and variability.</p>
+<p>For the full experiment, increase <code class="docutils literal notranslate"><span class="pre">N_RUNS</span></code> from the tutorial value to <code class="docutils literal notranslate"><span class="pre">100</span></code> or <code class="docutils literal notranslate"><span class="pre">1000</span></code>. The resulting <code class="docutils literal notranslate"><span class="pre">FULL_RESULTS</span></code> object can then be analyzed without rerunning the simulation.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="simulating_and_localizing_multi-source_EEG_activity_with_MVPURE_py.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Simulating and Localizing Multi-Source EEG Activity with MVPURE_py</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#1.-Experiment-configuration">1. Experiment configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#2.-Load-the-data-and-forward-model-once">2. Load the data and forward model once</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#3.-What-changes-between-runs?">3. What changes between runs?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#4.-Store-results-from-all-runs">4. Store results from all runs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#5.-Run-the-complete-experiment-repeatedly">5. Run the complete experiment repeatedly</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#6.-Inspect-the-raw-multi-run-result-structure">6. Inspect the raw multi-run result structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#7.-Aggregate-performance-across-runs">7. Aggregate performance across runs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#8.-Localization-error-as-a-function-of-rank">8. Localization error as a function of rank</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#9.-Save-the-results">9. Save the results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#11.-Repeating-the-experiment-for-multiple-SNR-values">11. Repeating the experiment for multiple SNR values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorials/simulating_and_localizing_multi_source_eeg_activity_multiple_runs.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Julia Jurkowska et al.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

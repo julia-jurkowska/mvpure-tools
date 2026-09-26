@@ -468,21 +468,65 @@
 <span class="sd">    mne.Forward: subset of mne.Forward for localized vertices identified from mvpure_py.Localized</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># create a copy of old_fwd as a draft for new one</span>
-    <span class="n">new_fwd</span> <span class="o">=</span> <span class="n">old_fwd</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;nsource&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">localized</span><span class="p">[</span><span class="s1">&#39;nsource&#39;</span><span class="p">]</span>
-    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;sol&#39;</span><span class="p">][</span><span class="s1">&#39;ncol&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">localized</span><span class="p">[</span><span class="s1">&#39;nsource&#39;</span><span class="p">]</span>
-    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;sol&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">localized</span><span class="p">[</span><span class="s1">&#39;leadfield&#39;</span><span class="p">]</span>
-    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;source_rr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">old_fwd</span><span class="p">[</span><span class="s1">&#39;source_rr&#39;</span><span class="p">][</span><span class="nb">list</span><span class="p">(</span><span class="n">localized</span><span class="p">[</span><span class="s1">&#39;sources&#39;</span><span class="p">]),</span> <span class="p">:]</span>
-    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;source_nn&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">old_fwd</span><span class="p">[</span><span class="s1">&#39;source_nn&#39;</span><span class="p">][</span><span class="nb">list</span><span class="p">(</span><span class="n">localized</span><span class="p">[</span><span class="s1">&#39;sources&#39;</span><span class="p">]),</span> <span class="p">:]</span>
+    <span class="c1"># Translate leadfield (column) indices of localized sources into vertex numbers, split by hemisphere</span>
+    <span class="n">lh_vertices</span><span class="p">,</span> <span class="n">lh_lf_idx</span><span class="p">,</span> <span class="n">rh_vertices</span><span class="p">,</span> <span class="n">rh_lf_idx</span> <span class="o">=</span> <span class="n">transform_leadfield_indices_to_vertices</span><span class="p">(</span>
+        <span class="n">localized</span><span class="p">[</span><span class="s1">&#39;sources&#39;</span><span class="p">],</span>
+        <span class="n">old_fwd</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">],</span>
+        <span class="n">hemi</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+        <span class="n">include_mapping</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
 
-    <span class="c1"># transform source ordinal number (leadfield index) to vertice number</span>
-    <span class="n">trans_sources</span> <span class="o">=</span> <span class="n">transform_leadfield_indices_to_vertices</span><span class="p">(</span><span class="n">localized</span><span class="p">[</span><span class="s1">&#39;sources&#39;</span><span class="p">],</span>
-                                                            <span class="n">old_fwd</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">],</span>
-                                                            <span class="n">hemi</span><span class="o">=</span><span class="n">hemi</span><span class="p">,</span>
-                                                            <span class="n">include_mapping</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_subset_src</span><span class="p">(</span><span class="n">old_fwd</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">],</span> <span class="n">trans_sources</span><span class="p">,</span> <span class="n">hemi</span><span class="p">)</span>
+    <span class="n">lh_vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">lh_vertices</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">rh_vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">rh_vertices</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 
+    <span class="k">if</span> <span class="n">hemi</span> <span class="o">==</span> <span class="s2">&quot;lh&quot;</span><span class="p">:</span>
+        <span class="n">rh_vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">hemi</span> <span class="o">==</span> <span class="s2">&quot;rh&quot;</span><span class="p">:</span>
+        <span class="n">lh_vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">hemi</span> <span class="o">!=</span> <span class="s2">&quot;both&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Possible options for &#39;hemi&#39; parameter are: &#39;lh&#39;, &#39;rh&#39;, &#39;both&#39;. Got </span><span class="si">{</span><span class="n">hemi</span><span class="si">}</span><span class="s2"> instead.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">n_sources</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lh_vertices</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">rh_vertices</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n_sources</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No vertices found for the requested hemisphere(s) in `localized`.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Dummy STC for proper vertex selection</span>
+    <span class="n">stc</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">SourceEstimate</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_sources</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="n">vertices</span><span class="o">=</span><span class="p">[</span><span class="n">lh_vertices</span><span class="p">,</span> <span class="n">rh_vertices</span><span class="p">],</span>
+        <span class="n">tmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">tstep</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">subject</span><span class="o">=</span><span class="n">old_fwd</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;subject_his_id&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">new_fwd</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">forward</span><span class="o">.</span><span class="n">restrict_forward_to_stc</span><span class="p">(</span><span class="n">old_fwd</span><span class="p">,</span> <span class="n">stc</span><span class="p">)</span>
+
+    <span class="n">custom_leadfield</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">localized</span><span class="p">[</span><span class="s1">&#39;leadfield&#39;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">custom_leadfield</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;sol&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;localized[&#39;leadfield&#39;] has </span><span class="si">{</span><span class="n">custom_leadfield</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columns, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;but the restricted forward has </span><span class="si">{</span><span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;sol&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> sources. &quot;</span>
+            <span class="s2">&quot;Check that &#39;localized&#39; and &#39;hemi&#39; refer to the same vertex set.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">new_lh_vertno</span> <span class="o">=</span> <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;vertno&#39;</span><span class="p">]</span>
+    <span class="n">new_rh_vertno</span> <span class="o">=</span> <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;vertno&#39;</span><span class="p">]</span>
+    <span class="n">new_order_verts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">new_lh_vertno</span><span class="p">,</span> <span class="n">new_rh_vertno</span><span class="p">])</span>
+
+    <span class="n">old_order_verts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">lh_vertices</span><span class="p">,</span> <span class="n">rh_vertices</span><span class="p">])</span>
+    <span class="c1"># position of each new-order vertex within the original (localized) ordering</span>
+    <span class="n">old_pos</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">old_order_verts</span><span class="p">)}</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">remap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">old_pos</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">new_order_verts</span><span class="p">])</span>
+    <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Vertex </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> present after restriction but not found in localized sources; &quot;</span>
+            <span class="s2">&quot;leadfield cannot be reliably remapped.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">new_fwd</span><span class="p">[</span><span class="s1">&#39;sol&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">custom_leadfield</span><span class="p">[:,</span> <span class="n">remap</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">new_fwd</span>
 
 
@@ -504,84 +548,42 @@
 <span class="sd">    mne.Forward: subset of mne.Forward for given vertices</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">new_fwd</span> <span class="o">=</span> <span class="n">old_fwd</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="c1"># new_fwd = old_fwd.copy()</span>
     <span class="n">src</span> <span class="o">=</span> <span class="n">old_fwd</span><span class="p">[</span><span class="s2">&quot;src&quot;</span><span class="p">]</span>
 
     <span class="c1"># Vertices should be stored as list in a form [[left vertices], [right vertices]]</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">lh_vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-        <span class="n">rh_vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">lh_vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">rh_vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-
+        <span class="n">flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">hemi</span> <span class="o">==</span> <span class="s2">&quot;lh&quot;</span><span class="p">:</span>
-            <span class="n">lh_vertices</span> <span class="o">=</span> <span class="n">vertices</span>
+            <span class="n">lh_vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">flat</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
             <span class="n">rh_vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">hemi</span> <span class="o">==</span> <span class="s2">&quot;rh&quot;</span><span class="p">:</span>
             <span class="n">lh_vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-            <span class="n">rh_vertices</span> <span class="o">=</span> <span class="n">vertices</span>
+            <span class="n">rh_vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">flat</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Flat vertex list requires specifying hemi=&#39;lh&#39; or &#39;rh&#39;&quot;</span>
             <span class="p">)</span>
 
-    <span class="n">vertices_mne</span> <span class="o">=</span> <span class="p">[</span><span class="n">lh_vertices</span><span class="p">,</span> <span class="n">rh_vertices</span><span class="p">]</span>
-    <span class="c1"># create a copy of old_fwd as a draft for new one</span>
-    <span class="n">lf_idx</span> <span class="o">=</span> <span class="n">transform_vertices_to_leadfield_indices</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">old_fwd</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">],</span> <span class="n">hemi</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
-    <span class="n">new_fwd</span><span class="p">[</span><span class="s2">&quot;sol&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">old_fwd</span><span class="p">[</span><span class="s2">&quot;sol&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">][:,</span> <span class="n">lf_idx</span><span class="p">]</span>
-    <span class="n">new_fwd</span><span class="p">[</span><span class="s2">&quot;sol&quot;</span><span class="p">][</span><span class="s2">&quot;ncol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lf_idx</span><span class="p">)</span>
-    <span class="n">new_fwd</span><span class="p">[</span><span class="s2">&quot;nsource&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lf_idx</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">lh_vertices</span><span class="o">.</span><span class="n">size</span> <span class="o">+</span> <span class="n">rh_vertices</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No vertices provided to subset the forward with.&quot;</span><span class="p">)</span>
 
-    <span class="n">new_fwd</span><span class="p">[</span><span class="s2">&quot;source_rr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">old_fwd</span><span class="p">[</span><span class="s2">&quot;source_rr&quot;</span><span class="p">][</span><span class="n">lf_idx</span><span class="p">]</span>
-    <span class="n">new_fwd</span><span class="p">[</span><span class="s2">&quot;source_nn&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">old_fwd</span><span class="p">[</span><span class="s2">&quot;source_nn&quot;</span><span class="p">][</span><span class="n">lf_idx</span><span class="p">]</span>
+    <span class="c1"># Build dummy STC for proper vertex selection</span>
+    <span class="n">n_verts</span> <span class="o">=</span> <span class="n">lh_vertices</span><span class="o">.</span><span class="n">size</span> <span class="o">+</span> <span class="n">rh_vertices</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">stc</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">SourceEstimate</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_verts</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="n">vertices</span><span class="o">=</span><span class="p">[</span><span class="n">lh_vertices</span><span class="p">,</span> <span class="n">rh_vertices</span><span class="p">],</span>
+        <span class="n">tmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">tstep</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">subject</span><span class="o">=</span><span class="n">src</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;subject_his_id&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+    <span class="p">)</span>
 
-    <span class="n">new_fwd</span><span class="p">[</span><span class="s2">&quot;src&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_subset_src</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">vertices_mne</span><span class="p">,</span> <span class="n">hemi</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+    <span class="n">new_fwd</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">forward</span><span class="o">.</span><span class="n">restrict_forward_to_stc</span><span class="p">(</span><span class="n">old_fwd</span><span class="p">,</span> <span class="n">stc</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">new_fwd</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">_subset_src</span><span class="p">(</span><span class="n">old_src</span><span class="p">:</span> <span class="n">mne</span><span class="o">.</span><span class="n">SourceSpaces</span><span class="p">,</span>
-                <span class="n">vertices</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
-                <span class="n">hemi</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mne</span><span class="o">.</span><span class="n">SourceSpaces</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Subset mne.SourceSpaces for it to contain information only for certain vertices&#39; numbers.</span>
-<span class="sd">    Parameters:</span>
-<span class="sd">    -----------</span>
-<span class="sd">    old_src: mne.SourceSpaces</span>
-<span class="sd">        source space to get subset from</span>
-<span class="sd">    vertices: list[int] | list[list[int]]</span>
-<span class="sd">        vertices to be included in subset of mne.SourceSpaces</span>
-<span class="sd">        If hemi == &#39;both&#39; ```vertices``` should be list containing two lists with integers.</span>
-<span class="sd">        If hemi == &#39;lh&#39; or hemi == &#39;rh&#39; ```vertices``` should be a list of integers.</span>
-<span class="sd">    hemi: str (Options: &#39;both&#39;, &#39;rh&#39;, &#39;lh&#39;)</span>
-<span class="sd">        hemispheres from which vertices are.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">    -----------</span>
-<span class="sd">    mne.SourceSpaces: subset of mne.SourceSpaces for given vertices</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># check correctness of &#39;hemi&#39; parameter and its consistence to &#39;vertices&#39; parameter</span>
-    <span class="n">_check_hemi_param</span><span class="p">(</span><span class="n">hemi</span><span class="p">)</span>
-    <span class="n">_check_hemi_and_vertices_matching</span><span class="p">(</span><span class="n">hemi</span><span class="p">,</span> <span class="n">vertices</span><span class="p">)</span>
-    <span class="c1"># create a copy of old_src as a draft for new one</span>
-    <span class="n">new_src</span> <span class="o">=</span> <span class="n">old_src</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="c1"># iterate through hemispheres</span>
-    <span class="k">if</span> <span class="n">hemi</span> <span class="o">==</span> <span class="s2">&quot;lh&quot;</span><span class="p">:</span>
-        <span class="n">vertices</span> <span class="o">=</span> <span class="p">[</span><span class="n">vertices</span><span class="p">,</span> <span class="p">[]]</span>
-    <span class="k">elif</span> <span class="n">hemi</span> <span class="o">==</span> <span class="s2">&quot;rh&quot;</span><span class="p">:</span>
-        <span class="n">vertices</span> <span class="o">=</span> <span class="p">[[],</span> <span class="n">vertices</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="n">hemi</span> <span class="o">==</span> <span class="s2">&quot;both&quot;</span><span class="p">:</span>
-        <span class="n">vertices</span> <span class="o">=</span> <span class="n">vertices</span>  <span class="c1"># already [lh, rh]</span>
-
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">vertno</span> <span class="o">=</span> <span class="n">old_src</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;vertno&#39;</span><span class="p">]</span>
-        <span class="n">use_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">vertno</span><span class="p">,</span> <span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-
-        <span class="n">new_src</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;inuse&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">use_mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-        <span class="n">new_src</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;vertno&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vertno</span><span class="p">[</span><span class="n">use_mask</span><span class="p">]</span>
-        <span class="n">new_src</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;nuse&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">use_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-
-    <span class="k">return</span> <span class="n">new_src</span>
 
 
 <div class="viewcode-block" id="vertices_to_coordinates">
@@ -670,7 +672,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Read vertices from mvpure_py.Localized object (only for given hemi)</span>
-    <span class="n">vert</span> <span class="o">=</span> <span class="p">[</span><span class="n">vert</span> <span class="k">for</span> <span class="n">vert</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">locs</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="k">if</span> <span class="n">locs</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert</span><span class="p">][</span><span class="s1">&#39;hemi&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">hemi</span><span class="p">]</span>
+    <span class="n">vert</span> <span class="o">=</span> <span class="p">[</span><span class="n">vert</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">vert</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">locs</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="k">if</span> <span class="n">locs</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert</span><span class="p">][</span><span class="s1">&#39;hemi&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">hemi</span><span class="p">]</span>
     <span class="c1"># If there are no vertices for given hemisphere - return None</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vert</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>

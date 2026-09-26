@@ -48,6 +48,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/simulating_and_localizing_multi-source_EEG_activity_with_MVPURE_py';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Simulating and Localizing Multi-Source EEG Activity — Multiple Runs" href="simulating_and_localizing_multi_source_eeg_activity_multiple_runs.html" />
     <link rel="prev" title="Source localization and signal reconstruction - case study for oddball data" href="source_localization_and_reconstruction_on_data_from_oddball_paradigm.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -376,7 +377,7 @@ Using pyvistaqt 3d backend.
 <li><p><strong>Vertices per region</strong> (<code class="docutils literal notranslate"><span class="pre">N_VERTICES_PER_ACTIVITY_LABEL</span></code>, <code class="docutils literal notranslate"><span class="pre">N_VERTICES_PER_BG_LABEL</span></code>): Controls spatial extent of activity within each ROI.</p></li>
 </ul>
 <p>These parameters collectively define a realistic but controlled simulation environment. For methodological studies, parameters can be systematically varied to characterize performance across different scenarios.</p>
-<p>For more details see <a class="reference external" href="https://arxiv.org/abs/2509.14118">paper</a>.</p>
+<p>For more details see <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S1053811926004416">paper</a>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -580,30 +581,6 @@ Reading labels from parcellation...
    read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
    read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
 Reading labels from parcellation...
-   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
-   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
-Reading labels from parcellation...
-   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
-   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
-Reading labels from parcellation...
-   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
-   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
-Reading labels from parcellation...
-   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
-   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
-Reading labels from parcellation...
-   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
-   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
-Reading labels from parcellation...
-   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
-   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
-Reading labels from parcellation...
-   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
-   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
-Reading labels from parcellation...
-   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
-   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
-Reading labels from parcellation...
    read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
    read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
 Reading labels from parcellation...
@@ -625,11 +602,35 @@ Reading labels from parcellation...
    read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
    read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
 Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
    read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
    read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
 Reading labels from parcellation...
    read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
    read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
+Reading labels from parcellation...
+   read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
+   read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
 Reading labels from parcellation...
    read 1 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/lh.aparc.annot
    read 0 labels from /Volumes/UMK/oddball/subjects/sample_subject/label/rh.aparc.annot
@@ -915,9 +916,9 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="mne-repr-section-header general-1e0643c8-f52f-4176-930a-2a96748ae434"
+<tr class="mne-repr-section-header general-eb1fcae7-3846-4a5d-aedd-a3a8b20a8bed"
      title="Hide section"
-    onclick="toggleVisibility('general-1e0643c8-f52f-4176-930a-2a96748ae434')">
+    onclick="toggleVisibility('general-eb1fcae7-3846-4a5d-aedd-a3a8b20a8bed')">
     <th class="mne-repr-section-toggle">
         <button >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
@@ -929,26 +930,26 @@ this file apply (plus whatever default styling the IDE applies).
 </tr>
 
 
-<tr class="repr-element general-1e0643c8-f52f-4176-930a-2a96748ae434 ">
+<tr class="repr-element general-eb1fcae7-3846-4a5d-aedd-a3a8b20a8bed ">
     <td class="mne-repr-section-toggle"></td>
     <td>MNE object type</td>
     <td>EpochsArray</td>
 </tr>
-<tr class="repr-element general-1e0643c8-f52f-4176-930a-2a96748ae434 ">
+<tr class="repr-element general-eb1fcae7-3846-4a5d-aedd-a3a8b20a8bed ">
     <td class="mne-repr-section-toggle"></td>
     <td>Measurement date</td>
 
     <td>2018-10-31 at 11:19:57 UTC</td>
 
 </tr>
-<tr class="repr-element general-1e0643c8-f52f-4176-930a-2a96748ae434 ">
+<tr class="repr-element general-eb1fcae7-3846-4a5d-aedd-a3a8b20a8bed ">
     <td class="mne-repr-section-toggle"></td>
     <td>Participant</td>
 
     <td>Unknown</td>
 
 </tr>
-<tr class="repr-element general-1e0643c8-f52f-4176-930a-2a96748ae434 ">
+<tr class="repr-element general-eb1fcae7-3846-4a5d-aedd-a3a8b20a8bed ">
     <td class="mne-repr-section-toggle"></td>
     <td>Experimenter</td>
 
@@ -963,9 +964,9 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="mne-repr-section-header acquisition-f3e57612-8a67-46e1-ad07-80ff75dc6cc9"
+<tr class="mne-repr-section-header acquisition-8eb6c37c-bbc2-45c0-9ceb-a7e53ca23ede"
      title="Hide section"
-    onclick="toggleVisibility('acquisition-f3e57612-8a67-46e1-ad07-80ff75dc6cc9')">
+    onclick="toggleVisibility('acquisition-8eb6c37c-bbc2-45c0-9ceb-a7e53ca23ede')">
     <th class="mne-repr-section-toggle">
         <button >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
@@ -980,14 +981,14 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="repr-element acquisition-f3e57612-8a67-46e1-ad07-80ff75dc6cc9 ">
+<tr class="repr-element acquisition-8eb6c37c-bbc2-45c0-9ceb-a7e53ca23ede ">
     <td class="mne-repr-section-toggle"></td>
     <td>Total number of events</td>
     <td>100</td>
 </tr>
 
 
-<tr class="repr-element acquisition-f3e57612-8a67-46e1-ad07-80ff75dc6cc9 ">
+<tr class="repr-element acquisition-8eb6c37c-bbc2-45c0-9ceb-a7e53ca23ede ">
     <td class="mne-repr-section-toggle"></td>
     <td>Events counts</td>
 
@@ -1001,35 +1002,35 @@ this file apply (plus whatever default styling the IDE applies).
 </tr>
 
 
-<tr class="repr-element acquisition-f3e57612-8a67-46e1-ad07-80ff75dc6cc9 ">
+<tr class="repr-element acquisition-8eb6c37c-bbc2-45c0-9ceb-a7e53ca23ede ">
     <td class="mne-repr-section-toggle"></td>
     <td>Time range</td>
     <td>-0.199 – 0.246 s</td>
 </tr>
 
 
-<tr class="repr-element acquisition-f3e57612-8a67-46e1-ad07-80ff75dc6cc9 ">
+<tr class="repr-element acquisition-8eb6c37c-bbc2-45c0-9ceb-a7e53ca23ede ">
     <td class="mne-repr-section-toggle"></td>
     <td>Baseline</td>
     <td>off</td>
 </tr>
 
 
-<tr class="repr-element acquisition-f3e57612-8a67-46e1-ad07-80ff75dc6cc9 ">
+<tr class="repr-element acquisition-8eb6c37c-bbc2-45c0-9ceb-a7e53ca23ede ">
     <td class="mne-repr-section-toggle"></td>
     <td>Sampling frequency</td>
     <td>256.00 Hz</td>
 </tr>
 
 
-<tr class="repr-element acquisition-f3e57612-8a67-46e1-ad07-80ff75dc6cc9 ">
+<tr class="repr-element acquisition-8eb6c37c-bbc2-45c0-9ceb-a7e53ca23ede ">
     <td class="mne-repr-section-toggle"></td>
     <td>Time points</td>
     <td>115</td>
 </tr>
 
 
-<tr class="repr-element acquisition-f3e57612-8a67-46e1-ad07-80ff75dc6cc9 ">
+<tr class="repr-element acquisition-8eb6c37c-bbc2-45c0-9ceb-a7e53ca23ede ">
     <td class="mne-repr-section-toggle"></td>
     <td>Metadata</td>
     <td>No metadata set</td>
@@ -1043,9 +1044,9 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="mne-repr-section-header channels-86c81198-f39f-489d-a62d-d2b49dae6076"
+<tr class="mne-repr-section-header channels-9c09784e-8545-4562-8d9b-617271de8e1f"
      title="Hide section"
-    onclick="toggleVisibility('channels-86c81198-f39f-489d-a62d-d2b49dae6076')">
+    onclick="toggleVisibility('channels-9c09784e-8545-4562-8d9b-617271de8e1f')">
     <th class="mne-repr-section-toggle">
         <button >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
@@ -1058,7 +1059,7 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="repr-element channels-86c81198-f39f-489d-a62d-d2b49dae6076 ">
+<tr class="repr-element channels-9c09784e-8545-4562-8d9b-617271de8e1f ">
     <td class="mne-repr-section-toggle"></td>
     <td>EEG</td>
     <td>
@@ -1071,7 +1072,7 @@ this file apply (plus whatever default styling the IDE applies).
 </tr>
 
 
-<tr class="repr-element channels-86c81198-f39f-489d-a62d-d2b49dae6076 ">
+<tr class="repr-element channels-9c09784e-8545-4562-8d9b-617271de8e1f ">
     <td class="mne-repr-section-toggle"></td>
     <td>Head & sensor digitization</td>
 
@@ -1086,9 +1087,9 @@ this file apply (plus whatever default styling the IDE applies).
 
 
 
-<tr class="mne-repr-section-header filters-db934792-ced1-4e92-9eca-a2acebe4df01"
+<tr class="mne-repr-section-header filters-8dae7320-6235-4748-a491-76f90f749bdf"
      title="Hide section"
-    onclick="toggleVisibility('filters-db934792-ced1-4e92-9eca-a2acebe4df01')">
+    onclick="toggleVisibility('filters-8dae7320-6235-4748-a491-76f90f749bdf')">
     <th class="mne-repr-section-toggle">
         <button >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
@@ -1100,21 +1101,21 @@ this file apply (plus whatever default styling the IDE applies).
 </tr>
 
 
-<tr class="repr-element filters-db934792-ced1-4e92-9eca-a2acebe4df01 ">
+<tr class="repr-element filters-8dae7320-6235-4748-a491-76f90f749bdf ">
     <td class="mne-repr-section-toggle"></td>
     <td>Highpass</td>
     <td>1.00 Hz</td>
 </tr>
 
 
-<tr class="repr-element filters-db934792-ced1-4e92-9eca-a2acebe4df01 ">
+<tr class="repr-element filters-8dae7320-6235-4748-a491-76f90f749bdf ">
     <td class="mne-repr-section-toggle"></td>
     <td>Lowpass</td>
     <td>40.00 Hz</td>
 </tr>
 
 
-<tr class="repr-element filters-db934792-ced1-4e92-9eca-a2acebe4df01 ">
+<tr class="repr-element filters-8dae7320-6235-4748-a491-76f90f749bdf ">
     <td class="mne-repr-section-toggle"></td>
     <td>Projections</td>
     <td>
@@ -1286,36 +1287,41 @@ Number of samples used : 3900
 <span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
 
 [Activity Index Result]
-  Selected indices (index_max): [1913, 2178, 1248, 2783, 3290]
-  Index max values: [3.847179   4.40560165 4.56822079 4.71270861 4.83707129]
+  Selected indices (greedy discovery order): [1820, 1950, 297, 2743, 4119]
+  Selected indices (sorted, matches H_res columns): [297, 1820, 1950, 2743, 4119]
+  Index max values (sorted to match H_res/sorted_sources): [2.15484631 1.54649636 2.09075032 2.20355548 2.24540943]
   Rank parameter (r): 1
 
 <span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
 
 [Activity Index Result]
-  Selected indices (index_max): [1913, 2178, 2783, 3290, 4359]
-  Index max values: [3.847179   4.74318399 5.28592942 5.5143203  5.78097535]
+  Selected indices (greedy discovery order): [1820, 1950, 3611, 1778, 4119]
+  Selected indices (sorted, matches H_res columns): [1778, 1820, 1950, 3611, 4119]
+  Index max values (sorted to match H_res/sorted_sources): [3.21625849 1.54649636 2.34397843 2.89908546 3.31421386]
   Rank parameter (r): 2
 
 <span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
 
 [Activity Index Result]
-  Selected indices (index_max): [1913, 2178, 2783, 27, 3290]
-  Index max values: [3.847179   4.74318399 5.53240386 6.07573153 6.36922522]
+  Selected indices (greedy discovery order): [1820, 1950, 3611, 2582, 1778]
+  Selected indices (sorted, matches H_res columns): [1778, 1820, 1950, 2582, 3611]
+  Index max values (sorted to match H_res/sorted_sources): [4.04003524 1.54649636 2.34397843 3.68330679 3.13646342]
   Rank parameter (r): 3
 
 <span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
 
 [Activity Index Result]
-  Selected indices (index_max): [1913, 2178, 2783, 27, 4530]
-  Index max values: [3.847179   4.74318399 5.53240386 6.29491264 6.84870992]
+  Selected indices (greedy discovery order): [1820, 1950, 3611, 2582, 35]
+  Selected indices (sorted, matches H_res columns): [35, 1820, 1950, 2582, 3611]
+  Index max values (sorted to match H_res/sorted_sources): [4.45509755 1.54649636 2.34397843 3.9193873  3.13646342]
   Rank parameter (r): 4
 
 <span class="ansi-cyan-fg">Calculating activity index for localizer: mai_mvp</span>
 
 [Activity Index Result]
-  Selected indices (index_max): [1913, 2178, 2783, 27, 4530]
-  Index max values: [3.847179   4.74318399 5.53240386 6.29491264 7.04857874]
+  Selected indices (greedy discovery order): [1820, 1950, 3611, 2582, 35]
+  Selected indices (sorted, matches H_res columns): [35, 1820, 1950, 2582, 3611]
+  Index max values (sorted to match H_res/sorted_sources): [4.68798004 1.54649636 2.34397843 3.9193873  3.13646342]
   Rank parameter (r): 5
 </pre></div></div>
 </div>
@@ -1345,7 +1351,7 @@ Number of samples used : 3900
     <span class="n">lcmv_n_correctly_localized</span><span class="p">,</span>
     <span class="n">lcmv_error_info</span>
 <span class="p">)</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">compare_with_strongest_sources_lcmv</span><span class="p">(</span>
-    <span class="n">signal</span><span class="o">=</span><span class="n">sim_evoked</span><span class="p">,</span>
+    <span class="n">signal</span><span class="o">=</span><span class="n">signal_sim</span><span class="p">,</span>
     <span class="n">n_sources</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">labels_to_use_poststimuli</span><span class="p">)</span><span class="o">*</span><span class="n">N_VERTICES_PER_ACTIVITY_LABEL</span><span class="p">,</span>
     <span class="n">true_vertices</span><span class="o">=</span><span class="n">poststimuli_vertices</span><span class="p">,</span>
     <span class="n">forward</span><span class="o">=</span><span class="n">fwd</span><span class="p">,</span>
@@ -1363,11 +1369,11 @@ Number of samples used : 3900
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Computing rank from covariance with rank=None
-    Using tolerance 6e-13 (2.2e-16 eps * 128 dim * 21  max singular value)
+    Using tolerance 4.7e-13 (2.2e-16 eps * 128 dim * 16  max singular value)
     Estimated rank (eeg): 127
     EEG: rank 127 computed from 128 data channels with 1 projector
 Computing rank from covariance with rank=None
-    Using tolerance 3.3e-13 (2.2e-16 eps * 128 dim * 11  max singular value)
+    Using tolerance 2.8e-13 (2.2e-16 eps * 128 dim * 10  max singular value)
     Estimated rank (eeg): 127
     EEG: rank 127 computed from 128 data channels with 1 projector
 Making LCMV beamformer with rank {&#39;eeg&#39;: 127}
@@ -1398,8 +1404,8 @@ Filter computation complete
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Number of correctly localized sources using LCMV-NAI: 1
-Mean distance error using LCMV-NAI: 58.1 mm
+Number of correctly localized sources using LCMV-NAI: 2
+Mean distance error using LCMV-NAI: 39.36 mm
 </pre></div></div>
 </div>
 <p>This tutorial has shown a complete pipeline for:</p>
@@ -1433,6 +1439,15 @@ Mean distance error using LCMV-NAI: 58.1 mm
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">Source localization and signal reconstruction - case study for oddball data</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="simulating_and_localizing_multi_source_eeg_activity_multiple_runs.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Simulating and Localizing Multi-Source EEG Activity — Multiple Runs</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>

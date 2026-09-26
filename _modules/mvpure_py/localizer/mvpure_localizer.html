@@ -495,23 +495,23 @@
             <span class="n">rh_vertices</span><span class="o">=</span><span class="n">rh_vert</span><span class="p">,</span>
             <span class="n">rh_indices</span><span class="o">=</span><span class="n">rh_idx</span>
         <span class="p">)</span>
-        <span class="k">for</span> <span class="n">vert</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">]:</span>
-            <span class="k">if</span> <span class="n">vert</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">localized_vertices</span><span class="p">:</span>
-                <span class="n">localized_vertices</span><span class="p">[</span><span class="n">vert</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;hemi&quot;</span><span class="p">:</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert</span><span class="p">][</span><span class="s2">&quot;hemi&quot;</span><span class="p">],</span>
-                    <span class="s2">&quot;lf_idx&quot;</span><span class="p">:</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert</span><span class="p">][</span><span class="s2">&quot;lf_idx&quot;</span><span class="p">],</span>
+        <span class="k">for</span> <span class="n">vert_tuple</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">vert_tuple</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">localized_vertices</span><span class="p">:</span>
+                <span class="n">localized_vertices</span><span class="p">[</span><span class="n">vert_tuple</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;hemi&quot;</span><span class="p">:</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert_tuple</span><span class="p">][</span><span class="s2">&quot;hemi&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;lf_idx&quot;</span><span class="p">:</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert_tuple</span><span class="p">][</span><span class="s2">&quot;lf_idx&quot;</span><span class="p">],</span>
                     <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="mi">1</span>
                 <span class="p">}</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">localized_vertices</span><span class="p">[</span><span class="n">vert</span><span class="p">][</span><span class="s2">&quot;count&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">localized_vertices</span><span class="p">[</span><span class="n">vert_tuple</span><span class="p">][</span><span class="s2">&quot;count&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="c1"># Group localized vertices by number of occurrences</span>
     <span class="n">grouped_vertices</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">vert</span> <span class="ow">in</span> <span class="n">localized_vertices</span><span class="p">:</span>
-        <span class="n">curr_count</span> <span class="o">=</span> <span class="n">localized_vertices</span><span class="p">[</span><span class="n">vert</span><span class="p">][</span><span class="s1">&#39;count&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">vert_tuple</span> <span class="ow">in</span> <span class="n">localized_vertices</span><span class="p">:</span>
+        <span class="n">curr_count</span> <span class="o">=</span> <span class="n">localized_vertices</span><span class="p">[</span><span class="n">vert_tuple</span><span class="p">][</span><span class="s1">&#39;count&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">curr_count</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">grouped_vertices</span><span class="p">:</span>
             <span class="n">grouped_vertices</span><span class="p">[</span><span class="n">curr_count</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">grouped_vertices</span><span class="p">[</span><span class="n">curr_count</span><span class="p">][</span><span class="n">vert</span><span class="p">]</span> <span class="o">=</span> <span class="n">localized_vertices</span><span class="p">[</span><span class="n">vert</span><span class="p">]</span>
+        <span class="n">grouped_vertices</span><span class="p">[</span><span class="n">curr_count</span><span class="p">][</span><span class="n">vert_tuple</span><span class="p">]</span> <span class="o">=</span> <span class="n">localized_vertices</span><span class="p">[</span><span class="n">vert_tuple</span><span class="p">]</span>
     <span class="n">grouped_vertices</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">grouped_vertices</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 
     <span class="n">to_include</span> <span class="o">=</span> <span class="p">{</span>
@@ -520,18 +520,18 @@
         <span class="k">if</span> <span class="n">curr_k</span> <span class="o">&gt;=</span> <span class="mi">1</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">items</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
     <span class="p">}</span>
-    <span class="n">lh_vertices</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">lh_vertices_tuple</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">to_include</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">value</span><span class="p">[</span><span class="s1">&#39;hemi&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;lh&quot;</span>
     <span class="p">]</span>
 
-    <span class="n">rh_vertices</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">rh_vertices_tuple</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">to_include</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">value</span><span class="p">[</span><span class="s1">&#39;hemi&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;rh&quot;</span>
     <span class="p">]</span>
 
     <span class="n">lf_idx</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">transform_vertices_to_leadfield_indices</span><span class="p">(</span>
-        <span class="n">vertices</span><span class="o">=</span><span class="p">[</span><span class="n">lh_vertices</span><span class="p">,</span> <span class="n">rh_vertices</span><span class="p">],</span>
+        <span class="n">vertices</span><span class="o">=</span><span class="p">[[</span><span class="n">lh_vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">lh_vertices</span> <span class="ow">in</span> <span class="n">lh_vertices_tuple</span><span class="p">],</span> <span class="p">[</span><span class="n">rh_vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">rh_vertices</span> <span class="ow">in</span> <span class="n">rh_vertices_tuple</span><span class="p">]],</span>
         <span class="n">hemi</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
         <span class="n">src</span><span class="o">=</span><span class="n">forward</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">]</span>
     <span class="p">))</span>
@@ -628,7 +628,7 @@
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            self[&#39;vertices&#39;] = dict(</span>
-<span class="sd">                {vertex_number}: dict(</span>
+<span class="sd">                {hemi, vertex_number}: dict(</span>
 <span class="sd">                    &#39;hemi&#39;: &#39;lh&#39; | &#39;rh&#39;,</span>
 <span class="sd">                    &#39;lf_idx&#39;: {lf_idx},</span>
 <span class="sd">                    &#39;activity_index_order&#39;: {activity_index_order},</span>
@@ -659,8 +659,9 @@
         <span class="k">if</span> <span class="n">lh_vertices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">lh_vertices_to_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">lh_vertices</span><span class="p">))</span>
             <span class="k">for</span> <span class="n">lf_vert</span><span class="p">,</span> <span class="n">lf_indx</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lh_vertices</span><span class="p">,</span> <span class="n">lh_indices</span><span class="p">):</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;lh&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">lf_vert</span><span class="p">))</span>
                 <span class="k">if</span> <span class="s1">&#39;activity_index_order&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;vertices&quot;</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="n">lf_vert</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;vertices&quot;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
                         <span class="s2">&quot;hemi&quot;</span><span class="p">:</span> <span class="s2">&quot;lh&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;lf_idx&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">lf_indx</span><span class="p">),</span>
                         <span class="s2">&quot;activity_index_order&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;activity_index_order&#39;</span><span class="p">][</span><span class="n">lf_indx</span><span class="p">][</span><span class="s2">&quot;activity_index_order&quot;</span><span class="p">],</span>
@@ -670,7 +671,7 @@
                         <span class="p">)</span>
                     <span class="p">}</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;vertices&quot;</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="n">lf_vert</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;vertices&quot;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
                         <span class="s2">&quot;hemi&quot;</span><span class="p">:</span> <span class="s2">&quot;lh&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;lf_idx&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">lf_indx</span><span class="p">)</span>
                     <span class="p">}</span>
@@ -682,8 +683,9 @@
         <span class="k">if</span> <span class="n">rh_vertices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">rh_vertices_to_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">rh_vertices</span><span class="p">))</span>
             <span class="k">for</span> <span class="n">rh_vert</span><span class="p">,</span> <span class="n">rh_indx</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">rh_vertices</span><span class="p">,</span> <span class="n">rh_indices</span><span class="p">):</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;rh&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">rh_vert</span><span class="p">))</span>
                 <span class="k">if</span> <span class="s1">&#39;activity_index_order&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;vertices&quot;</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="n">rh_vert</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;vertices&quot;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
                         <span class="s2">&quot;hemi&quot;</span><span class="p">:</span> <span class="s2">&quot;rh&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;lf_idx&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">rh_indx</span><span class="p">),</span>
                         <span class="s2">&quot;activity_index_order&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;activity_index_order&#39;</span><span class="p">][</span><span class="n">rh_indx</span><span class="p">][</span><span class="s2">&quot;activity_index_order&quot;</span><span class="p">],</span>
@@ -693,7 +695,7 @@
                         <span class="p">)</span>
                     <span class="p">}</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;vertices&quot;</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="n">rh_vert</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;vertices&quot;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
                         <span class="s2">&quot;hemi&quot;</span><span class="p">:</span> <span class="s2">&quot;rh&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;lf_idx&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">rh_indx</span><span class="p">)</span>
                     <span class="p">}</span>
@@ -751,9 +753,9 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;This operation can be only performed if &#39;vertices&#39; has been added to Localize subject.&quot;</span>
                              <span class="s2">&quot;Use mvpure_py.localizer.Localize.add_vertices_info() first.&quot;</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">vertex</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">hemi</span><span class="p">,</span> <span class="n">vertex</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_assign_brain_region_to_vertex</span><span class="p">(</span><span class="n">vertex</span><span class="p">,</span>
-                                                <span class="n">hemi</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vertex</span><span class="p">][</span><span class="s1">&#39;hemi&#39;</span><span class="p">],</span>
+                                                <span class="n">hemi</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][(</span><span class="n">hemi</span><span class="p">,</span> <span class="n">vertex</span><span class="p">)][</span><span class="s1">&#39;hemi&#39;</span><span class="p">],</span>
                                                 <span class="n">sub_for_parc</span><span class="o">=</span><span class="n">sub_for_parc</span><span class="p">,</span>
                                                 <span class="n">parc</span><span class="o">=</span><span class="n">parc</span><span class="p">)</span>
         <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;parc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parc</span></div>
@@ -804,7 +806,7 @@
         <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">hemi</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">vertex</span> <span class="ow">in</span> <span class="n">label</span><span class="o">.</span><span class="n">vertices</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vertex</span><span class="p">][</span><span class="s1">&#39;brain_region&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">name</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][(</span><span class="n">hemi</span><span class="p">,</span> <span class="n">vertex</span><span class="p">)][</span><span class="s1">&#39;brain_region&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">name</span>
 
 <div class="viewcode-block" id="Localized.plot_sources_power">
 <a class="viewcode-back" href="../../../mvpure_py.localizer.html#mvpure_py.localizer.mvpure_localizer.Localized.plot_sources_power">[docs]</a>
@@ -866,10 +868,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">sorted_vertices</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">]</span>
 
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">vert</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sorted_vertices</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">vert_tuple</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sorted_vertices</span><span class="p">):</span>
             <span class="c1"># Add color mapping</span>
             <span class="k">if</span> <span class="n">color_mapping</span><span class="p">:</span>
-                <span class="k">if</span> <span class="s1">&#39;activity_index_order&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s1">&#39;activity_index_order&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert_tuple</span><span class="p">]:</span>
                     <span class="n">_norm_factor</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">sorted_vertices</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">_norm_factor</span> <span class="o">=</span> <span class="mf">1.0</span>
@@ -880,7 +882,7 @@
 
             <span class="c1"># Add scale factor mapping</span>
             <span class="k">if</span> <span class="n">scale_mapping</span><span class="p">:</span>
-                <span class="k">if</span> <span class="s1">&#39;activity_index_order&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s1">&#39;activity_index_order&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert_tuple</span><span class="p">]:</span>
                     <span class="n">_scale_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">scale_factor</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">sorted_vertices</span><span class="p">))[</span><span class="n">i</span><span class="p">]</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">_scale_factor</span> <span class="o">=</span> <span class="mf">1.0</span>
@@ -889,9 +891,9 @@
                 <span class="n">_scale_factor</span> <span class="o">=</span> <span class="n">scale_factor</span>
 
             <span class="c1"># Plot</span>
-            <span class="n">brain</span><span class="o">.</span><span class="n">add_foci</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">vert</span><span class="p">,</span>
+            <span class="n">brain</span><span class="o">.</span><span class="n">add_foci</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">vert_tuple</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                            <span class="n">coords_as_verts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                           <span class="n">hemi</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert</span><span class="p">][</span><span class="s1">&#39;hemi&#39;</span><span class="p">],</span>
+                           <span class="n">hemi</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert_tuple</span><span class="p">][</span><span class="s1">&#39;hemi&#39;</span><span class="p">],</span>
                            <span class="n">color</span><span class="o">=</span><span class="n">_c</span><span class="p">,</span>
                            <span class="n">scale_factor</span><span class="o">=</span><span class="n">_scale_factor</span><span class="p">,</span>
                            <span class="o">**</span><span class="n">splitted_kwargs</span><span class="p">[</span><span class="s2">&quot;foci&quot;</span><span class="p">])</span>
@@ -921,13 +923,13 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">assign_brain_regions</span><span class="p">(</span><span class="n">parc</span><span class="p">)</span>
 
         <span class="n">region_ranking</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">vert</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">]:</span>
-            <span class="n">order</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert</span><span class="p">][</span><span class="s1">&#39;activity_index_order&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">vert_tuple</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">]:</span>
+            <span class="n">order</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert_tuple</span><span class="p">][</span><span class="s1">&#39;activity_index_order&#39;</span><span class="p">]</span>
             <span class="n">points</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">])</span> <span class="o">-</span> <span class="n">order</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert</span><span class="p">][</span><span class="s1">&#39;brain_region&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">region_ranking</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-                <span class="n">region_ranking</span><span class="p">[</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert</span><span class="p">][</span><span class="s1">&#39;brain_region&#39;</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">points</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert_tuple</span><span class="p">][</span><span class="s1">&#39;brain_region&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">region_ranking</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="n">region_ranking</span><span class="p">[</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert_tuple</span><span class="p">][</span><span class="s1">&#39;brain_region&#39;</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">points</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">region_ranking</span><span class="p">[</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert</span><span class="p">][</span><span class="s1">&#39;brain_region&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">points</span>
+                <span class="n">region_ranking</span><span class="p">[</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert_tuple</span><span class="p">][</span><span class="s1">&#39;brain_region&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">points</span>
 
         <span class="n">sorted_ranking</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">region_ranking</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
         <span class="n">max_points</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sorted_ranking</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
@@ -1012,19 +1014,19 @@
         <span class="n">unique_brain_regions</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;brain_region&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">reg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">unique_brain_regions</span><span class="p">):</span>
             <span class="n">_c</span> <span class="o">=</span> <span class="n">_assign_color_mapping</span><span class="p">(</span><span class="n">i</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_brain_regions</span><span class="p">),</span> <span class="n">cmap</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">vert</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">]):</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert</span><span class="p">][</span><span class="s1">&#39;brain_region&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">reg</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">vert_tuple</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">]):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert_tuple</span><span class="p">][</span><span class="s1">&#39;brain_region&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">reg</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">scale_mapping</span><span class="p">:</span>
                         <span class="n">_scale_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">scale_factor</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span>
                                                     <span class="n">num</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">]))[</span>
-                            <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert</span><span class="p">][</span><span class="s1">&#39;activity_index_order&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+                            <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert_tuple</span><span class="p">][</span><span class="s1">&#39;activity_index_order&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">_scale_factor</span> <span class="o">=</span> <span class="n">scale_factor</span>
 
                     <span class="c1"># Plot</span>
-                    <span class="n">brain</span><span class="o">.</span><span class="n">add_foci</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">vert</span><span class="p">,</span>
+                    <span class="n">brain</span><span class="o">.</span><span class="n">add_foci</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">vert_tuple</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                                    <span class="n">coords_as_verts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                   <span class="n">hemi</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert</span><span class="p">][</span><span class="s1">&#39;hemi&#39;</span><span class="p">],</span>
+                                   <span class="n">hemi</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;vertices&#39;</span><span class="p">][</span><span class="n">vert_tuple</span><span class="p">][</span><span class="s1">&#39;hemi&#39;</span><span class="p">],</span>
                                    <span class="n">color</span><span class="o">=</span><span class="n">_c</span><span class="p">,</span>
                                    <span class="n">scale_factor</span><span class="o">=</span><span class="n">_scale_factor</span><span class="p">,</span>
                                    <span class="o">**</span><span class="n">splitted_kwargs</span><span class="p">[</span><span class="s2">&quot;foci&quot;</span><span class="p">])</span>
