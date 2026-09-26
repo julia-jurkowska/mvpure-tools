@@ -193,21 +193,65 @@ def _subset_forward_by_localized(old_fwd: mne.Forward, localized, #: mvpure_py.L
     mne.Forward: subset of mne.Forward for localized vertices identified from mvpure_py.Localized
 
     """
-    # create a copy of old_fwd as a draft for new one
-    new_fwd = old_fwd.copy()
-    new_fwd['nsource'] = localized['nsource']
-    new_fwd['sol']['ncol'] = localized['nsource']
-    new_fwd['sol']['data'] = localized['leadfield']
-    new_fwd['source_rr'] = old_fwd['source_rr'][list(localized['sources']), :]
-    new_fwd['source_nn'] = old_fwd['source_nn'][list(localized['sources']), :]
+    # Translate leadfield (column) indices of localized sources into vertex numbers, split by hemisphere
+    lh_vertices, lh_lf_idx, rh_vertices, rh_lf_idx = transform_leadfield_indices_to_vertices(
+        localized['sources'],
+        old_fwd['src'],
+        hemi="both",
+        include_mapping=True
+    )
 
-    # transform source ordinal number (leadfield index) to vertice number
-    trans_sources = transform_leadfield_indices_to_vertices(localized['sources'],
-                                                            old_fwd['src'],
-                                                            hemi=hemi,
-                                                            include_mapping=False)
-    new_fwd['src'] = _subset_src(old_fwd['src'], trans_sources, hemi)
+    lh_vertices = np.array(sorted(lh_vertices), dtype=int)
+    rh_vertices = np.array(sorted(rh_vertices), dtype=int)
 
+    if hemi == "lh":
+        rh_vertices = np.array([], dtype=int)
+    elif hemi == "rh":
+        lh_vertices = np.array([], dtype=int)
+    elif hemi != "both":
+        raise ValueError(
+            f"Possible options for 'hemi' parameter are: 'lh', 'rh', 'both'. Got {hemi} instead."
+        )
+
+    n_sources = len(lh_vertices) + len(rh_vertices)
+    if n_sources == 0:
+        raise ValueError("No vertices found for the requested hemisphere(s) in `localized`.")
+
+    # Dummy STC for proper vertex selection
+    stc = mne.SourceEstimate(
+        data=np.zeros((n_sources, 1)),
+        vertices=[lh_vertices, rh_vertices],
+        tmin=0.0,
+        tstep=1.0,
+        subject=old_fwd['src'][0].get('subject_his_id', None),
+    )
+
+    new_fwd = mne.forward.restrict_forward_to_stc(old_fwd, stc)
+
+    custom_leadfield = np.asarray(localized['leadfield'])
+    if custom_leadfield.shape[1] != new_fwd['sol']['data'].shape[1]:
+        raise ValueError(
+            f"localized['leadfield'] has {custom_leadfield.shape[1]} columns, "
+            f"but the restricted forward has {new_fwd['sol']['data'].shape[1]} sources. "
+            "Check that 'localized' and 'hemi' refer to the same vertex set."
+        )
+
+    new_lh_vertno = new_fwd['src'][0]['vertno']
+    new_rh_vertno = new_fwd['src'][1]['vertno']
+    new_order_verts = np.concatenate([new_lh_vertno, new_rh_vertno])
+
+    old_order_verts = np.concatenate([lh_vertices, rh_vertices])
+    # position of each new-order vertex within the original (localized) ordering
+    old_pos = {v: i for i, v in enumerate(old_order_verts)}
+    try:
+        remap = np.array([old_pos[v] for v in new_order_verts])
+    except KeyError as e:
+        raise ValueError(
+            f"Vertex {e} present after restriction but not found in localized sources; "
+            "leadfield cannot be reliably remapped."
+        )
+
+    new_fwd['sol']['data'] = custom_leadfield[:, remap]
     return new_fwd
 
 
@@ -229,84 +273,42 @@ def _subset_forward_by_vertices(old_fwd: mne.Forward, vertices: list[list[int]],
     mne.Forward: subset of mne.Forward for given vertices
 
     """
-    new_fwd = old_fwd.copy()
+    # new_fwd = old_fwd.copy()
     src = old_fwd["src"]
 
     # Vertices should be stored as list in a form [[left vertices], [right vertices]]
     if isinstance(vertices, (list, tuple)) and len(vertices) == 2:
-        lh_vertices = np.array(vertices[0], dtype=int)
-        rh_vertices = np.array(vertices[1], dtype=int)
+        lh_vertices = np.array(sorted(vertices[0]), dtype=int)
+        rh_vertices = np.array(sorted(vertices[1]), dtype=int)
     else:
-        vertices = np.array(vertices, dtype=int)
-
+        flat = np.array(vertices, dtype=int)
         if hemi == "lh":
-            lh_vertices = vertices
+            lh_vertices = np.array(sorted(flat), dtype=int)
             rh_vertices = np.array([], dtype=int)
         elif hemi == "rh":
             lh_vertices = np.array([], dtype=int)
-            rh_vertices = vertices
+            rh_vertices = np.array(sorted(flat), dtype=int)
         else:
             raise ValueError(
                 "Flat vertex list requires specifying hemi='lh' or 'rh'"
             )
 
-    vertices_mne = [lh_vertices, rh_vertices]
-    # create a copy of old_fwd as a draft for new one
-    lf_idx = transform_vertices_to_leadfield_indices(vertices, old_fwd['src'], hemi="both")
-    new_fwd["sol"]["data"] = old_fwd["sol"]["data"][:, lf_idx]
-    new_fwd["sol"]["ncol"] = len(lf_idx)
-    new_fwd["nsource"] = len(lf_idx)
+    if lh_vertices.size + rh_vertices.size == 0:
+        raise ValueError("No vertices provided to subset the forward with.")
 
-    new_fwd["source_rr"] = old_fwd["source_rr"][lf_idx]
-    new_fwd["source_nn"] = old_fwd["source_nn"][lf_idx]
+    # Build dummy STC for proper vertex selection
+    n_verts = lh_vertices.size + rh_vertices.size
+    stc = mne.SourceEstimate(
+        data=np.zeros((n_verts, 1)),
+        vertices=[lh_vertices, rh_vertices],
+        tmin=0.0,
+        tstep=1.0,
+        subject=src[0].get('subject_his_id', None),
+    )
 
-    new_fwd["src"] = _subset_src(src, vertices_mne, hemi="both")
+    new_fwd = mne.forward.restrict_forward_to_stc(old_fwd, stc)
 
     return new_fwd
-
-
-def _subset_src(old_src: mne.SourceSpaces,
-                vertices: list[int] | list[list[int]],
-                hemi: str) -> mne.SourceSpaces:
-    """
-    Subset mne.SourceSpaces for it to contain information only for certain vertices' numbers.
-    Parameters:
-    -----------
-    old_src: mne.SourceSpaces
-        source space to get subset from
-    vertices: list[int] | list[list[int]]
-        vertices to be included in subset of mne.SourceSpaces
-        If hemi == 'both' ```vertices``` should be list containing two lists with integers.
-        If hemi == 'lh' or hemi == 'rh' ```vertices``` should be a list of integers.
-    hemi: str (Options: 'both', 'rh', 'lh')
-        hemispheres from which vertices are.
-
-    Returns:
-    -----------
-    mne.SourceSpaces: subset of mne.SourceSpaces for given vertices
-    """
-    # check correctness of 'hemi' parameter and its consistence to 'vertices' parameter
-    _check_hemi_param(hemi)
-    _check_hemi_and_vertices_matching(hemi, vertices)
-    # create a copy of old_src as a draft for new one
-    new_src = old_src.copy()
-    # iterate through hemispheres
-    if hemi == "lh":
-        vertices = [vertices, []]
-    elif hemi == "rh":
-        vertices = [[], vertices]
-    elif hemi == "both":
-        vertices = vertices  # already [lh, rh]
-
-    for i in (0, 1):
-        vertno = old_src[i]['vertno']
-        use_mask = np.isin(vertno, vertices[i])
-
-        new_src[i]['inuse'] = use_mask.astype(int)
-        new_src[i]['vertno'] = vertno[use_mask]
-        new_src[i]['nuse'] = int(use_mask.sum())
-
-    return new_src
 
 
 def vertices_to_coordinates(vertices: list[list[int]],
@@ -389,7 +391,7 @@ def _map_vertices_to_fsaverage_for_hemi(locs, hemi: str, surf: str):
 
     """
     # Read vertices from mvpure_py.Localized object (only for given hemi)
-    vert = [vert for vert in list(locs['vertices'].keys()) if locs['vertices'][vert]['hemi'] == hemi]
+    vert = [vert[1] for vert in list(locs['vertices'].keys()) if locs['vertices'][vert]['hemi'] == hemi]
     # If there are no vertices for given hemisphere - return None
     if len(vert) == 0:
         return None

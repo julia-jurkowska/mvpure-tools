@@ -226,23 +226,23 @@ def _localize_with_list_of_ranks(
             rh_vertices=rh_vert,
             rh_indices=rh_idx
         )
-        for vert in temp['vertices']:
-            if vert not in localized_vertices:
-                localized_vertices[vert] = {
-                    "hemi": temp['vertices'][vert]["hemi"],
-                    "lf_idx": temp['vertices'][vert]["lf_idx"],
+        for vert_tuple in temp['vertices']:
+            if vert_tuple not in localized_vertices:
+                localized_vertices[vert_tuple] = {
+                    "hemi": temp['vertices'][vert_tuple]["hemi"],
+                    "lf_idx": temp['vertices'][vert_tuple]["lf_idx"],
                     "count": 1
                 }
             else:
-                localized_vertices[vert]["count"] += 1
+                localized_vertices[vert_tuple]["count"] += 1
 
     # Group localized vertices by number of occurrences
     grouped_vertices = {}
-    for vert in localized_vertices:
-        curr_count = localized_vertices[vert]['count']
+    for vert_tuple in localized_vertices:
+        curr_count = localized_vertices[vert_tuple]['count']
         if curr_count not in grouped_vertices:
             grouped_vertices[curr_count] = {}
-        grouped_vertices[curr_count][vert] = localized_vertices[vert]
+        grouped_vertices[curr_count][vert_tuple] = localized_vertices[vert_tuple]
     grouped_vertices = dict(sorted(grouped_vertices.items(), key=lambda item: item[0]))
 
     to_include = {
@@ -251,18 +251,18 @@ def _localize_with_list_of_ranks(
         if curr_k >= 1
         for key, value in items.items()
     }
-    lh_vertices = [
+    lh_vertices_tuple = [
         key for key, value in to_include.items()
         if value['hemi'] == "lh"
     ]
 
-    rh_vertices = [
+    rh_vertices_tuple = [
         key for key, value in to_include.items()
         if value['hemi'] == "rh"
     ]
 
     lf_idx = sorted(transform_vertices_to_leadfield_indices(
-        vertices=[lh_vertices, rh_vertices],
+        vertices=[[lh_vertices[1] for lh_vertices in lh_vertices_tuple], [rh_vertices[1] for rh_vertices in rh_vertices_tuple]],
         hemi="both",
         src=forward['src']
     ))
@@ -352,7 +352,7 @@ class Localized(dict):
         .. code-block:: python
 
             self['vertices'] = dict(
-                {vertex_number}: dict(
+                {hemi, vertex_number}: dict(
                     'hemi': 'lh' | 'rh',
                     'lf_idx': {lf_idx},
                     'activity_index_order': {activity_index_order},
@@ -383,8 +383,9 @@ class Localized(dict):
         if lh_vertices is not None:
             lh_vertices_to_list = list(np.sort(lh_vertices))
             for lf_vert, lf_indx in zip(lh_vertices, lh_indices):
+                key = ("lh", int(lf_vert))
                 if 'activity_index_order' in self:
-                    self["vertices"][int(lf_vert)] = {
+                    self["vertices"][key] = {
                         "hemi": "lh",
                         "lf_idx": int(lf_indx),
                         "activity_index_order": self['activity_index_order'][lf_indx]["activity_index_order"],
@@ -394,7 +395,7 @@ class Localized(dict):
                         )
                     }
                 else:
-                    self["vertices"][int(lf_vert)] = {
+                    self["vertices"][key] = {
                         "hemi": "lh",
                         "lf_idx": int(lf_indx)
                     }
@@ -406,8 +407,9 @@ class Localized(dict):
         if rh_vertices is not None:
             rh_vertices_to_list = list(np.sort(rh_vertices))
             for rh_vert, rh_indx in zip(rh_vertices, rh_indices):
+                key = ("rh", int(rh_vert))
                 if 'activity_index_order' in self:
-                    self["vertices"][int(rh_vert)] = {
+                    self["vertices"][key] = {
                         "hemi": "rh",
                         "lf_idx": int(rh_indx),
                         "activity_index_order": self['activity_index_order'][rh_indx]["activity_index_order"],
@@ -417,7 +419,7 @@ class Localized(dict):
                         )
                     }
                 else:
-                    self["vertices"][int(rh_vert)] = {
+                    self["vertices"][key] = {
                         "hemi": "rh",
                         "lf_idx": int(rh_indx)
                     }
@@ -469,9 +471,9 @@ class Localized(dict):
             raise ValueError("This operation can be only performed if 'vertices' has been added to Localize subject."
                              "Use mvpure_py.localizer.Localize.add_vertices_info() first.")
 
-        for vertex in self['vertices']:
+        for (hemi, vertex) in self['vertices']:
             self._assign_brain_region_to_vertex(vertex,
-                                                hemi=self['vertices'][vertex]['hemi'],
+                                                hemi=self['vertices'][(hemi, vertex)]['hemi'],
                                                 sub_for_parc=sub_for_parc,
                                                 parc=parc)
         self["parc"] = parc
@@ -521,7 +523,7 @@ class Localized(dict):
         for label in labels:
             if label.name.split('-')[-1] == hemi:
                 if vertex in label.vertices:
-                    self['vertices'][vertex]['brain_region'] = label.name
+                    self['vertices'][(hemi, vertex)]['brain_region'] = label.name
 
     def plot_sources_power(self,
                            stc: mne.SourceEstimate = None,
@@ -578,10 +580,10 @@ class Localized(dict):
         else:
             sorted_vertices = self['vertices']
 
-        for i, vert in enumerate(sorted_vertices):
+        for i, vert_tuple in enumerate(sorted_vertices):
             # Add color mapping
             if color_mapping:
-                if 'activity_index_order' in self['vertices'][vert]:
+                if 'activity_index_order' in self['vertices'][vert_tuple]:
                     _norm_factor = 1 - i / len(sorted_vertices)
                 else:
                     _norm_factor = 1.0
@@ -592,7 +594,7 @@ class Localized(dict):
 
             # Add scale factor mapping
             if scale_mapping:
-                if 'activity_index_order' in self['vertices'][vert]:
+                if 'activity_index_order' in self['vertices'][vert_tuple]:
                     _scale_factor = np.linspace(scale_factor, 0.5, num=len(sorted_vertices))[i]
                 else:
                     _scale_factor = 1.0
@@ -601,9 +603,9 @@ class Localized(dict):
                 _scale_factor = scale_factor
 
             # Plot
-            brain.add_foci(coords=vert,
+            brain.add_foci(coords=vert_tuple[1],
                            coords_as_verts=True,
-                           hemi=self['vertices'][vert]['hemi'],
+                           hemi=self['vertices'][vert_tuple]['hemi'],
                            color=_c,
                            scale_factor=_scale_factor,
                            **splitted_kwargs["foci"])
@@ -630,13 +632,13 @@ class Localized(dict):
             self.assign_brain_regions(parc)
 
         region_ranking = dict()
-        for vert in self['vertices']:
-            order = self['vertices'][vert]['activity_index_order']
+        for vert_tuple in self['vertices']:
+            order = self['vertices'][vert_tuple]['activity_index_order']
             points = len(self['vertices']) - order + 1
-            if self['vertices'][vert]['brain_region'] in list(region_ranking.keys()):
-                region_ranking[self['vertices'][vert]['brain_region']] += points
+            if self['vertices'][vert_tuple]['brain_region'] in list(region_ranking.keys()):
+                region_ranking[self['vertices'][vert_tuple]['brain_region']] += points
             else:
-                region_ranking[self['vertices'][vert]['brain_region']] = points
+                region_ranking[self['vertices'][vert_tuple]['brain_region']] = points
 
         sorted_ranking = dict(sorted(region_ranking.items(), key=lambda item: item[1], reverse=True))
         max_points = list(sorted_ranking.values())[0]
@@ -718,19 +720,19 @@ class Localized(dict):
         unique_brain_regions = set(item['brain_region'].split("-")[0] for item in self['vertices'].values())
         for i, reg in enumerate(unique_brain_regions):
             _c = _assign_color_mapping(i / len(unique_brain_regions), cmap)
-            for j, vert in enumerate(self['vertices']):
-                if self['vertices'][vert]['brain_region'].split("-")[0] == reg:
+            for j, vert_tuple in enumerate(self['vertices']):
+                if self['vertices'][vert_tuple]['brain_region'].split("-")[0] == reg:
                     if scale_mapping:
                         _scale_factor = np.linspace(scale_factor, 0.5,
                                                     num=len(self['vertices']))[
-                            self['vertices'][vert]['activity_index_order'] - 1]
+                            self['vertices'][vert_tuple]['activity_index_order'] - 1]
                     else:
                         _scale_factor = scale_factor
 
                     # Plot
-                    brain.add_foci(coords=vert,
+                    brain.add_foci(coords=vert_tuple[1],
                                    coords_as_verts=True,
-                                   hemi=self['vertices'][vert]['hemi'],
+                                   hemi=self['vertices'][vert_tuple]['hemi'],
                                    color=_c,
                                    scale_factor=_scale_factor,
                                    **splitted_kwargs["foci"])

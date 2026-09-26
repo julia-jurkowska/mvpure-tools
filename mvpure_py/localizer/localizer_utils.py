@@ -324,12 +324,22 @@ def get_activity_index(localizer_to_use: str,
                                         H[:, best_idx:best_idx+1])[0]
 
     # Collect selected sources
-    H_res = H[:, sorted(index_max)].copy() if index_max else np.zeros((n_channels, 0), dtype=H.dtype)
+    # Sort and permute act_values to match sorted indices, so the returned tuple is internally self-consistent
+    if index_max:
+        sort_perm = np.argsort(index_max)
+        sorted_sources = [index_max[i] for i in sort_perm]
+        H_res = H[:, sorted_sources].copy()
+        act_values_sorted = np.array(act_values, dtype=float)[sort_perm]
+    else:
+        sorted_sources = []
+        H_res = np.zeros((n_channels, 0), dtype=H.dtype)
+        act_values_sorted = np.array([], dtype=float)
 
     # Final summary
     print("\n[Activity Index Result]")
-    print(f"  Selected indices (index_max): {index_max}")
-    print(f"  Index max values: {np.array(act_values, dtype=float)}")
+    print(f"  Selected indices (greedy discovery order): {index_max}")
+    print(f"  Selected indices (sorted, matches H_res columns): {sorted_sources}")
+    print(f"  Index max values (sorted to match H_res/sorted_sources): {act_values_sorted}")
     print(f"  Rank parameter (r): {r}\n")
 
-    return index_max, np.array(act_values, dtype=float), r, H_res
+    return sorted_sources, act_values_sorted, r, H_res
