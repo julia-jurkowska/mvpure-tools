@@ -149,12 +149,6 @@ def test_subset_forward_flat_vertices_single_hemi(fwd):
     assert rh_fwd["src"][0]["nuse"] == 0
 
 
-@pytest.mark.xfail(
-    reason="a flat vertex list of exactly two entries is misinterpreted as a "
-           "nested [lh, rh] pair by the isinstance(vertices, (list, tuple)) and "
-           "len(vertices) == 2 check, so hemi='lh' and hemi='rh' raise a "
-           "TypeError instead of subsetting",
-)
 @testing.requires_testing_data
 def test_subset_forward_flat_vertices_two_per_hemi(fwd):
     """Test subsetting one hemisphere from a flat list of exactly two vertices."""
@@ -226,12 +220,6 @@ def test_subset_forward_no_vertices_raises(fwd):
         subset_forward(fwd, None, vertices=[[], []], hemi="both")
 
 
-@pytest.mark.xfail(
-    reason="the leadfield is remapped with source-level indices "
-           "(custom_leadfield[:, remap]), but a free-orientation forward has "
-           "three columns per source, so the result keeps all 3*n orientations "
-           "while sol['data'] holds only n of them",
-)
 @testing.requires_testing_data
 def test_subset_forward_by_localized_free_orientation(fwd):
     """Test subsetting from Localized with a free-orientation forward."""

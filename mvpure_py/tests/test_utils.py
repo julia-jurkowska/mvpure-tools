@@ -30,10 +30,6 @@ def test_check_hemi_and_vertices_matching_single_valid(hemi):
 
 
 @pytest.mark.parametrize("hemi", ["lh", "rh"])
-@pytest.mark.xfail(
-    reason="Flat vertex lists are documented as valid for a single hemisphere, "
-           "but the check requires len(vertices) == 1",
-)
 def test_check_hemi_and_vertices_matching_single_flat(hemi):
     """Test a single-hemisphere call with a flat vertex list."""
     assert _check_hemi_and_vertices_matching(hemi, [1, 2, 3]) is None

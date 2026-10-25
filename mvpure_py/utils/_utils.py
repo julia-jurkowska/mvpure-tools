@@ -13,17 +13,36 @@ def _check_hemi_param(hemi: str):
         raise ValueError("Parameter 'hemi' should be one of the following options: 'both', 'rh', 'lh'")
 
 
-def _check_hemi_and_vertices_matching(hemi: str, vertices: list[int] | list[list[int]]):
-    """
-    Check if ``hemi`` and ``vertices`` match basen on ``vertices`` length.-
-    """
-    if hemi in ['rh', 'lh'] and len(vertices) != 1:
-        raise ValueError("'hemi' defined as one brain hemisphere but 'vertices' implicates that both of hemispheres "
-                         "are used")
-    if hemi == 'both' and len(vertices) != 2:
-        raise ValueError("'hemi' defined as two brain hemispheres but 'vertices' implicates only one is being used.")
+def _check_hemi_and_vertices_matching(
+    hemi: str,
+    vertices: list[int] | list[list[int]],
+):
+    """Check that the hemisphere argument matches the vertex structure."""
+    if hemi not in ("lh", "rh", "both"):
+        raise ValueError(
+            "Parameter 'hemi' should be one of the following options: "
+            "'both', 'rh', 'lh'"
+        )
 
+    is_nested = (
+        isinstance(vertices, (list, tuple))
+        and len(vertices) == 2
+        and all(isinstance(group, (list, tuple)) for group in vertices)
+    )
 
+    if hemi in ("lh", "rh"):
+        if is_nested:
+            raise ValueError(
+                "'hemi' defined as one brain hemisphere but 'vertices' "
+                "implicates that both hemispheres are used"
+            )
+
+    elif hemi == "both":
+        if not is_nested:
+            raise ValueError(
+                "'hemi' defined as two brain hemispheres but 'vertices' "
+                "implicates only one is being used"
+            )
 def _check_parc_subject_params(subject: str, subjects_dir: str, parc: str):
     """
     Check if subject related parameters are correctly specified.
