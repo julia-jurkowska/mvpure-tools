@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=77", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mvpure-py"
+dynamic = ["version"]
+description = "EEG/MEG multi-source spatial filters and source localization tools"
+readme = "README.md"
+requires-python = ">=3.13"
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Julia Jurkowska" },
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development"
+]
+dependencies = [
+    "joblib==1.5.1",
+    "matplotlib==3.11.2",
+    "mne==1.13.2",
+    "numpy==2.5.4",
+    "pandas==3.1.0",
+    "scikit-learn==1.9.1",
+    "scipy==1.18.1",
+    "termcolor==3.3.0",
+    "tqdm==4.67.1",
+    "nibabel==5.4.2",
+    "PyQt5==5.15.11"
+]
+
+[project.urls]
+Homepage = "https://github.com/julia-jurkowska/mvpure-tools"
+Repository = "https://github.com/julia-jurkowska/mvpure-tools"
+Documentation = "https://julia-jurkowska.github.io/mvpure-tools/"
+
+[tool.setuptools_scm]
+version_file = "mvpure_py/_version.py"
+
+[tool.setuptools.packages.find]
+include = ["mvpure_py*"]
