@@ -193,65 +193,125 @@ def _subset_forward_by_localized(old_fwd: mne.Forward, localized, #: mvpure_py.L
     mne.Forward: subset of mne.Forward for localized vertices identified from mvpure_py.Localized
 
     """
-    # Translate leadfield (column) indices of localized sources into vertex numbers, split by hemisphere
-    lh_vertices, lh_lf_idx, rh_vertices, rh_lf_idx = transform_leadfield_indices_to_vertices(
-        localized['sources'],
-        old_fwd['src'],
-        hemi="both",
-        include_mapping=True
-    )
+    _check_hemi_param(hemi)
 
-    lh_vertices = np.array(sorted(lh_vertices), dtype=int)
-    rh_vertices = np.array(sorted(rh_vertices), dtype=int)
+    src = old_fwd["src"]
+    lh_vertno = np.asarray(src[0]["vertno"], dtype=int)
+    rh_vertno = np.asarray(src[1]["vertno"], dtype=int)
+    n_lh = len(lh_vertno)
 
-    if hemi == "lh":
-        rh_vertices = np.array([], dtype=int)
-    elif hemi == "rh":
-        lh_vertices = np.array([], dtype=int)
-    elif hemi != "both":
+    # Source indices in the original forward solution.
+    localized_sources = np.asarray(localized["sources"], dtype=int)
+
+    if localized_sources.ndim != 1:
+        raise ValueError("'localized['sources']' must be a one-dimensional array.")
+
+    if np.any(localized_sources < 0) or np.any(
+            localized_sources >= old_fwd["nsource"]
+    ):
         raise ValueError(
-            f"Possible options for 'hemi' parameter are: 'lh', 'rh', 'both'. Got {hemi} instead."
+            "Localized source indices contain indices outside the original "
+            "forward solution."
         )
 
-    n_sources = len(lh_vertices) + len(rh_vertices)
-    if n_sources == 0:
-        raise ValueError("No vertices found for the requested hemisphere(s) in `localized`.")
+    # Map each localized source to (hemisphere, vertex), preserving its
+    # original position in localized["leadfield"].
+    localized_keys = []
+    for source_idx in localized_sources:
+        if source_idx < n_lh:
+            localized_keys.append(("lh", int(lh_vertno[source_idx])))
+        else:
+            rh_idx = source_idx - n_lh
+            localized_keys.append(("rh", int(rh_vertno[rh_idx])))
 
-    # Dummy STC for proper vertex selection
+    if len(set(localized_keys)) != len(localized_keys):
+        raise ValueError("Localized sources contain duplicate source indices.")
+
+    localized_pos = {
+        key: pos for pos, key in enumerate(localized_keys)
+    }
+
+    # Select requested hemispheres while preserving the localized source order.
+    selected_keys = [
+        key for key in localized_keys
+        if hemi == "both" or key[0] == hemi
+    ]
+
+    if not selected_keys:
+        raise ValueError(
+            "No vertices found for the requested hemisphere(s) in `localized`."
+        )
+
+    lh_vertices = np.asarray(
+        sorted(v for h, v in selected_keys if h == "lh"), dtype=int
+    )
+    rh_vertices = np.asarray(
+        sorted(v for h, v in selected_keys if h == "rh"), dtype=int
+    )
+
     stc = mne.SourceEstimate(
-        data=np.zeros((n_sources, 1)),
+        data=np.zeros((len(lh_vertices) + len(rh_vertices), 1)),
         vertices=[lh_vertices, rh_vertices],
         tmin=0.0,
         tstep=1.0,
-        subject=old_fwd['src'][0].get('subject_his_id', None),
+        subject=src[0].get("subject_his_id", None),
     )
 
     new_fwd = mne.forward.restrict_forward_to_stc(old_fwd, stc)
 
-    custom_leadfield = np.asarray(localized['leadfield'])
-    if custom_leadfield.shape[1] != new_fwd['sol']['data'].shape[1]:
+    # Number of orientation columns per source: normally 1 for fixed
+    # orientation and 3 for free orientation.
+    n_sources_original = int(old_fwd["nsource"])
+    n_cols_original = int(old_fwd["sol"]["ncol"])
+
+    if n_sources_original == 0 or n_cols_original % n_sources_original:
+        raise ValueError(
+            "Cannot determine the number of orientation columns per source."
+        )
+
+    n_orient = n_cols_original // n_sources_original
+
+    custom_leadfield = np.asarray(localized["leadfield"])
+
+    expected_cols = len(localized_keys) * n_orient
+    if custom_leadfield.ndim != 2 or custom_leadfield.shape[1] != expected_cols:
         raise ValueError(
             f"localized['leadfield'] has {custom_leadfield.shape[1]} columns, "
-            f"but the restricted forward has {new_fwd['sol']['data'].shape[1]} sources. "
-            "Check that 'localized' and 'hemi' refer to the same vertex set."
+            f"but {len(localized_keys)} localized sources with "
+            f"{n_orient} orientation(s) each require {expected_cols} columns."
         )
 
-    new_lh_vertno = new_fwd['src'][0]['vertno']
-    new_rh_vertno = new_fwd['src'][1]['vertno']
-    new_order_verts = np.concatenate([new_lh_vertno, new_rh_vertno])
+    # MNE orders the restricted forward solution by left- then right-
+    # hemisphere vertices. Map that order back to the localized leadfield.
+    new_order_keys = (
+            [("lh", int(v)) for v in new_fwd["src"][0]["vertno"]]
+            + [("rh", int(v)) for v in new_fwd["src"][1]["vertno"]]
+    )
 
-    old_order_verts = np.concatenate([lh_vertices, rh_vertices])
-    # position of each new-order vertex within the original (localized) ordering
-    old_pos = {v: i for i, v in enumerate(old_order_verts)}
     try:
-        remap = np.array([old_pos[v] for v in new_order_verts])
-    except KeyError as e:
+        source_remap = np.asarray(
+            [localized_pos[key] for key in new_order_keys],
+            dtype=int,
+        )
+    except KeyError as exc:
         raise ValueError(
-            f"Vertex {e} present after restriction but not found in localized sources; "
-            "leadfield cannot be reliably remapped."
+            f"Vertex {exc.args[0]} is present after restriction but missing "
+            "from localized sources; the leadfield cannot be remapped."
+        ) from exc
+
+    # Expand source indices into all orientation-column indices.
+    column_remap = (
+            source_remap[:, None] * n_orient
+            + np.arange(n_orient, dtype=int)[None, :]
+    ).ravel()
+
+    if len(column_remap) != new_fwd["sol"]["data"].shape[1]:
+        raise ValueError(
+            "The remapped leadfield column count does not match the "
+            "restricted forward solution."
         )
 
-    new_fwd['sol']['data'] = custom_leadfield[:, remap]
+    new_fwd["sol"]["data"] = custom_leadfield[:, column_remap]
     return new_fwd
 
 
@@ -273,42 +333,62 @@ def _subset_forward_by_vertices(old_fwd: mne.Forward, vertices: list[list[int]],
     mne.Forward: subset of mne.Forward for given vertices
 
     """
-    # new_fwd = old_fwd.copy()
+    _check_hemi_param(hemi)
+
     src = old_fwd["src"]
 
-    # Vertices should be stored as list in a form [[left vertices], [right vertices]]
-    if isinstance(vertices, (list, tuple)) and len(vertices) == 2:
-        lh_vertices = np.array(sorted(vertices[0]), dtype=int)
-        rh_vertices = np.array(sorted(vertices[1]), dtype=int)
+    is_nested = (
+            isinstance(vertices, (list, tuple))
+            and len(vertices) == 2
+            and all(
+        isinstance(group, (list, tuple, np.ndarray))
+        for group in vertices
+    )
+    )
+
+    if is_nested:
+        lh_vertices = np.asarray(sorted(vertices[0]), dtype=int)
+        rh_vertices = np.asarray(sorted(vertices[1]), dtype=int)
+
+        if hemi == "lh" and rh_vertices.size:
+            raise ValueError(
+                "Nested vertices contain right-hemisphere vertices, "
+                "but hemi='lh' was requested."
+            )
+        if hemi == "rh" and lh_vertices.size:
+            raise ValueError(
+                "Nested vertices contain left-hemisphere vertices, "
+                "but hemi='rh' was requested."
+            )
+
     else:
-        flat = np.array(vertices, dtype=int)
+        flat = np.asarray(vertices, dtype=int)
+
         if hemi == "lh":
-            lh_vertices = np.array(sorted(flat), dtype=int)
+            lh_vertices = np.asarray(sorted(flat), dtype=int)
             rh_vertices = np.array([], dtype=int)
         elif hemi == "rh":
             lh_vertices = np.array([], dtype=int)
-            rh_vertices = np.array(sorted(flat), dtype=int)
+            rh_vertices = np.asarray(sorted(flat), dtype=int)
         else:
             raise ValueError(
-                "Flat vertex list requires specifying hemi='lh' or 'rh'"
+                "Flat vertex list requires specifying hemi='lh' or hemi='rh'."
             )
 
     if lh_vertices.size + rh_vertices.size == 0:
         raise ValueError("No vertices provided to subset the forward with.")
 
-    # Build dummy STC for proper vertex selection
     n_verts = lh_vertices.size + rh_vertices.size
+
     stc = mne.SourceEstimate(
         data=np.zeros((n_verts, 1)),
         vertices=[lh_vertices, rh_vertices],
         tmin=0.0,
         tstep=1.0,
-        subject=src[0].get('subject_his_id', None),
+        subject=src[0].get("subject_his_id", None),
     )
 
-    new_fwd = mne.forward.restrict_forward_to_stc(old_fwd, stc)
-
-    return new_fwd
+    return mne.forward.restrict_forward_to_stc(old_fwd, stc)
 
 
 def vertices_to_coordinates(vertices: list[list[int]],

@@ -1,5 +1,4 @@
 import mne
-import matplotlib.cm as cm
 import matplotlib.pyplot as plt
 import os
 import numpy as np
@@ -186,7 +185,7 @@ def plot_localized_sources(
 
 
 def _assign_color_mapping(norm_power: float, cmap: str):
-    cmap = cm.get_cmap(cmap)
+    cmap = plt.get_cmap(cmap)
     rgba = cmap(norm_power)
     rgb = tuple(int(255 * x) for x in rgba[:3])
     return "#{:02X}{:02X}{:02X}".format(*rgb)
