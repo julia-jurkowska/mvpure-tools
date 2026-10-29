@@ -21,7 +21,7 @@ classifiers = [
     "Topic :: Software Development"
 ]
 dependencies = [
-    "joblib==1.5.1",
+    "joblib==1.5.2",
     "matplotlib==3.11.2",
     "mne==1.13.2",
     "numpy==2.5.4",
