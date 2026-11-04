@@ -31,12 +31,16 @@ dependencies = [
     "termcolor>=3.3.0",
     "tqdm>=4.70.1",
     "nibabel>=5.4.2",
-    "PyQt5>=5.15.11"
 ]
 
 [project.optional-dependencies]
 test = [
     "pytest==9.1.1",
+]
+visualization = [
+    "PySide6",
+    "pyvista",
+    "pyvistaqt",
 ]
 
 [tool.pytest.ini_options]
