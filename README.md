@@ -24,22 +24,22 @@ Based on *“Multi-Source Neural Activity Indices for EEG/MEG Localization: A Tw
 ---
 ## Overview
 
-The **mvpure-tools** package implements multi-source neural activity indices for EEG / MEG source localization, extending MNE-Python’s API. It enables improved reconstruction when sources may be correlated, overcoming limitations of single-source beamforming methods (e.g. LCMV) in certain settings.
+The **mvpure-tools** package implements multi-source neural activity indices for EEG / MEG source localization, extending MNE-Python’s API. It enables improved reconstruction when sources may be correlated, overcoming limitations of single-source beamforming methods (e.g., LCMV) in certain settings.
 
 Key contributions include:
 
-- Algebraic, compact forms for multi-source neural activity indices
+- Compact algebraic forms for multi-source neural activity indices
 - Seamless integration into MNE-Python workflows (covariance, forward/inverse handling, visualization)
-- A step-by-step tutorial using real EEG data (oddball paradigm, synthetic data)
+- A step-by-step tutorial using real EEG data (oddball paradigm) and synthetic data
 
 ---
 
 ## Features
 
-- Neural activity indices (MAI_MVP) in the multi-source setting
+- Neural activity indices (MAI_MVP) in the multi-source setting with fixed source orientations
 - Iterative localization algorithms compatible with large candidate source sets
 - Built on top of MNE-Python, so you can combine it with standard EEG / MEG toolchains
-- Tutorial and example scripts included  
+- Tutorials and example scripts included
 
 ---
 ## Dependencies
