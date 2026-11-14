@@ -4,23 +4,29 @@
 </div>
 
 EEG/MEG Multi-Source Localizers with **mvpure-py**  
-Extends **MNE-Python** with multi-source neural activity indices and spatial filters.  
-Based on *“Multi-Source Neural Activity Indices for EEG/MEG Localization: A Two-Stage Spatial Filtering Framework and Extension to MNE-Python”*.
+Extends [MNE-Python](https://mne.tools/) workflows with multi-source neural activity indices.  
+Based on [*“Multi-source neural activity indices for EEG/MEG localization: A two-stage spatial filtering framework and extension to MNE-Python”*](https://www.sciencedirect.com/science/article/pii/S1053811926004416).
 
 **Repository:** [GitHub](https://github.com/julia-jurkowska/mvpure-tools) \
+**PyPI:** https://pypi.org/project/mvpure-py/ \
 **Tutorial & online docs:** [mvpure_py documentation](https://julia-jurkowska.github.io/mvpure-tools)
 
 ---
 
-## Table of Contents
+## Contents
 
-1. [Overview](#overview)
-2. [Features](#features)
-3. [Dependencies](#dependencies)
-4. [Installation](#installation)
-    - From source
-5. [Tutorial & Examples](#tutorial--examples)
-6. [Citation](#citation)
+- [Overview](#overview)
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+   - [Using pip](#using-pip)
+   - [Using conda](#using-conda)
+   - [Optional dependencies](#optional-dependencies)
+   - [Installing from source](#installing-from-source)
+- [Verify the installation](#verify-the-installation)
+- [Tutorials and examples](#tutorials-and-examples)
+- [Citation](#citation)
+- [License](#license)
 ---
 ## Overview
 
@@ -42,70 +48,114 @@ Key contributions include:
 - Tutorials and example scripts included
 
 ---
-## Dependencies
+## Requirements
 
-Before installing, make sure you have:
-
-- Python
-- **MNE-Python**
-- NumPy, SciPy
-- (Other dependencies listed in `requirements.txt`)  
+- **Python 3.13 or newer.**
+- The package's required Python dependencies are installed automatically by pip or conda. They include MNE-Python, NumPy, SciPy, pandas, scikit-learn, and supporting libraries.
 
 ---
-
 ## Installation
-### From Source (recommended)
-To install from GitHub:
 
-1. Clone the repository
+Choose **one** of the installation methods below.
+
+### Using pip
+
+Install the latest published release from PyPI:
+
+```bash
+python -m pip install --upgrade pip
+python -m pip install mvpure-py
+```
+
+For an isolated installation, create and activate a virtual environment first:
+
+```bash
+python -m venv .venv
+
+# Linux / macOS
+source .venv/bin/activate
+
+# Windows PowerShell
+# .venv\Scripts\Activate.ps1
+
+python -m pip install mvpure-py
+```
+
+### Using conda
+
+`mvpure-py` is a pure-Python package on PyPI. It can also be installed with the **conda-pypi** channel, which makes supported PyPI wheels available through `conda install`.
+
+```bash
+# Update conda, if needed
+conda self update
+
+# Create an environment and install mvpure-py
+conda create -n mvpure-py -c conda-forge -c conda-pypi python=3.13 mvpure-py
+
+# Activate the environment
+conda activate mvpure-py
+```
+See the [conda-pypi installation guide](https://docs.conda.io/projects/conda/en/stable/user-guide/tasks/install-packages-from-pypi.html) for details and troubleshooting.
+
+### Optional dependencies
+
+The package defines optional extras for visualization and testing. Install them with pip as needed:
+
+```bash
+# Interactive / 3D visualization dependencies
+python -m pip install "mvpure-py[visualization]"
+
+# Test dependencies
+python -m pip install "mvpure-py[test]"
+```
+
+The `visualization` extra includes PySide6, PyVista, and PyVistaQt. The `test` extra installs pytest.
+
+### Installing from source
+
+To work with the development version, clone the repository and install it in editable mode:
+
 ```bash
 git clone https://github.com/julia-jurkowska/mvpure-tools.git
 cd mvpure-tools
+python -m pip install -e .
 ```
-2. (Optional) create a virtual environment
+
+To include the test dependencies in the editable installation:
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+python -m pip install -e ".[test]"
 ```
 
-3. Install dependencies
+Dependencies are declared in `pyproject.toml`, so installing the project also installs its required dependencies.
+
+## Verify the installation
+
+Run the following command in the environment where you installed the package:
+
 ```bash
-pip install -r requirements.txt
+python -c "import mvpure_py; from mvpure_py.localizer import localize; print(mvpure_py.__version__)"
 ```
 
-4. Install the package
-```bash
-pip install .
-```
-or for development mode:
-```bash
-pip install -e .
-```
-
-5. Verify installation:
-
-```python
-import mvpure_py
-from mvpure_py import localizer
-```
+The distribution name used by pip/conda is **`mvpure-py`**; the Python import package is **`mvpure_py`**.
 ---
-## Tutorial & Examples
-See tutorials on documentation site: [documentation](https://julia-jurkowska.github.io/mvpure-tools).
+## Tutorials and examples
 
-The tutorials walk you through:
+The [online documentation](https://julia-jurkowska.github.io/mvpure-tools/) contains the API reference and step-by-step tutorials. Topics include:
 
-1. Preprocessing (filtering, artifact rejection, ICA, epoching)
-2. Estimation of number of sources and rank
-3. Localization of sources using neural activity indices
-4. Reconstruction of time courses
-5. Visualization of estimated sources
+1. EEG preprocessing for an oddball paradigm (filtering, artifact rejection, ICA, and epoching).
+2. Estimating the number of sources and data rank.
+3. Multi-source localization using neural activity indices.
+4. Reconstructing source time courses.
+5. Simulating and localizing multi-source EEG activity.
 ---
 
 ## Citation
 
-If you use **mvpure_py** in your work, please cite:
+If you use `mvpure-py` in your research, please cite:
 
-> Jurkowska, J., Dreszer, J., Lewandowska, M., Tolpa, K., Piotrowski, T.,
-> *Multi-source neural activity indices for EEG/MEG localization: A two-stage spatial filtering framework and extension to MNE-Python*, NeuroImage, Volume 339, 2026, 122126, <https://doi.org/10.1016/j.neuroimage.2026.122126>.
+> Jurkowska, J., Dreszer, J., Lewandowska, M., Tolpa, K., & Piotrowski, T. (2026). Multi-source neural activity indices for EEG/MEG localization: A two-stage spatial filtering framework and extension to MNE-Python. *NeuroImage, 339*, 122126. https://doi.org/10.1016/j.neuroimage.2026.122126
 
+## License
+
+This project is distributed under the [BSD 3-Clause License](LICENSE).
